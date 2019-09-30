@@ -89,12 +89,12 @@ class Participants
         return $this->noParticipant;
     }
 
-    public function getPseudo()
+    public function getUsername()
     {
         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo)
+    public function setUsername(string $pseudo)
     {
         $this->pseudo = $pseudo;
 
@@ -137,24 +137,24 @@ class Participants
         return $this;
     }
 
-    public function getMail()
+    public function getEmail()
     {
         return $this->mail;
     }
 
-    public function setMail(string $mail)
+    public function setEmail(string $mail)
     {
         $this->mail = $mail;
 
         return $this;
     }
 
-    public function getMotDePasse()
+    public function getPassword()
     {
         return $this->motDePasse;
     }
 
-    public function setMotDePasse(string $motDePasse)
+    public function setPassword(string $motDePasse)
     {
         $this->motDePasse = $motDePasse;
 
