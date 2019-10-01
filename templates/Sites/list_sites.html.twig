@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Gérer les sites <a href="{{ path('sites_list') }}" class="oi add-category" data-glyph="plus" title="Add site" data-toggle="tooltip" data-placement="right"></a></h1>
+    <div class="sites-list">
+
+        <table class="table table-striped  table-bordered">
+
+            <thead>
+                <tr>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sites in arraySites %}
+                    <tr>
+                    <td>{{ sites.nomSite }}</td>
+                    <td><a href="{{ path('sites_list', {'id' : sites.noSite}) }}">
+                            <span aria-hidden="true">Modifier</span>
+                        </a>
+                        -
+                        <a href="{{ path('sites_list', {'id' : sites.noSite}) }}">
+                            <span aria-hidden="true">Supprimer</span>
+                        </a>
+
+                    </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+
+
+    </div>
+
+{% endblock %}
