@@ -19,28 +19,30 @@ class Sites
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noSite;
+    private $no_Site;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom_site", type="string", length=30, nullable=false)
      */
-    private $nomSite;
+    private $nom_Site;
+
 
     public function getNoSite()
     {
-        return $this->noSite;
+        return $this->no_Site;
     }
 
     public function getNomSite()
     {
-        return $this->nomSite;
+        return $this->nom_Site;
     }
 
-    public function setNomSite(string $nomSite): self
+
+    public function setNom_Site(string $nomSite)
     {
-        $this->nomSite = $nomSite;
+        $this->nom_Site = $nomSite;
 
         return $this;
     }
