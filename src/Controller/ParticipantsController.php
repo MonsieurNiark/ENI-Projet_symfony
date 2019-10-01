@@ -37,7 +37,7 @@ class ParticipantsController extends Controller{
             return $this->redirectToRoute("login");
         }
 
-        return $this->render("user/register.html.twig", ["form" => $form->createView()]);
+        return $this->render("Participants/register.html.twig", ["form" => $form->createView()]);
     }
 
 
