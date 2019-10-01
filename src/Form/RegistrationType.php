@@ -30,14 +30,12 @@ class RegistrationType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('username', TextType::class)
             ->add('actif', CheckboxType::class)
-            ->add('sites_no_site', EntityType::class,  array(
+            ->add('siteParticipant', EntityType::class,  array(
 
                 'class' => Sites::class,
+                'label' => 'Test label',
                 //Attribut utilisé pour l'affichage
-                'choice_label' => 'nom_Site',
-                'choice_value' => function (MyOptionEntity $entity = null) {
-                    return $entity ? $entity->getId() : '';
-                },
+                'choice_label' => 'nom_Site'
 
             ))
             ->add('password', RepeatedType::class, array(
