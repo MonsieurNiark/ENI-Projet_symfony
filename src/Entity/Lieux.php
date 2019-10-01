@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Lieux
- *
- * @ORM\Table(name="lieux", indexes={@ORM\Index(name="lieux_villes_fk", columns={"villes_no_ville"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  */
 class Lieux
 {
@@ -17,7 +15,7 @@ class Lieux
      *
      * @ORM\Column(name="no_lieu", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      */
     private $noLieu;
 
@@ -50,11 +48,24 @@ class Lieux
     private $longitude;
 
     /**
-     * @var int
+     * @var \App\Entity\Villes
      *
-     * @ORM\Column(name="villes_no_ville", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Villes", inversedBy="lieuxVille")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_ville")
      */
-    private $villesNoVille;
+    private $villeLieu;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="lieuSortie")
+     */
+    private $sortiesLieu;
+
+    public function __construct()
+    {
+        $this->sortiesLieu = new ArrayCollection();
+    }
 
     public function getNoLieu()
     {
@@ -109,17 +120,31 @@ class Lieux
         return $this;
     }
 
-    public function getVillesNoVille()
+    public function getVilleLieu()
     {
-        return $this->villesNoVille;
+        return $this->villeLieu;
     }
 
-    public function setVillesNoVille(int $villesNoVille)
+    public function setVilleLieu(Villes $villeLieu)
     {
-        $this->villesNoVille = $villesNoVille;
+        $this->villeLieu = $villeLieu;
 
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getSortiesLieu(): ArrayCollection
+    {
+        return $this->sortiesLieu;
+    }
 
+    /**
+     * @param ArrayCollection $sortiesLieu
+     */
+    public function setSortiesLieu(ArrayCollection $sortiesLieu)
+    {
+        $this->sortiesLieu = $sortiesLieu;
+    }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sorties
- *
- * @ORM\Table(name="sorties", indexes={@ORM\Index(name="sorties_lieux_fk", columns={"lieux_no_lieu"}), @ORM\Index(name="sorties_participants_fk", columns={"organisateur"}), @ORM\Index(name="sorties_etats_fk", columns={"etats_no_etat"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
  */
 class Sorties
 {
@@ -17,7 +15,7 @@ class Sorties
      *
      * @ORM\Column(name="no_sortie", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      */
     private $noSortie;
 
@@ -64,13 +62,6 @@ class Sorties
     private $descriptioninfos;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
@@ -78,25 +69,48 @@ class Sorties
     private $urlphoto;
 
     /**
-     * @var int
+     * @var \App\Entity\Participants
      *
-     * @ORM\Column(name="organisateur", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="sortiesOrganisateur")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_participant")
      */
-    private $organisateur;
+    private $organisateurSortie;
 
     /**
-     * @var int
+     * @var \App\Entity\Lieux
      *
-     * @ORM\Column(name="lieux_no_lieu", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Lieux", inversedBy="sortiesLieu")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_lieu")
      */
-    private $lieuxNoLieu;
+    private $lieuSortie;
 
     /**
-     * @var int
+     * @var \App\Entity\Etats
      *
-     * @ORM\Column(name="etats_no_etat", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Etats", inversedBy="sortiesEtat")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_etat")
      */
-    private $etatsNoEtat;
+    private $etatSortie;
+
+    /**
+     * @var \App\Entity\Sites
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="sortiesSite")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_site")
+     */
+    private $siteSortie;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortieInscription")
+     */
+    private $inscriptionsSortie;
+
+    public function __construct()
+    {
+        $this->inscriptionsSortie = new ArrayCollection();
+    }
 
     public function getNoSortie()
     {
@@ -175,18 +189,6 @@ class Sorties
         return $this;
     }
 
-    public function getEtatsortie()
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
-
     public function getUrlphoto()
     {
         return $this->urlphoto;
@@ -199,41 +201,71 @@ class Sorties
         return $this;
     }
 
-    public function getOrganisateur()
+    public function getOrganisateurSortie()
     {
-        return $this->organisateur;
+        return $this->organisateurSortie;
     }
 
-    public function setOrganisateur(int $organisateur): self
+    public function setOrganisateurSortie(int $organisateurSortie): self
     {
-        $this->organisateur = $organisateur;
+        $this->organisateurSortie = $organisateurSortie;
 
         return $this;
     }
 
-    public function getLieuxNoLieu()
+    public function getLieuSortie()
     {
-        return $this->lieuxNoLieu;
+        return $this->lieuSortie;
     }
 
-    public function setLieuxNoLieu(int $lieuxNoLieu): self
+    public function setLieuSortie(Lieux $lieuSortie): self
     {
-        $this->lieuxNoLieu = $lieuxNoLieu;
+        $this->lieuSortie = $lieuSortie;
 
         return $this;
     }
 
-    public function getEtatsNoEtat()
+    public function getEtatSortie()
     {
-        return $this->etatsNoEtat;
+        return $this->etatSortie;
     }
 
-    public function setEtatsNoEtat(int $etatsNoEtat): self
+    public function setEtatSortie(Etats $etatSortie): self
     {
-        $this->etatsNoEtat = $etatsNoEtat;
+        $this->etatSortie = $etatSortie;
 
         return $this;
     }
 
+    /**
+     * @return Sites
+     */
+    public function getSiteSortie(): Sites
+    {
+        return $this->siteSortie;
+    }
 
+    /**
+     * @param Sites $siteSortie
+     */
+    public function setSiteSortie(Sites $siteSortie)
+    {
+        $this->siteSortie = $siteSortie;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getInscriptionsSortie(): ArrayCollection
+    {
+        return $this->inscriptionsSortie;
+    }
+
+    /**
+     * @param ArrayCollection $inscriptionsSortie
+     */
+    public function setInscriptionsSortie(ArrayCollection $inscriptionsSortie)
+    {
+        $this->inscriptionsSortie = $inscriptionsSortie;
+    }
 }

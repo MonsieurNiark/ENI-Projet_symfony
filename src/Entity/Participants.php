@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Participants
- *
- * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipantsRepository")
  */
 class Participants implements UserInterface
 {
@@ -18,7 +16,7 @@ class Participants implements UserInterface
      *
      * @ORM\Column(name="no_participant", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      */
     private $noParticipant;
 
@@ -79,11 +77,31 @@ class Participants implements UserInterface
     private $actif;
 
     /**
-     * @var int
+     * @var \App\Entity\Sites
      *
-     * @ORM\Column(name="sites_no_site", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="participantsSite")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_site")
      */
-    private $sitesNoSite;
+    private $siteParticipant;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="organisateurSortie")
+     */
+    private $sortiesOrganisateur;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="participantInscription")
+     */
+    private $inscriptionsParticipant;
+
+    public function __construct()
+    {
+        $this->sortiesOrganisateur = new ArrayCollection();
+    }
 
     public function getNoParticipant()
     {
@@ -186,18 +204,37 @@ class Participants implements UserInterface
         return $this;
     }
 
-    public function getSitesNoSite()
+    /**
+     * @return Sites
+     */
+    public function getSiteParticipant()
     {
-        return $this->sitesNoSite;
+        return $this->siteParticipant;
     }
 
-    public function setSitesNoSite(int $sitesNoSite)
+
+    public function setSiteParticipant(Sites $siteParticipant)
     {
-        $this->sitesNoSite = $sitesNoSite;
+        $this->siteParticipant = $siteParticipant;
 
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getSortiesOrganisateur(): ArrayCollection
+    {
+        return $this->sortiesOrganisateur;
+    }
+
+    /**
+     * @param ArrayCollection $sortiesOrganisateur
+     */
+    public function setSortiesOrganisateur(ArrayCollection $sortiesOrganisateur)
+    {
+        $this->sortiesOrganisateur = $sortiesOrganisateur;
+    }
 
     /**
      * Returns the roles granted to the user.

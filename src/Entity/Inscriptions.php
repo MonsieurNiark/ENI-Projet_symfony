@@ -5,30 +5,34 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Inscriptions
- *
- * @ORM\Table(name="inscriptions", indexes={@ORM\Index(name="inscriptions_participants_fk", columns={"participants_no_participant"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\InscriptionsRepository")
  */
 class Inscriptions
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="sorties_no_sortie", type="integer", nullable=false)
+     * @ORM\Column(name="no_inscription", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue
      */
-    private $sortiesNoSortie;
+    private $noInscription;
 
     /**
-     * @var int
+     * @var \App\Entity\Sorties
      *
-     * @ORM\Column(name="participants_no_participant", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sorties", inversedBy="inscriptionsSortie")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_sortie")
      */
-    private $participantsNoParticipant;
+    private $sortieInscription;
+
+    /**
+     * @var \App\Entity\Participants
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="inscriptionsParticipant")
+     * @ORM\JoinColumn(nullable=false,referencedColumnName="no_participant")
+     */
+    private $participantInscription;
 
     /**
      * @var \DateTime
@@ -37,14 +41,30 @@ class Inscriptions
      */
     private $dateInscription;
 
-    public function getSortiesNoSortie()
+    /**
+     * @return int
+     */
+    public function getNoInscription(): int
     {
-        return $this->sortiesNoSortie;
+        return $this->noInscription;
     }
 
-    public function getParticipantsNoParticipant()
+    /**
+     * @param int $noInscription
+     */
+    public function setNoInscription(int $noInscription)
     {
-        return $this->participantsNoParticipant;
+        $this->noInscription = $noInscription;
+    }
+
+    public function getSortieInscription()
+    {
+        return $this->sortieInscription;
+    }
+
+    public function getParticipantInscription()
+    {
+        return $this->participantInscription;
     }
 
     public function getDateInscription()
@@ -59,5 +79,20 @@ class Inscriptions
         return $this;
     }
 
+    /**
+     * @param Sorties $sortieInscription
+     */
+    public function setSortieInscription(Sorties $sortieInscription)
+    {
+        $this->sortieInscription = $sortieInscription;
+    }
+
+    /**
+     * @param Participants $participantInscription
+     */
+    public function setParticipantInscription(Participants $participantInscription)
+    {
+        $this->participantInscription = $participantInscription;
+    }
 
 }

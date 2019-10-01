@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Etats
- *
- * @ORM\Table(name="etats")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EtatsRepository")
  */
 class Etats
 {
@@ -17,7 +15,7 @@ class Etats
      *
      * @ORM\Column(name="no_etat", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      */
     private $noEtat;
 
@@ -27,6 +25,18 @@ class Etats
      * @ORM\Column(name="libelle", type="string", length=30, nullable=false)
      */
     private $libelle;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="etatSortie")
+     */
+    private $sortiesEtat;
+
+    public function __construct()
+    {
+        $this->sortiesEtat = new ArrayCollection();
+    }
 
     public function getNoEtat()
     {
@@ -45,5 +55,20 @@ class Etats
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getSortiesEtat(): ArrayCollection
+    {
+        return $this->sortiesEtat;
+    }
+
+    /**
+     * @param ArrayCollection $sortiesEtat
+     */
+    public function setSortiesEtat(ArrayCollection $sortiesEtat)
+    {
+        $this->sortiesEtat = $sortiesEtat;
+    }
 
 }

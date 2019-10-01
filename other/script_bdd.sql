@@ -70,7 +70,6 @@ CREATE TABLE SORTIES (
     datecloture                   datetime NOT NULL,
     nbinscriptionsmax             INTEGER NOT NULL,
     descriptioninfos              VARCHAR(500),
-    etatsortie                    INTEGER,
 	urlPhoto                      VARCHAR(250),
     organisateur                  INTEGER NOT NULL,
     lieux_no_lieu                 INTEGER NOT NULL,
