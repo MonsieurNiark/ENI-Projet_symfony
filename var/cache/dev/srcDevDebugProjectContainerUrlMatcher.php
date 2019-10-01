@@ -107,6 +107,16 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
+        // register
+        if ('/register' === $pathinfo) {
+            return array (  '_controller' => 'App\\Controller\\ParticipantsController::register',  '_route' => 'register',);
+        }
+
+        // liste_sortie
+        if ('/sortie/liste' === $pathinfo) {
+            return array (  '_controller' => 'App\\Controller\\SortieController::afficherListe',  '_route' => 'liste_sortie',);
+        }
+
         if ('/' === $pathinfo && !$allow) {
             throw new Symfony\Component\Routing\Exception\NoConfigurationException();
         }

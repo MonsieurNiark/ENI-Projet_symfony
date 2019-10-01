@@ -29,7 +29,7 @@ class ParticipantsController extends Controller{
 
             $password = $passwordEncoder->encodePassword($participant, $participant->getPassword());
             $participant->setPassword($password);
-            $participant->setRoles(['ROLE_USER']);
+            $participant->setAdministrateur(0);
             $em->persist($participant);
             $em->flush();
 
