@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
+{% block body %}
     <h1>Login</h1>
 
     <form action="{{ path('login') }}" method="post">
@@ -25,4 +25,4 @@
     </form>
 {% endblock %}
 
-{% block title %}Register | {{ parent() }}{% endblock %}
+{% block title %}Login | {{ parent() }}{% endblock %}

@@ -41,7 +41,7 @@ class ParticipantsController extends Controller{
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/", name="login")
      */
     public function login(AuthenticationUtils $authUtils)
     {

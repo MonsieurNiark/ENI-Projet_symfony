@@ -2,12 +2,47 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Sortir.com{% endblock %}</title>
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light bg-faded">
+            <a class="nav-link" href="{{ path('login') }}" title="Sortir | Home">
+                <img src="{{ asset('img/logo.jpg') }}" alt="Bucket-List"> Sortir
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if is_granted("ROLE_USER") %}
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="">Ville</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Sites</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Se déconnecter</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+        <div class="container">
+
+                {% block body %}{% endblock %}
+        <footer>
+            © {{ "now"|date("Y") }} Sortir.com
+        </footer>
         {% block javascripts %}{% endblock %}
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
