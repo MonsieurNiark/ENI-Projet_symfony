@@ -40,5 +40,18 @@ class ParticipantsController extends Controller{
         return $this->render("Participants/register.html.twig", ["form" => $form->createView()]);
     }
 
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login(AuthenticationUtils $authUtils)
+    {
+        $error = $authUtils->getLastAuthenticationError();
+        $lastUsername = $authUtils->getLastUsername();
+
+        return $this->render('Participants/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
+    }
 
 }
