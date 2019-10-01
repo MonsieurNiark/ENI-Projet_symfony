@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
+{% block body %}
+
+    <h1>Accueil Sortie.com</h1>
+
+    <div>
+        {% for sortie in sorties %}
+            <!-- <a href="{{ path('idea_detail', {'id': idea.id}) }}" title="More details on {{ idea.title }}"> -->
+            <span>{{ sortie.nom }}</span>
+            <!-- </a> -->
+        {% else %}
+
+            <div>
+                Pas de sortie !
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
