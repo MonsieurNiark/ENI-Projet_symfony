@@ -252,9 +252,13 @@ class Participants implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        $roles = $this->roles;
     }
 
-    public function getSalt(){return null;}
+    public function getSalt()
+    {
+        return null;
+        //mettre bcrypt dans security.yaml
+    }
     public function eraseCredentials(){}
 }
