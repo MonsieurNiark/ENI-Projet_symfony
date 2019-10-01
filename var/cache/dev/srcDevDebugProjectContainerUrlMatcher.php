@@ -112,6 +112,21 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'App\\Controller\\ParticipantsController::register',  '_route' => 'register',);
         }
 
+        // login
+        if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'App\\Controller\\ParticipantsController::login',  '_route' => 'login',);
+            if ('/' === substr($pathinfo, -1)) {
+                // no-op
+            } elseif ('GET' !== $canonicalMethod) {
+                goto not_login;
+            } else {
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'login'));
+            }
+
+            return $ret;
+        }
+        not_login:
+
         // liste_sortie
         if ('/sortie/liste' === $pathinfo) {
             return array (  '_controller' => 'App\\Controller\\SortieController::afficherListe',  '_route' => 'liste_sortie',);

@@ -534,6 +534,34 @@
     <service id="App\Form\RegistrationType" class="App\Form\RegistrationType" public="false" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Repository\EtatsRepository" class="App\Repository\EtatsRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\InscriptionsRepository" class="App\Repository\InscriptionsRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\LieuxRepository" class="App\Repository\LieuxRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\ParticipantsRepository" class="App\Repository\ParticipantsRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\SitesRepository" class="App\Repository\SitesRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\SortiesRepository" class="App\Repository\SortiesRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\VillesRepository" class="App\Repository\VillesRepository" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -550,7 +578,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.zifdjej"/>
+      <argument type="service" id="service_locator.hcauerp"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -2989,7 +3017,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id="service_locator.sr6ctxe"/>
+      <argument type="service" id="service_locator.iix0lzt"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -4503,6 +4531,20 @@
     <service id="abstract.instanceof.App\Controller\SortieController" class="App\Controller\SortieController" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegistrationType" class="App\Form\RegistrationType" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.App\Form\RegistrationType" class="App\Form\RegistrationType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\EtatsRepository" class="App\Repository\EtatsRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\EtatsRepository" class="App\Repository\EtatsRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\InscriptionsRepository" class="App\Repository\InscriptionsRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\InscriptionsRepository" class="App\Repository\InscriptionsRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\LieuxRepository" class="App\Repository\LieuxRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\LieuxRepository" class="App\Repository\LieuxRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ParticipantsRepository" class="App\Repository\ParticipantsRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\ParticipantsRepository" class="App\Repository\ParticipantsRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\SitesRepository" class="App\Repository\SitesRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\SitesRepository" class="App\Repository\SitesRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\SortiesRepository" class="App\Repository\SortiesRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\SortiesRepository" class="App\Repository\SortiesRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\VillesRepository" class="App\Repository\VillesRepository" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.App\Repository\VillesRepository" class="App\Repository\VillesRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="maker.auto_command.make_auth" class="Symfony\Bundle\MakerBundle\Command\MakerCommand" public="false">
       <tag name="console.command" command="make:auth"/>
       <argument type="service" id="maker.maker.make_authenticator"/>
@@ -4672,17 +4714,25 @@
         <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic" on-invalid="ignore"/>
       </argument>
     </service>
+    <service id="service_locator.nb1eyoc" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="authUtils" type="service" id="security.authentication_utils" on-invalid="ignore"/>
+      </argument>
+    </service>
     <service id="service_locator.pc4l3za" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="em" type="service" id="doctrine.orm.default_entity_manager" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id="service_locator.zifdjej" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.hcauerp" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Controller\ParticipantsController:login" type="service" id="service_locator.nb1eyoc"/>
         <argument key="App\Controller\ParticipantsController:register" type="service" id="service_locator.tzzp_un"/>
         <argument key="App\Controller\SortieController:afficherListe" type="service" id="service_locator.pc4l3za"/>
+        <argument key="App\Controller\ParticipantsController::login" type="service" id="service_locator.nb1eyoc"/>
         <argument key="App\Controller\ParticipantsController::register" type="service" id="service_locator.tzzp_un"/>
         <argument key="App\Controller\SortieController::afficherListe" type="service" id="service_locator.pc4l3za"/>
       </argument>
@@ -4731,9 +4781,17 @@
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="service" id="form.type.form"/>
       </argument>
     </service>
-    <service id="service_locator.sr6ctxe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.iix0lzt" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="App\Repository\EtatsRepository" type="service" id="App\Repository\EtatsRepository"/>
+        <argument key="App\Repository\InscriptionsRepository" type="service" id="App\Repository\InscriptionsRepository"/>
+        <argument key="App\Repository\LieuxRepository" type="service" id="App\Repository\LieuxRepository"/>
+        <argument key="App\Repository\ParticipantsRepository" type="service" id="App\Repository\ParticipantsRepository"/>
+        <argument key="App\Repository\SitesRepository" type="service" id="App\Repository\SitesRepository"/>
+        <argument key="App\Repository\SortiesRepository" type="service" id="App\Repository\SortiesRepository"/>
+        <argument key="App\Repository\VillesRepository" type="service" id="App\Repository\VillesRepository"/>
+      </argument>
     </service>
     <service id="security.logout.handler.csrf_token_clearing" class="Symfony\Component\Security\Http\Logout\CsrfTokenClearingLogoutHandler" public="false">
       <argument type="service" id="security.csrf.token_storage"/>

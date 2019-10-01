@@ -34,10 +34,11 @@ class ParticipantsController extends Controller{
             $em->flush();
 
             $this->addFlash("success", "The account has been created!");
-            return $this->redirectToRoute("login");
+            return $this->redirectToRoute("register");
         }
 
         return $this->render("Participants/register.html.twig", ["form" => $form->createView()]);
+
     }
 
     /**
