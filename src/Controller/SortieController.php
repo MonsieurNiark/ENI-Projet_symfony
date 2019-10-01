@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\Sorties;
+use App\Form\SortieType;
 use App\Form\SortieFiltreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,4 +40,27 @@ class SortieController extends Controller
             ]);
     }
 
+    /**
+     * @Route("/sortie/add", name="ajouter_sortie")
+     */
+    public function add(Request $request, EntityManagerInterface $em) {
+        $sortie = new Sorties();
+
+        $form = $this->createForm(SortieType::class,$sortie);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success', 'Sortie successfully saved!');
+            return $this->redirectToRoute('liste_sortie');
+        }
+
+        return $this->render('Sortie/creation.html.twig', [
+            "SortieForm" => $form->createView()
+        ]);
+    }
 }
