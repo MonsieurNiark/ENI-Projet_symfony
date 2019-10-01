@@ -19,6 +19,13 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+            guard:
+                authenticators:
+                    - App\Security\AppCustomAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -36,6 +43,5 @@ security:
         App\Entity\Participants:
             algorithm: bcrypt
             cost: 14
-        Symfony\Component\Security\Core\User\User: plaintext
 
     #config/packages/framework.yaml
