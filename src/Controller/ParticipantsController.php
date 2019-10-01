@@ -41,18 +41,6 @@ class ParticipantsController extends Controller{
 
     }
 
-    /**
-     * @Route("/", name="login")
-     */
-    public function login(AuthenticationUtils $authUtils)
-    {
-        $error = $authUtils->getLastAuthenticationError();
-        $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('Participants/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ));
-    }
 
 }
