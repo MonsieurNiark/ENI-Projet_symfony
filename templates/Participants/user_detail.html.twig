@@ -1,9 +1,36 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
 {% block body %}
-    <h1>Modifier mon compte</h1>
+
+    <p class="h1" style="text-align: center; margin: 3% 3% 3% 3%">{{ user.username}}</p>
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Prénom  : {{ user.prenom }}</td>
+        </tr>
+        <tr>
+            <td>Nom :  {{ user.nom }}</td>
+        </tr>
+        <tr>
+            <td>Téléphone : {{ user.telephone }}</td>
+        </tr>
+        <tr>
+            <td>Email : {{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Ville de rattachement : {{ user.siteparticipant.nomsite }}</td>
+        </tr>
+    </table>
+
+
+
+
+
+
 
 {% endblock %}
-
 {% block javascripts %}
 {% endblock %}

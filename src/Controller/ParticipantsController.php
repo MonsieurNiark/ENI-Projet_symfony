@@ -75,11 +75,10 @@ class ParticipantsController extends Controller
             ->setParameter('pseudo',$pseudo)
             ->getQuery();
         $participant = $participant->execute();
-        var_dump($participant[0]);
 
         if(is_null($participant[0]) || !$participant[0]->getActif()){
             throw $this->createNotFoundException("L'utilisateur n'existe pas");
         }
-        return $this->render("Participants/user_detail.html.twig", ["user" => $participant]);
+        return $this->render("Participants/user_detail.html.twig", ["user" => $participant[0]]);
     }
 }
