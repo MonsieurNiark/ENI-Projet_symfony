@@ -72,7 +72,7 @@ class Inscriptions
         return $this->dateInscription;
     }
 
-    public function setDateInscription(string $dateInscription)
+    public function setDateInscription(\DateTime $dateInscription)
     {
         $this->dateInscription = $dateInscription;
 

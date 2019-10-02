@@ -49,7 +49,7 @@ class SortiesRepository extends ServiceEntityRepository
         if($estInscrit == 1){
             $query->innerJoin('sortie.inscriptionsSortie','inscrit')
                 ->addSelect('inscrit')
-                ->orWhere('inscrit.sortieInscription = sortie.no_sortie')
+                ->orWhere('inscrit.sortieInscription = sortie.noSortie')
                 ->orWhere('inscrit.participantInscription = :id_inscrit')
                 ->setParameter(':id_inscrit',$idUtilisateur);
         }
@@ -57,7 +57,7 @@ class SortiesRepository extends ServiceEntityRepository
         if($estPasInscrit == 1){
             $query->innerJoin('sortie.inscriptionsSortie','non_inscrit')
                 ->addSelect('non_inscrit')
-                ->orWhere('non_inscrit.sortieInscription = sortie.no_sortie')
+                ->orWhere('non_inscrit.sortieInscription = sortie.noSortie')
                 ->orWhere('non_inscrit.participantInscription != :id_non_inscrit')
                 ->setParameter(':id_non_inscrit',$idUtilisateur);
         }
@@ -66,7 +66,7 @@ class SortiesRepository extends ServiceEntityRepository
             $query->andWhere('sortie.datecloture < SYSDATE');
         }
 
-        return $query->getQuery()->getArrayResult();
+        return $query->getQuery()->getResult();
 
     }
 }
