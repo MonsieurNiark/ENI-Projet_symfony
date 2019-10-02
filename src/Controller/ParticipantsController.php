@@ -7,6 +7,7 @@ use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -39,6 +40,15 @@ class ParticipantsController extends Controller{
 
         return $this->render("Participants/register.html.twig", ["form" => $form->createView()]);
 
+    }
+
+    /**
+     * @Route("/account", name="my_account")
+     */
+    public function myAccount(Request $request, EntityManagerInterface $em){
+        var_dump($this->getUser());
+
+        return $this->render("Participants/my_account.html.twig");
     }
 
 
