@@ -88,10 +88,18 @@ class SortieController extends Controller
     public function detailSortie(int $id, EntityManagerInterface $em){
         $repo = $em->getRepository(Sorties::class);
         $sortie = $repo->find($id);
+        $repoInscription = $em->getRepository(Inscriptions::class);
+        $inscriptions = $repoInscription->createQueryBuilder('pi')
+            ->andWhere('pi.sortieInscription = :id')
+            ->setParameter('id',$sortie->getNoSortie())
+            ->getQuery();
+        $inscriptions = $inscriptions->execute();
+
+
 
         if(is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE"){
             throw $this->createNotFoundException("Sortie non trouvée");
         }
-        return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie]);
+        return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie, "inscriptions" => $inscriptions]);
     }
 }
