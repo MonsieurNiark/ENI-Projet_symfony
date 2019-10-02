@@ -1,12 +1,13 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory:
-                users:
-                    test_user:
-                        password: password
-                        roles: 'ROLE_USER'
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Participants
+                property: pseudo
+        # used to reload user from session & other features (e.g. switch_user)
+
 
     firewalls:
         dev:
