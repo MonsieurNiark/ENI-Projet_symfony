@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
@@ -56,7 +58,7 @@ class Lieux
     private $villeLieu;
 
     /**
-     * @var ArrayCollection
+     * @var PersistentCollection
      *
      * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="lieuSortie")
      */
@@ -135,7 +137,7 @@ class Lieux
     /**
      * @return ArrayCollection
      */
-    public function getSortiesLieu(): ArrayCollection
+    public function getSortiesLieu(): PersistentCollection
     {
         return $this->sortiesLieu;
     }
@@ -143,8 +145,13 @@ class Lieux
     /**
      * @param ArrayCollection $sortiesLieu
      */
-    public function setSortiesLieu(ArrayCollection $sortiesLieu)
+    public function setSortiesLieu(PersistentCollection $sortiesLieu)
     {
         $this->sortiesLieu = $sortiesLieu;
+    }
+
+    public function getLieuSortie(): PersistentCollection
+    {
+        return $this->sortiesLieu;
     }
 }

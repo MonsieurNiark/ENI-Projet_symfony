@@ -47,6 +47,7 @@ class SortieType extends AbstractType
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
+                'mapped' => false,
                 //Attribut utilisé pour l'affichage
                 'choice_label' => 'nomLieu'
             ))
@@ -54,6 +55,7 @@ class SortieType extends AbstractType
 
                 'class' => Etats::class,
                 'label' => 'Etat de la sortie :',
+                'mapped' => false,
                 //Attribut utilisé pour l'affichage
                 'choice_label' => 'libelle'
 
@@ -62,6 +64,7 @@ class SortieType extends AbstractType
 
                 'class' => Sites::class,
                 'label' => 'Site :',
+                'mapped' => false,
                 //Attribut utilisé pour l'affichage
                 'choice_label' => 'nom_Site'
             ));
