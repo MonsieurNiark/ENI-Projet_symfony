@@ -4,44 +4,71 @@
 
 {% block body %}
 
+    <p class="h1" style="text-align: center; margin: 3% 3% 3% 3%">Afficher une sortie</p>
 
-    <div>
-        Nom de la sortie : {{ sortie.nom }}
-    </div>
-    <div>
-        Date et heure de la sortie : {{ sortie.datedebut|date("Y-m-d H:i") }}
-    </div>
-    <div>
-        Date limite d'inscription : {{ sortie.datecloture|date("Y-m-d H:i") }}
-    </div>
-    <div>
-        Nombre de place : {{ sortie.nbinscriptionsmax }}
-    </div>
-    <div>
-        Durée : {{ sortie.duree }} minutes
-    </div>
-    <div>
-        Description et infos : {{ sortie.descriptioninfos }}
-    </div>
-    <div>
-        Ville organisatrice : {{ sortie.siteSortie.nomSite }}
-    </div>
-    <div>
-        Lieu : {{ sortie.lieuSortie.nomLieu }}
-    </div>
-    <div>
-        Rue : {{ sortie.lieuSortie.rue }}
-    </div>
-    <div>
-        Code Postal : {{ sortie.lieuSortie.villeLieu.codePostal }}
-    </div>
-    <div>
-        Latitude : {{ sortie.lieuSortie.latitude }}
-    </div>
-    <div>
-        Longitude : {{ sortie.lieuSortie.longitude }}
-    </div>
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Nom de la sortie : {{ sortie.nom }}</td>
+            <td>Ville organisatrice : {{ sortie.siteSortie.nomSite }}</td>
+        </tr>
+        <tr>
+            <td>Date et heure de la sortie : {{ sortie.datedebut|date("Y-m-d H:i") }}</td>
+            <td>Lieu : {{ sortie.lieuSortie.nomLieu }}</td>
+        </tr>
+        <tr>
+            <td>Date limite d'inscription : {{ sortie.datecloture|date("Y-m-d H:i") }}</td>
+            <td>Rue : {{ sortie.lieuSortie.rue }}</td>
+        </tr>
+        <tr>
+            <td>Nombre de place : {{ sortie.nbinscriptionsmax }}</td>
+            <td>Code Postal : {{ sortie.lieuSortie.villeLieu.codePostal }}</td>
+        </tr>
+        <tr>
+            <td>Durée : {{ sortie.duree }} minutes</td>
+            <td>Latitude : {{ sortie.lieuSortie.latitude }}</td>
+        </tr>
+        <tr>
+            <td>Description et infos : {{ sortie.descriptioninfos }}</td>
+            <td>Longitude : {{ sortie.lieuSortie.longitude }}</td>
+        </tr>
+    </table>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscriptions in inscriptions %}
+                <tr data-href="{{ path('login') }}">
+                    <td>
+                        {{ inscriptions.participantInscription.username }}
+                    </td>
+                    <td>
+                        {{ inscriptions.participantInscription.nom }} {{ inscriptions.participantInscription.prenom }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 
 
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+
+        $(document).ready(function(){
+            $('tr[data-href]').on("click", function() {
+                document.location = $(this).data('href');
+            });
+        });
+
+    </script>
 {% endblock %}
