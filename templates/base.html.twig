@@ -22,15 +22,15 @@
                         <a class="nav-link" href="">Ville</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Sites</a>
+                        <a class="nav-link" href="{{ path('sites_list') }}">Sites</a>
                     </li>
                     {% endif %}
                     {% if (is_granted("ROLE_USER") or is_granted("ROLE_ADMIN"))  %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="">Accueil</a>
+                        <a class="nav-link" href="{{ path('liste_sortie') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Mon profil</a>
+                        <a class="nav-link" href="{{ path('my_account') }}">Mon profil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
