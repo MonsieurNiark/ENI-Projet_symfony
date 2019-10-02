@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
@@ -259,17 +260,17 @@ class Sorties
     }
 
     /**
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getInscriptionsSortie(): ArrayCollection
+    public function getInscriptionsSortie(): PersistentCollection
     {
         return $this->inscriptionsSortie;
     }
 
     /**
-     * @param ArrayCollection $inscriptionsSortie
+     * @param PersistentCollection $inscriptionsSortie
      */
-    public function setInscriptionsSortie(ArrayCollection $inscriptionsSortie)
+    public function setInscriptionsSortie(PersistentCollection $inscriptionsSortie)
     {
         $this->inscriptionsSortie = $inscriptionsSortie;
     }

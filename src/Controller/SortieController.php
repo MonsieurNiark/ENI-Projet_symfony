@@ -3,10 +3,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Inscriptions;
+use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Form\SortieType;
-use App\Form\SortieFiltreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,25 +18,43 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/liste", name="liste_sortie")
      */
-    public function afficherListe(Request $request, EntityManagerInterface $em){
-        $sorties = $em->getRepository(Sorties::class);
+    public function afficherListe(Request $request, EntityManagerInterface $em)
+    {
+        $repoSorties = $em->getRepository(Sorties::class);
+        $repoSites = $em->getRepository(Sites::class);
 
-        $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
-        $sortieFiltreForm->handleRequest($request);
+        $sorties = $repoSorties->findAll();
+        $sites = $repoSites->findAll();
+        $idSite = 0;
+        $nomSortie = '';
+        $estOrga = 0;
+        $estInscrit = 0;
+        $estPasInscrit = 0;
+        $sortiePassees = 0;
 
-        if($sortieFiltreForm->isSubmitted() && $sortieFiltreForm->isValid()){
+        if ($request->isMethod('POST')) {
+            $idSite = $request->request->getInt('nomSite');
+            $nomSortie = $request->request->get('nomSortie');
+            $estOrga = $request->request->getInt('estOrganisateur');
+            $estInscrit = $request->request->getInt('estInscrit');
+            $estPasInscrit = $request->request->getInt('estPasInscrit');
+            $sortiePassees = $request->request->getInt('sortiesPassees');
 
-            return $this->render("Sortie/afficher_liste.html.twig",
-                [
-                    "sorties" => $sorties,
-                    "sortieFiltreForm" => $sortieFiltreForm->createView()
-                ]);
+            //$idUser = $this->getUser()->getId();
+            $idUser = 6;
+
+            $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
         }
-
         return $this->render("Sortie/afficher_liste.html.twig",
             [
                 "sorties" => $sorties,
-                "sortieFiltreForm" => $sortieFiltreForm->createView()
+                "sites" => $sites,
+                "siteId" => $idSite,
+                "nomSortie" => $nomSortie,
+                "estOrga" => $estOrga,
+                "estInscrit" => $estInscrit,
+                "estPasInscrit" => $estPasInscrit,
+                "sortiesPassees" => $sortiePassees
             ]);
     }
 
