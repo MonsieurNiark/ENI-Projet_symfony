@@ -3,9 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Form\SortieType;
-use App\Form\SortieFiltreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
