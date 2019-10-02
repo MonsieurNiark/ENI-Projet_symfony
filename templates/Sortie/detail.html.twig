@@ -43,7 +43,7 @@
         </thead>
         <tbody>
             {% for inscriptions in inscriptions %}
-                <tr data-href="{{ path('login') }}">
+                <tr data-href="{{ path('user_profile', {pseudo: inscriptions.participantInscription.username}) }}">
                     <td>
                         {{ inscriptions.participantInscription.username }}
                     </td>
