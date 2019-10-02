@@ -37,14 +37,18 @@
                 {% set break = false %}
                 {% for inscriptions in inscriptions if not break %}
                     {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
-                <a href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
+                        <a href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
                     désincrire</a>
-                    {% set break = true %}
+                        {% set break = true %}
                     {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                     {% else %}
                         <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
                     {% endif %}
                 {% endfor %}
+                {% if break == false %}
+                <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                {% endif %}
+
             </td>
         </tr>
     </table>

@@ -7,6 +7,7 @@ use App\Entity\Participants;
 use App\Entity\Sorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InscriptionController extends Controller
@@ -14,7 +15,7 @@ class InscriptionController extends Controller
     /**
      * @Route("/sortie/inscription/{id_participant}/{id_sortie}", name="inscription", requirements={"id_participant": "\d+","id_sortie": "\d+"})
      */
-    public function inscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie)
+    public function inscrireSortie(Request $request,EntityManagerInterface $em, int $id_participant, int $id_sortie)
     {
         $sortie = $em->getRepository(Sorties::class)->find($id_sortie);
         $participant = $em->getRepository(Participants::class)->find($id_participant);
@@ -28,7 +29,7 @@ class InscriptionController extends Controller
         $em->flush();
 
         $this->addFlash("success", "Vous êtes inscrit à la sortie");
-        return $this->redirectToRoute("liste_sortie");
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
