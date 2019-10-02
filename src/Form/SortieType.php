@@ -43,28 +43,19 @@ class SortieType extends AbstractType
             ->add('urlphoto', UrlType::class,[
                 "label" => "Ajout d'une photo :"
             ])
-/*            ->add('organisateurSortie', EntityType::class, array(
-
-                'class' => Participants::class,
-                'label' => 'Organisateur :',
-                //Attribut utilisé pour l'affichage
-//                'choice_label' => 'nom_Site'
-
-            ))
             ->add('lieuSortie', EntityType::class,array(
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
                 //Attribut utilisé pour l'affichage
-//                'choice_label' => 'nom_Site'
-
+                'choice_label' => 'nomLieu'
             ))
             ->add('etatSortie', EntityType::class, array(
 
                 'class' => Etats::class,
                 'label' => 'Etat de la sortie :',
                 //Attribut utilisé pour l'affichage
-//                'choice_label' => 'nom_Site'
+                'choice_label' => 'libelle'
 
             ))
             ->add('siteSortie', EntityType::class, array(
@@ -72,9 +63,8 @@ class SortieType extends AbstractType
                 'class' => Sites::class,
                 'label' => 'Site :',
                 //Attribut utilisé pour l'affichage
-//                'choice_label' => 'nom_Site'
-
-            ))*/;
+                'choice_label' => 'nom_Site'
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

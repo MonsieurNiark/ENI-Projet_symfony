@@ -210,7 +210,7 @@ class Sorties
         return $this->organisateurSortie;
     }
 
-    public function setOrganisateurSortie(int $organisateurSortie): self
+    public function setOrganisateurSortie(Participants $organisateurSortie): self
     {
         $this->organisateurSortie = $organisateurSortie;
 
