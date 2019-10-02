@@ -37,12 +37,8 @@ class InscriptionController extends Controller
      */
     public function desinscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie)
     {
-        $sortie = $em->getRepository(Sorties::class)->find($id_sortie);
-        $participant = $em->getRepository(Participants::class)->find($id_participant);
-
-        $inscription = new Inscriptions();
-        $inscription->setParticipantInscription($participant);
-        $inscription->setSortieInscription($sortie);
+        $repoInscription = $em->getRepository(Inscriptions::class);
+        $inscription = $repoInscription->getInscriptionBySortieParticipantId($id_sortie,$id_participant);
 
         $em->remove($inscription);
         $em->flush();
