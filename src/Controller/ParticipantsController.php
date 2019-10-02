@@ -43,12 +43,22 @@ class ParticipantsController extends Controller{
     }
 
     /**
-     * @Route("/account", name="my_account")
+     * @Route("/my_account", name="my_account")
      */
     public function myAccount(Request $request, EntityManagerInterface $em){
-        var_dump($this->getUser());
+        $participant = $this->getUser();
+        $form = $this->createForm(UpdateAccountType::class,$participant);
+        $form->handleRequest($request);
 
-        return $this->render("Participants/my_account.html.twig");
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($participant);
+            $em->flush();
+
+            $this->addFlash('succes','Votre compte est bien modifié');
+            return $this->redirectToRoute('my_account', ["UpdateForm" => $form->createView()]);
+        }
+
+        return $this->render("Participants/my_account.html.twig", ["UpdateForm" => $form->createView()]);
     }
 
 
