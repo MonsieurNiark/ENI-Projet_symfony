@@ -1,0 +1,68 @@
+<form action="{{ path('liste_sortie') }}" method="post">
+    <div class="row">
+        <div class="col">
+            <div>
+                <label for="nomSite">Site : </label>
+                <select id="nomSite" name="nomSite">
+                    <option value="">Tous</option>
+                    {% for site in sites %}
+                        {%  set selected = '' %}
+                        {% if site.noSite == siteId %}
+                            {%  set selected = 'selected="selected"' %}
+                        {% endif %}
+                        <option value="{{ site.noSite }}" {{ selected }} >{{ site.nomSite }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="nomSortie">Nom de la sortie</label>
+                <input type="text" id="nomSortie" name="nomSortie" value="{{ nomSortie }}"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-check">
+                {%  set checked = '' %}
+                {% if estOrga == 1 %}
+                    {%  set checked = 'checked="checked"' %}
+                {% endif %}
+                <input class="form-check-input" type="checkbox" value="1" id="estOrganisateur" name="estOrganisateur" {{ checked }}>
+                <label class="form-check-label" for="estOrganisateur">
+                    Sorties dont je suis organisateur/trice
+                </label>
+            </div>
+            <div class="form-check">
+                {%  set checked = '' %}
+                {% if estInscrit == 1 %}
+                    {%  set checked = 'checked="checked"' %}
+                {% endif %}
+                <input class="form-check-input" type="checkbox" value="1" id="estInscrit" name="estInscrit" {{ checked }}>
+                <label class="form-check-label" for="estInscrit">
+                    Sorties auxquelles je suis inscrit/e
+                </label>
+            </div>
+            <div class="form-check">
+                {%  set checked = '' %}
+                {% if estPasInscrit == 1 %}
+                    {%  set checked = 'checked="checked"' %}
+                {% endif %}
+                <input class="form-check-input" type="checkbox" value="1" id="estPasInscrit" name="estPasInscrit" {{ checked }}>
+                <label class="form-check-label" for="estPasInscrit">
+                    Sorties auxquelles je ne suis pas inscrit/e
+                </label>
+            </div>
+            <div class="form-check">
+                {%  set checked = '' %}
+                {% if sortiesPassees == 1 %}
+                    {%  set checked = 'checked="checked"' %}
+                {% endif %}
+                <input class="form-check-input" type="checkbox" value="1" id="sortiesPassees" name="sortiesPassees" {{ checked }}>
+                <label class="form-check-label" for="sortiesPassees">
+                    Sorties passées
+                </label>
+            </div>
+        </div>
+        <div class="col">
+            <button type="submit">Rechercher</button>
+        </div>
+    </div>
+</form>

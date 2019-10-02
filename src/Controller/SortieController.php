@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Inscriptions;
 use App\Entity\Sorties;
 use App\Form\SortieType;
 use App\Form\SortieFiltreType;
@@ -19,25 +18,43 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/liste", name="liste_sortie")
      */
-    public function afficherListe(Request $request, EntityManagerInterface $em){
-        $sorties = $em->getRepository(Sorties::class);
+    public function afficherListe(Request $request, EntityManagerInterface $em)
+    {
+        $repoSorties = $em->getRepository(Sorties::class);
+        $repoSites = $em->getRepository(Sites::class);
 
-        $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
-        $sortieFiltreForm->handleRequest($request);
+        $sorties = $repoSorties->findAll();
+        $sites = $repoSites->findAll();
+        $idSite = 0;
+        $nomSortie = '';
+        $estOrga = 0;
+        $estInscrit = 0;
+        $estPasInscrit = 0;
+        $sortiePassees = 0;
 
-        if($sortieFiltreForm->isSubmitted() && $sortieFiltreForm->isValid()){
+        if ($request->isMethod('POST')) {
+            $idSite = $request->request->getInt('nomSite');
+            $nomSortie = $request->request->get('nomSortie');
+            $estOrga = $request->request->getInt('estOrganisateur');
+            $estInscrit = $request->request->getInt('estInscrit');
+            $estPasInscrit = $request->request->getInt('estPasInscrit');
+            $sortiePassees = $request->request->getInt('sortiesPassees');
 
-            return $this->render("Sortie/afficher_liste.html.twig",
-                [
-                    "sorties" => $sorties,
-                    "sortieFiltreForm" => $sortieFiltreForm->createView()
-                ]);
+            //$idUser = $this->getUser()->getId();
+            $idUser = 6;
+
+            $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
         }
-
         return $this->render("Sortie/afficher_liste.html.twig",
             [
                 "sorties" => $sorties,
-                "sortieFiltreForm" => $sortieFiltreForm->createView()
+                "sites" => $sites,
+                "siteId" => $idSite,
+                "nomSortie" => $nomSortie,
+                "estOrga" => $estOrga,
+                "estInscrit" => $estInscrit,
+                "estPasInscrit" => $estPasInscrit,
+                "sortiesPassees" => $sortiePassees
             ]);
     }
 
@@ -71,18 +88,10 @@ class SortieController extends Controller
     public function detailSortie(int $id, EntityManagerInterface $em){
         $repo = $em->getRepository(Sorties::class);
         $sortie = $repo->find($id);
-        $repoInscription = $em->getRepository(Inscriptions::class);
-        $inscriptions = $repoInscription->createQueryBuilder('pi')
-            ->andWhere('pi.sortieInscription = :id')
-            ->setParameter('id',$sortie->getNoSortie())
-            ->getQuery();
-        $inscriptions = $inscriptions->execute();
-
-
 
         if(is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE"){
             throw $this->createNotFoundException("Sortie non trouvée");
         }
-        return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie, "inscriptions" => $inscriptions]);
+        return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie]);
     }
 }

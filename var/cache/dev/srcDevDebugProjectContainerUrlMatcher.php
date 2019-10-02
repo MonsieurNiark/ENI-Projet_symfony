@@ -114,7 +114,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         // login
         if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'App\\Controller\\ParticipantsController::login',  '_route' => 'login',);
+            $ret = array (  '_controller' => 'App\\Controller\\SecurityController::login',  '_route' => 'login',);
             if ('/' === substr($pathinfo, -1)) {
                 // no-op
             } elseif ('GET' !== $canonicalMethod) {
@@ -127,9 +127,32 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
         not_login:
 
-        // liste_sortie
-        if ('/sortie/liste' === $pathinfo) {
-            return array (  '_controller' => 'App\\Controller\\SortieController::afficherListe',  '_route' => 'liste_sortie',);
+        // app_logout
+        if ('/logout' === $pathinfo) {
+            return array (  '_controller' => 'App\\Controller\\SecurityController::logout',  '_route' => 'app_logout',);
+        }
+
+        // sites_list
+        if ('/sites/list' === $pathinfo) {
+            return array (  '_controller' => 'App\\Controller\\SitesController::list',  '_route' => 'sites_list',);
+        }
+
+        if (0 === strpos($pathinfo, '/sortie')) {
+            // liste_sortie
+            if ('/sortie/liste' === $pathinfo) {
+                return array (  '_controller' => 'App\\Controller\\SortieController::afficherListe',  '_route' => 'liste_sortie',);
+            }
+
+            // ajouter_sortie
+            if ('/sortie/add' === $pathinfo) {
+                return array (  '_controller' => 'App\\Controller\\SortieController::add',  '_route' => 'ajouter_sortie',);
+            }
+
+            // detail_sortie
+            if (0 === strpos($pathinfo, '/sortie/detail') && preg_match('#^/sortie/detail/(?P<id>\\d+)$#sD', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, ['_route' => 'detail_sortie']), array (  '_controller' => 'App\\Controller\\SortieController::detailSortie',));
+            }
+
         }
 
         if ('/' === $pathinfo && !$allow) {
