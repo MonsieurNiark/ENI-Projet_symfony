@@ -255,6 +255,8 @@ class Participants implements UserInterface
         if ($this->administrateur == 0)
         {
             $roles = array('ROLE_USER');
+        } else {
+            $roles = array('ROLE_ADMIN');
         }
         return $roles;
     }
