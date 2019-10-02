@@ -23,7 +23,7 @@ class Participants implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
+     * @ORM\Column(name="pseudo", type="string", length=30, nullable=false, unique=true)
      */
     private $pseudo;
 

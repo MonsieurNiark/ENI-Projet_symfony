@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participants;
 use App\Form\RegistrationType;
+use App\Form\UpdateAccountType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,7 @@ class ParticipantsController extends Controller{
             $em->flush();
 
             $this->addFlash('succes','Votre compte est bien modifié');
-            return $this->redirectToRoute('my_account', ["UpdateForm" => $form->createView()]);
+            return $this->redirectToRoute('my_account');
         }
 
         return $this->render("Participants/my_account.html.twig", ["UpdateForm" => $form->createView()]);

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modifier mon compte</h1>
+
+    {{ form_start(UpdateForm) }}
+    {{ form_widget(UpdateForm) }}
+    <button type="submit">Modifier</button>
+    {{ form_end(UpdateForm) }}
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
