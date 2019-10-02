@@ -103,7 +103,7 @@ class Sorties
     private $siteSortie;
 
     /**
-     * @var ArrayCollection
+     * @var PersistentCollection
      *
      * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortieInscription")
      */

@@ -26,12 +26,23 @@
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.datedebut|date('d/m/Y - H:i') }}</td>
-                    <td>{{ sortie.datecloture|date('d/m/Y')  }}</td>
+                    <td>{{ sortie.datecloture|date('d/m/Y') }}</td>
                     <td>{{ sortie.inscriptionsSortie.count }}/{{ sortie.nbinscriptionsmax }}</td>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.etatSortie.libelle }}</td>
+                    <td>{% if app.user.noParticipant|trans in sortie.inscriptionsSortie %}
+                            X
+                        {% endif %}
+                    </td>
+                    <td>{{ sortie.organisateurSortie.prenom }} {{ sortie.organisateurSortie.nom|slice(0,1)|upper }}.
+                    </td>
+                    <td>
+                        <a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}">Afficher</a>
+                        {% if app.user.noParticipant|trans in sortie.inscriptionsSortie %}
+                            <a>Se désincrire</a>
+                        {% else %}
+                            <a>S'inscrire</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% else %}
 

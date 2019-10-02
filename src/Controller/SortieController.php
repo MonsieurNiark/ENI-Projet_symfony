@@ -41,8 +41,7 @@ class SortieController extends Controller
             $estPasInscrit = $request->request->getInt('estPasInscrit');
             $sortiePassees = $request->request->getInt('sortiesPassees');
 
-            //$idUser = $this->getUser()->getId();
-            $idUser = 6;
+            $idUser = $this->getUser()->getNoParticipant();
 
             $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
         }
