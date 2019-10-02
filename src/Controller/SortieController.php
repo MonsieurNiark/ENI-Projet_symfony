@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscriptions;
 use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Form\SortieType;
