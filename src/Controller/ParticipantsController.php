@@ -65,4 +65,21 @@ class ParticipantsController extends Controller
     }
 
 
+    /**
+     * @Route("/user/{pseudo}",name="user_profile", requirements={"pseudo"})
+     */
+    public function detailParticipant(String $pseudo, EntityManagerInterface $em){
+        $repo = $em->getRepository(Participants::class);
+        $participant = $repo->createQueryBuilder('p')
+            ->andWhere('p.pseudo like :pseudo')
+            ->setParameter('pseudo',$pseudo)
+            ->getQuery();
+        $participant = $participant->execute();
+        var_dump($participant[0]);
+
+        if(is_null($participant[0]) || !$participant[0]->getActif()){
+            throw $this->createNotFoundException("L'utilisateur n'existe pas");
+        }
+        return $this->render("Participants/user_detail.html.twig", ["user" => $participant]);
+    }
 }
