@@ -4,111 +4,147 @@
     <h1>Créer une sortie</h1>
 
     {{ form_start(SortieForm) }}
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <div class="col-3">
-                    {{ form_widget(SortieForm) }}
-                </div>
-                <div class="col-3">
-
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="col-3">
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.nom) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.nom) }}
+                        {{ form_errors(SortieForm.nom) }}
+                    </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.datedebut) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.datedebut) }}
+                        {{ form_errors(SortieForm.datedebut) }}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.duree) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.duree) }}
+                        {{ form_errors(SortieForm.duree) }}
+                    </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.datecloture) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.datecloture) }}
+                        {{ form_errors(SortieForm.datecloture) }}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.nbinscriptionsmax) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.nbinscriptionsmax) }}
+                        {{ form_errors(SortieForm.nbinscriptionsmax) }}
+                    </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.descriptioninfos) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.descriptioninfos) }}
+                        {{ form_errors(SortieForm.descriptioninfos) }}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="col-3">
-
-                </div>
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.urlphoto) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.urlphoto) }}
+                        {{ form_errors(SortieForm.urlphoto) }}
+                    </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="col-3">
-
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.lieuSortie) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.lieuSortie) }}
+                        {{ form_errors(SortieForm.lieuSortie) }}
+                    </div>
                 </div>
-                <div class="col-3">
-
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.etatSortie) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.etatSortie) }}
+                        {{ form_errors(SortieForm.etatSortie) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(SortieForm.siteSortie) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(SortieForm.siteSortie) }}
+                        {{ form_errors(SortieForm.siteSortie) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(SortieForm) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(SortieForm) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(SortieForm) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(SortieForm) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,6 +159,7 @@
                 <button></button>
             </div>
         </div>
+        {{ form_widget(SortieForm) }}
         {{ form_end(SortieForm) }}
     </div>
 {% endblock %}
