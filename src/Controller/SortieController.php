@@ -63,4 +63,17 @@ class SortieController extends Controller
             "SortieForm" => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/sortie/detail/{id}", name="detail_sortie", requirements={"id": "\d+"})
+     */
+    public function detailSortie(int $id, EntityManagerInterface $em){
+        $repo = $em->getRepository(Sorties::class);
+        $sortie = $repo->find($id);
+
+        if(is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE"){
+            throw $this->createNotFoundException("Sortie non trouvée");
+        }
+        return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie]);
+    }
 }

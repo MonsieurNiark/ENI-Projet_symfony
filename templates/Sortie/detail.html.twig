@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
+{% block body %}
+
+
+    <div>
+        Nom de la sortie : {{ sortie.nom }}
+    </div>
+    <div>
+        Date et heure de la sortie : {{ sortie.datedebut|date("Y-m-d H:i") }}
+    </div>
+    <div>
+        Date limite d'inscription : {{ sortie.datecloture|date("Y-m-d") }}
+    </div>
+
+
+{% endblock %}

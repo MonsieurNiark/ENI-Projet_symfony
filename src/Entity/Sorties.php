@@ -81,6 +81,7 @@ class Sorties
      *
      * @ORM\ManyToOne(targetEntity="\App\Entity\Lieux", inversedBy="sortiesLieu")
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_lieu")
+     *
      */
     private $lieuSortie;
 
