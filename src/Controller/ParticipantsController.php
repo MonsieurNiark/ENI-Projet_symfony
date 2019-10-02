@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class ParticipantsController extends Controller{
+class ParticipantsController extends Controller
+{
 
 
     /**
@@ -46,22 +47,22 @@ class ParticipantsController extends Controller{
     /**
      * @Route("/my_account", name="my_account")
      */
-    public function myAccount(Request $request, EntityManagerInterface $em){
+    public function myAccount(Request $request, EntityManagerInterface $em)
+    {
         $participant = $this->getUser();
-        $form = $this->createForm(UpdateAccountType::class,$participant);
+        $form = $this->createForm(UpdateAccountType::class, $participant);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($participant);
             $em->flush();
 
-            $this->addFlash('succes','Votre compte est bien modifié');
+            $this->addFlash('succes', 'Votre compte est bien modifié');
             return $this->redirectToRoute('my_account');
         }
 
         return $this->render("Participants/my_account.html.twig", ["UpdateForm" => $form->createView()]);
     }
-
 
 
 }

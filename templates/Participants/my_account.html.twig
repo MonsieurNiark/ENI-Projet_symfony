@@ -2,12 +2,10 @@
 
 {% block body %}
     <h1>Modifier mon compte</h1>
-
-    {{ form_start(UpdateForm) }}
-    {{ form_widget(UpdateForm) }}
+    {{ form_start(UpdateForm, {attr: {class: 'form-group'} }) }}
+    {{ form_widget(UpdateForm, {attr: {class: 'form-group'} }) }}
     <button type="submit">Modifier</button>
     {{ form_end(UpdateForm) }}
-
 {% endblock %}
 
 {% block javascripts %}
