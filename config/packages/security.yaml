@@ -16,6 +16,10 @@ security:
         main:
             anonymous: true
 
+            remember_me:
+                lifetime: 86400
+                secret: '%kernel.secret%'
+
             # https://symfony.com/doc/current/security/form_login_setup.html
             form_login:
                 login_path: login
