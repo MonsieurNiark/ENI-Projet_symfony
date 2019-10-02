@@ -30,7 +30,7 @@
                         <a class="nav-link" href="">Mon profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('logout') }}">Se déconnecter</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
                 </ul>
                 {% endif %}
@@ -46,5 +46,6 @@
         {% block javascripts %}{% endblock %}
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+        </div>
     </body>
 </html>
