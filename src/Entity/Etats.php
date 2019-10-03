@@ -33,6 +33,13 @@ class Etats
      */
     private $sortiesEtat;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="x_comment", type="text", nullable=true)
+     */
+    private $x_comment;
+
     public function __construct()
     {
         $this->sortiesEtat = new ArrayCollection();
