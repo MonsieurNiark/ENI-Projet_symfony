@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etats;
 use App\Entity\Inscriptions;
 use App\Entity\Participants;
 use App\Entity\Sorties;
@@ -35,9 +36,15 @@ class InscriptionController extends Controller
         $inscription->setParticipantInscription($participant);
         $inscription->setSortieInscription($sortie);
         $inscription->setDateInscription(new \DateTime("now"));
-
         $em->persist($inscription);
         $em->flush();
+        if(count($sortie->getInscriptionsSortie()) >= $sortie->getNbinscriptionsmax()){
+            $etatSortie = $em->getRepository(Etats::class)->getEtatByLibelle('FERMEE');
+            $sortie->setEtatSortie($etatSortie[0]);
+            $em->persist($sortie);
+            $em->flush();
+        }
+
 
 
         $flashbag->add("inscrire", "Vous êtes inscrit à la sortie");
