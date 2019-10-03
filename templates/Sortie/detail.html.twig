@@ -39,7 +39,7 @@
                 {% set break = false %}
                 {% for inscriptions in inscriptions if not break %}
                     {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
-                        <a href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
+                        <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
                     désincrire</a>
                         {% set break = true %}
                     {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant  %}
@@ -66,21 +66,21 @@
                     {% endif %}
                 {% endif %}
 
-                {% for message in app.flashes('desinscrire') %}
-                    <div class="flash-notice">
-                        {{ message }}
+                {% for flash_message in app.session.flashBag.get('inscrire') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
                     </div>
                 {% endfor %}
 
-                {% for message in app.flashes('inscrire') %}
-                    <div class="flash-notice">
-                        {{ message }}
+                {% for flash_message in app.session.flashBag.get('desinscrire') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
                     </div>
                 {% endfor %}
 
-                {% for message in app.flashes('already_inscrit') %}
-                    <div class="flash-notice">
-                        {{ message }}
+                {% for flash_message in app.session.flashBag.get('already_inscrit') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
                     </div>
                 {% endfor %}
 

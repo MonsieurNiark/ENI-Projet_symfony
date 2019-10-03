@@ -19,6 +19,7 @@ class InscriptionController extends Controller
     {
         $sortie = $em->getRepository(Sorties::class)->find($id_sortie);
         $participant = $this->getUser();
+        $flashbag = $this->get('session')->getFlashBag();
         $inscriptionsRepo = $em->getRepository(Inscriptions::class)->createQueryBuilder('pi')
             ->andWhere('pi.sortieInscription = :id')
             ->setParameter('id',$sortie->getNoSortie())
@@ -26,7 +27,7 @@ class InscriptionController extends Controller
         foreach($inscriptionsRepo->execute() as $inscriptions){
 
             if($inscriptions->getParticipantInscription()->getNoParticipant() == $participant->getNoParticipant()){
-                $this->addFlash("already_inscrit", "Vous êtes déjà inscrit.");
+                $flashbag->add("already_inscrit", "Vous êtes déjà inscrit.");
                 return $this->redirect($request->headers->get('referer'));
             }
         }
@@ -38,23 +39,28 @@ class InscriptionController extends Controller
         $em->persist($inscription);
         $em->flush();
 
-        $this->addFlash("inscrire", "Vous êtes inscrit à la sortie");
+
+        $flashbag->add("inscrire", "Vous êtes inscrit à la sortie");
         return $this->redirect($request->headers->get('referer'));
     }
 
     /**
-     * @Route("/sortie/desinscription/{id_participant}/{id_sortie}", name="desinscription", requirements={"id_participant": "\d+","id_sortie": "\d+"})
+     * @Route("/sortie/desinscription/{id_sortie}", name="desinscription", requirements={"id_sortie": "\d+"})
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function desinscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie, Request $request)
+    public function desinscrireSortie(EntityManagerInterface $em, int $id_sortie, Request $request)
     {
+        $participant = $this->getUser();
+        $id_participant = $participant->getNoParticipant();
+        $flashbag = $this->get('session')->getFlashBag();
         $repoInscription = $em->getRepository(Inscriptions::class);
         $inscription = $repoInscription->getInscriptionBySortieParticipantId($id_sortie,$id_participant);
 
         $em->remove($inscription);
         $em->flush();
 
-        $this->addFlash("desinscrire", "Vous êtes désincrit de la sortie");
+        $flashbag->add("desinscrire", "Vous êtes désincrit de la sortie");
+
         return $this->redirect($request->headers->get('referer'));
     }
 }
