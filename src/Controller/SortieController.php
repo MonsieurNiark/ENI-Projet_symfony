@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Etats;
 use App\Entity\Inscriptions;
 use App\Entity\Sites;
 use App\Entity\Sorties;
@@ -11,7 +10,6 @@ use App\Form\SortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -26,7 +24,8 @@ class SortieController extends Controller
         $repoSorties = $em->getRepository(Sorties::class);
         $repoSites = $em->getRepository(Sites::class);
 
-        $sorties = $repoSorties->findAll();
+        $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery()->getResult();
+        $sorties = array();
         $sites = $repoSites->findAll();
         $idSite = 0;
         $nomSortie = '';
@@ -45,7 +44,24 @@ class SortieController extends Controller
 
             $idUser = $this->getUser()->getNoParticipant();
 
-            $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
+            $sortiesByFiltre = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
+//            $idSort = array();
+//            var_dump($sortiesByFiltre);
+
+            foreach ($sortiesByFiltre as $sortieByFiltreTmp) {
+                $index = 0;
+                $sortieTrouve = false;
+                while ($index < count($sortiesTmp) && $sortieTrouve == false) {
+                    if ($sortieByFiltreTmp->getNoSortie() == $sortiesTmp[$index]->getNoSortie()) {
+                        array_push($sorties, $sortiesTmp[$index]);
+                        $sortieTrouve = true;
+                    }
+                    $index++;
+                }
+            }
+//            var_dump($sorties);
+        }else{
+            $sorties = $sortiesTmp;
         }
         return $this->render("Sortie/afficher_liste.html.twig",
             [

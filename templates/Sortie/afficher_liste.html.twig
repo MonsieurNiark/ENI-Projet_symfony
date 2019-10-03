@@ -13,6 +13,7 @@
             <tr>
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
+                <th scope="col">Site</th>
                 <th scope="col">Cloture des inscriptions</th>
                 <th scope="col">Inscrits/Places disponibles</th>
                 <th scope="col">Etat</th>
@@ -26,6 +27,7 @@
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.datedebut|date('d/m/Y - H:i') }}</td>
+                    <td>{{ sortie.siteSortie.nomSite }}</td>
                     <td>{{ sortie.datecloture|date('d/m/Y - H:i') }}</td>
                     <td>{{ sortie.inscriptionsSortie.count }}/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etatSortie.libelle }}</td>
@@ -50,8 +52,10 @@
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% elseif sortie.datecloture|date('d/m/Y H:i') > "now"|date('d/m/Y H:i') %}
                             {% if sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
-                                - <a
-                                    href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                                {% if sortie.etatSortie.libelle != "EN_CREATION" %}
+                                    - <a
+                                        href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     </td>
