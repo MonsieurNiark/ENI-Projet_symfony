@@ -47,14 +47,14 @@
 
                         {% if inscription == true %}
                             - <a
-                                href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
+                                href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
                             désincrire</a>
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% elseif sortie.datecloture|date('d/m/Y H:i') > "now"|date('d/m/Y H:i') %}
                             {% if sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
                                 {% if sortie.etatSortie.libelle != "EN_CREATION" %}
                                     - <a
-                                        href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                                        href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
