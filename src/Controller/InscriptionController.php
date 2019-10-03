@@ -13,12 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class InscriptionController extends Controller
 {
     /**
-     * @Route("/sortie/inscription/{id_participant}/{id_sortie}", name="inscription", requirements={"id_participant": "\d+","id_sortie": "\d+"})
+     * @Route("/sortie/inscription/{id_sortie}", name="inscription", requirements={"id_sortie": "\d+"})
      */
-    public function inscrireSortie(Request $request,EntityManagerInterface $em, int $id_participant, int $id_sortie)
+    public function inscrireSortie(Request $request,EntityManagerInterface $em, int $id_sortie)
     {
         $sortie = $em->getRepository(Sorties::class)->find($id_sortie);
-        $participant = $em->getRepository(Participants::class)->find($id_participant);
+        $participant = $this->getUser();
 
         $inscription = new Inscriptions();
         $inscription->setParticipantInscription($participant);

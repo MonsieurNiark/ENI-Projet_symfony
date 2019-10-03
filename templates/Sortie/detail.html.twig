@@ -34,7 +34,8 @@
         </tr>
         <tr>
             <td>
-                {% if sortie.etatSortie.libelle == "OUVERTE" %}
+                {% if sortie.etatSortie.libelle == "OUVERT" %}
+
                 {% set break = false %}
                 {% for inscriptions in inscriptions if not break %}
                     {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
@@ -43,7 +44,7 @@
                         {% set break = true %}
                     {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                     {% else %}
-                        <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                        <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
                     {% endif %}
                 {% endfor %}
                 {% if break == false %}
