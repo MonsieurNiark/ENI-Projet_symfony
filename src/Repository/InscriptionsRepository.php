@@ -17,7 +17,8 @@ class InscriptionsRepository extends ServiceEntityRepository
     /**
      * @param int $idSortie
      * @param int $idParticipant
-     * @return array
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getInscriptionBySortieParticipantId(int $idSortie, int $idParticipant){
         $query = $this->createQueryBuilder('i')
@@ -26,6 +27,6 @@ class InscriptionsRepository extends ServiceEntityRepository
             ->setParameter('id_sortie',$idSortie)
             ->setParameter('id_participant',$idParticipant);
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getOneOrNullResult();
     }
 }

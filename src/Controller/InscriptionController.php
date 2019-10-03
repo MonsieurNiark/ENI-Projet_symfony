@@ -34,6 +34,7 @@ class InscriptionController extends Controller
 
     /**
      * @Route("/sortie/desinscription/{id_participant}/{id_sortie}", name="desinscription", requirements={"id_participant": "\d+","id_sortie": "\d+"})
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function desinscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie)
     {
