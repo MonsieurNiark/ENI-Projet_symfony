@@ -1,55 +1,56 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Sortir.com{% endblock %}</title>
-        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light bg-faded">
-            <a class="nav-link" href="{{ path('login') }}" title="Sortir | Home">
-                <img src="{{ asset('img/logo.jpg') }}" alt="Bucket-List"> Sortir
-            </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sortir.com{% endblock %}</title>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-faded">
+        <a class="nav-link" href="{{ path('login') }}" title="Sortir | Home">
+            <img src="{{ asset('img/logo.jpg') }}" alt="Bucket-List"> Sortir
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <ul class="navbar-nav">
-                    {% if is_granted("ROLE_ADMIN") %}
+            <ul class="navbar-nav">
+                {% if is_granted("ROLE_ADMIN") %}
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="">Ville</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('sites_list') }}">Sites</a>
                     </li>
-                    {% endif %}
-                    {% if (is_granted("ROLE_USER") or is_granted("ROLE_ADMIN"))  %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="{{ path('liste_sortie') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('my_account') }}">Mon profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
-                    </li>
-                </ul>
                 {% endif %}
-            </div>
-        </nav>
-    </header>
-        <div class="container">
-
-                {% block body %}{% endblock %}
-        <footer>
-            © {{ "now"|date("Y") }} Sortir.com
-        </footer>
-
-        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-            {% block javascripts %}{% endblock %}
+                {% if (is_granted("ROLE_USER") or is_granted("ROLE_ADMIN")) %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="{{ path('liste_sortie') }}">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('my_account') }}">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
-    </body>
+    </nav>
+</header>
+<div class="container">
+
+    {% block body %}{% endblock %}
+
+
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+</div>
+<footer>
+    © {{ "now"|date("Y") }} Sortir.com
+</footer>
+</body>
 </html>
