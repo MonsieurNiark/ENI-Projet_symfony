@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
@@ -140,7 +142,7 @@ class Sorties
         return $this->datedebut;
     }
 
-    public function setDatedebut(string $datedebut)
+    public function setDatedebut(DateTime $datedebut)
     {
         $this->datedebut = $datedebut;
 
@@ -164,7 +166,7 @@ class Sorties
         return $this->datecloture;
     }
 
-    public function setDatecloture(string $datecloture)
+    public function setDatecloture(Date $datecloture)
     {
         $this->datecloture = $datecloture;
 

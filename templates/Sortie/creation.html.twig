@@ -82,6 +82,31 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        {#                        {{ form_label(SortieForm.siteSortie) }}#}
+                        <label>Villes :</label>
+                    </div>
+                    <div class="col-6">
+                        <select id="sortie_siteSortie">
+                        {% for ville in AllVille %}
+                            <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
                         {{ form_label(SortieForm.urlphoto) }}
                     </div>
                     <div class="col-6">
@@ -106,27 +131,6 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col-6">
-                    </div>
-                    <div class="col-6">
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        {{ form_label(SortieForm.siteSortie) }}
-                    </div>
-                    <div class="col-6">
-                        {{ form_widget(SortieForm.siteSortie) }}
-                        {{ form_errors(SortieForm.siteSortie) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
                         <label>Ville organisatrice :</label>
                     </div>
                     <div class="col-6">
@@ -134,16 +138,16 @@
                     </div>
                 </div>
             </div>
-{#            <div class="col-6">#}
-{#                <div class="row">#}
-{#                    <div class="col-6">#}
-{#                        {{ form_row(SortieForm) }}#}
-{#                    </div>#}
-{#                    <div class="col-6">#}
-{#                        {{ form_row(SortieForm) }}#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+            {#            <div class="col-6">#}
+            {#                <div class="row">#}
+            {#                    <div class="col-6">#}
+            {#                        {{ form_row(SortieForm) }}#}
+            {#                    </div>#}
+            {#                    <div class="col-6">#}
+            {#                        {{ form_row(SortieForm) }}#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
         </div>
         <div class="row">
             <div class="col-4">
@@ -156,7 +160,38 @@
                 <button type="reset">Annuler</button>
             </div>
         </div>
-        {{ form_widget(SortieForm) }}
         {{ form_end(SortieForm) }}
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            console.log("ready!");
+            var $site = $('#sortie_siteSortie');
+            // When sport gets selected ...
+            $site.change(function () {
+                // ... retrieve the corresponding form.
+                var $form = $(this).closest('form');
+                // Simulate form data, but only include the selected sport value.
+                var data = {};
+                data[$site.attr('name')] = $site.val();
+                // Submit data via AJAX to the form's action path.
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data,
+                    success: function (html) {
+                        // Replace current position field ...
+                        $('#sortie_lieuSortie').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('#sortie_lieuSortie')
+                        );
+                        // Position field now displays the appropriate positions.
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

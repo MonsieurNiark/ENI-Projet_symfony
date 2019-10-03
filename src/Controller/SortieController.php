@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Inscriptions;
 use App\Entity\Sites;
 use App\Entity\Sorties;
+use App\Entity\Villes;
 use App\Form\SortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -111,7 +112,8 @@ class SortieController extends Controller
 
         return $this->render('Sortie/creation.html.twig', [
             "SortieForm" => $form->createView(),
-            "VilleOrga" => $siteUser
+            "VilleOrga" => $siteUser,
+            "AllVille" => $em->getRepository(Villes::class)->findAll()
         ]);
     }
 
