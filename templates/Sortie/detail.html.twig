@@ -29,11 +29,12 @@
             <td>Latitude : {{ sortie.lieuSortie.latitude }}</td>
         </tr>
         <tr>
-            <td>Description et infos : {{ sortie.descriptioninfos }}</td>
+            <td>Description et infos : {{ sortie.etatSortie.libelle }} - {{ sortie.descriptioninfos }}</td>
             <td>Longitude : {{ sortie.lieuSortie.longitude }}</td>
         </tr>
         <tr>
             <td>
+                {% if sortie.etatSortie.libelle == "OUVERTE" %}
                 {% set break = false %}
                 {% for inscriptions in inscriptions if not break %}
                     {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
@@ -48,6 +49,19 @@
                 {% if break == false %}
                 <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
                 {% endif %}
+                {% endif %}
+
+                {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                    {% if sortie.etatSortie.libelle == "EN_CREATION"  %}
+                        <a href="">Modifier</a>
+                        <a href="">Supprimer</a>
+                        {% endif %}
+                    {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
+                        <a href="">Annuler</a>
+                    {% endif %}
+                {% endif %}
+
+
 
             </td>
         </tr>
