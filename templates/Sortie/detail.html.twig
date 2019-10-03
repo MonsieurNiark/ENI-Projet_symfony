@@ -42,13 +42,17 @@
                         <a href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
                     désincrire</a>
                         {% set break = true %}
-                    {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                    {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant  %}
                     {% else %}
+                        {% if sortie.inscriptionsSortie.count >= sortie.nbinscriptionsmax %}
                         <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-                {% if break == false %}
-                <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                {% if break == false and sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
+                <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+
                 {% endif %}
                 {% endif %}
 
@@ -62,7 +66,23 @@
                     {% endif %}
                 {% endif %}
 
+                {% for message in app.flashes('desinscrire') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
+                {% for message in app.flashes('inscrire') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('already_inscrit') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
             </td>
         </tr>

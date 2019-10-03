@@ -19,7 +19,17 @@ class InscriptionController extends Controller
     {
         $sortie = $em->getRepository(Sorties::class)->find($id_sortie);
         $participant = $this->getUser();
+        $inscriptionsRepo = $em->getRepository(Inscriptions::class)->createQueryBuilder('pi')
+            ->andWhere('pi.sortieInscription = :id')
+            ->setParameter('id',$sortie->getNoSortie())
+            ->getQuery();
+        foreach($inscriptionsRepo->execute() as $inscriptions){
 
+            if($inscriptions->getParticipantInscription()->getNoParticipant() == $participant->getNoParticipant()){
+                $this->addFlash("already_inscrit", "Vous êtes déjà inscrit.");
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
         $inscription = new Inscriptions();
         $inscription->setParticipantInscription($participant);
         $inscription->setSortieInscription($sortie);
@@ -28,7 +38,7 @@ class InscriptionController extends Controller
         $em->persist($inscription);
         $em->flush();
 
-        $this->addFlash("success", "Vous êtes inscrit à la sortie");
+        $this->addFlash("inscrire", "Vous êtes inscrit à la sortie");
         return $this->redirect($request->headers->get('referer'));
     }
 
@@ -36,7 +46,7 @@ class InscriptionController extends Controller
      * @Route("/sortie/desinscription/{id_participant}/{id_sortie}", name="desinscription", requirements={"id_participant": "\d+","id_sortie": "\d+"})
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function desinscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie)
+    public function desinscrireSortie(EntityManagerInterface $em, int $id_participant, int $id_sortie, Request $request)
     {
         $repoInscription = $em->getRepository(Inscriptions::class);
         $inscription = $repoInscription->getInscriptionBySortieParticipantId($id_sortie,$id_participant);
@@ -44,7 +54,7 @@ class InscriptionController extends Controller
         $em->remove($inscription);
         $em->flush();
 
-        $this->addFlash("success", "Vous êtes désincrit de la sortie");
-        return $this->redirectToRoute("liste_sortie");
+        $this->addFlash("desinscrire", "Vous êtes désincrit de la sortie");
+        return $this->redirect($request->headers->get('referer'));
     }
 }
