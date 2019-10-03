@@ -106,11 +106,8 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col-6">
-                        {{ form_label(SortieForm.etatSortie) }}
                     </div>
                     <div class="col-6">
-                        {{ form_widget(SortieForm.etatSortie) }}
-                        {{ form_errors(SortieForm.etatSortie) }}
                     </div>
                 </div>
             </div>
@@ -130,33 +127,33 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col-6">
-                        {{ form_row(SortieForm) }}
+                        <label>Ville organisatrice :</label>
                     </div>
                     <div class="col-6">
-                        {{ form_row(SortieForm) }}
+                        <label>{{ VilleOrga }}</label>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        {{ form_row(SortieForm) }}
-                    </div>
-                    <div class="col-6">
-                        {{ form_row(SortieForm) }}
-                    </div>
-                </div>
-            </div>
+{#            <div class="col-6">#}
+{#                <div class="row">#}
+{#                    <div class="col-6">#}
+{#                        {{ form_row(SortieForm) }}#}
+{#                    </div>#}
+{#                    <div class="col-6">#}
+{#                        {{ form_row(SortieForm) }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
         </div>
         <div class="row">
             <div class="col-4">
-                <button type="submit">GO!</button>
+                <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>
             </div>
             <div class="col-4">
-                <button></button>
+                <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>
             </div>
             <div class="col-4">
-                <button></button>
+                <button type="reset">Annuler</button>
             </div>
         </div>
         {{ form_widget(SortieForm) }}

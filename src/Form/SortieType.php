@@ -51,15 +51,6 @@ class SortieType extends AbstractType
                 //Attribut utilisé pour l'affichage
                 'choice_label' => 'nomLieu'
             ))
-            ->add('etatSortie', EntityType::class, array(
-
-                'class' => Etats::class,
-                'label' => 'Etat de la sortie :',
-                'mapped' => false,
-                //Attribut utilisé pour l'affichage
-                'choice_label' => 'libelle'
-
-            ))
             ->add('siteSortie', EntityType::class, array(
 
                 'class' => Sites::class,

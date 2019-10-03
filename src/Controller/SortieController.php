@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etats;
 use App\Entity\Inscriptions;
 use App\Entity\Sites;
 use App\Entity\Sorties;
@@ -10,6 +11,7 @@ use App\Form\SortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -61,43 +63,62 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/add", name="ajouter_sortie")
      */
-    public function add(Request $request, EntityManagerInterface $em) {
+    public function add(Request $request, EntityManagerInterface $em)
+    {
         $sortie = new Sorties();
+        $etat = null;
 
-        $form = $this->createForm(SortieType::class,$sortie);
+        $form = $this->createForm(SortieType::class, $sortie);
 
-        $form->handleRequest($request);
+        $siteUser = $this->getUser()->getSiteParticipant()->getNomSite();
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
 
-            $em->persist($sortie);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->addFlash('success', 'Sortie successfully saved!');
-            return $this->redirectToRoute('liste_sortie');
+                if ($request->get('btn_enregistrer') == 'enregistrer') {
+                    $etat = $em->getRepository(Etats::class)->find(4);
+                    $sortie->setEtatSortie($etat);
+                } elseif ($request->get('btn_publier') == 'publier') {
+                    $etat = $em->getRepository(Etats::class)->find(1);
+                    $sortie->setEtatSortie($etat);
+                }
+
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success', 'Sortie successfully saved!');
+                return $this->redirectToRoute('liste_sortie');
+            }
         }
 
         return $this->render('Sortie/creation.html.twig', [
-            "SortieForm" => $form->createView()
+            "SortieForm" => $form->createView(),
+            "VilleOrga" => $siteUser
         ]);
+    }
+
+    public function remplisAction(Request $request) {
+
     }
 
     /**
      * @Route("/sortie/detail/{id}", name="detail_sortie", requirements={"id": "\d+"})
      */
-    public function detailSortie(int $id, EntityManagerInterface $em){
+    public function detailSortie(int $id, EntityManagerInterface $em)
+    {
         $repo = $em->getRepository(Sorties::class);
         $sortie = $repo->find($id);
         $repoInscription = $em->getRepository(Inscriptions::class);
         $inscriptions = $repoInscription->createQueryBuilder('pi')
             ->andWhere('pi.sortieInscription = :id')
-            ->setParameter('id',$sortie->getNoSortie())
+            ->setParameter('id', $sortie->getNoSortie())
             ->getQuery();
         $inscriptions = $inscriptions->execute();
 
 
-
-        if(is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE"){
+        if (is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE") {
             throw $this->createNotFoundException("Sortie non trouvée");
         }
         return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie, "inscriptions" => $inscriptions]);
