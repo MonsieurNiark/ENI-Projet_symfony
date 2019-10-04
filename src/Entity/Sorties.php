@@ -74,7 +74,7 @@ class Sorties
     /**
      * @var \App\Entity\Participants
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="sortiesOrganisateur")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="sortiesOrganisateur", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_participant")
      */
     private $organisateurSortie;
@@ -82,7 +82,7 @@ class Sorties
     /**
      * @var \App\Entity\Lieux
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Lieux", inversedBy="sortiesLieu")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Lieux", inversedBy="sortiesLieu",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_lieu")
      *
      */
@@ -91,7 +91,7 @@ class Sorties
     /**
      * @var \App\Entity\Etats
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Etats", inversedBy="sortiesEtat")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Etats", inversedBy="sortiesEtat",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_etat")
      */
     private $etatSortie;
@@ -99,7 +99,7 @@ class Sorties
     /**
      * @var \App\Entity\Sites
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="sortiesSite")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="sortiesSite",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_site")
      */
     private $siteSortie;
@@ -107,7 +107,7 @@ class Sorties
     /**
      * @var PersistentCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortieInscription")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortieInscription", cascade={"remove"})
      */
     private $inscriptionsSortie;
 
@@ -142,7 +142,7 @@ class Sorties
         return $this->datedebut;
     }
 
-    public function setDatedebut(DateTime $datedebut)
+    public function setDatedebut(\DateTime $datedebut)
     {
         $this->datedebut = $datedebut;
 
@@ -166,7 +166,7 @@ class Sorties
         return $this->datecloture;
     }
 
-    public function setDatecloture(Date $datecloture)
+    public function setDatecloture(\DateTime $datecloture)
     {
         $this->datecloture = $datecloture;
 

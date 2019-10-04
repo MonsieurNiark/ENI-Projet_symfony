@@ -79,7 +79,7 @@ class Participants implements UserInterface
     /**
      * @var \App\Entity\Sites
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="participantsSite")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="participantsSite", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_site")
      */
     private $siteParticipant;
@@ -87,14 +87,14 @@ class Participants implements UserInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="organisateurSortie")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="organisateurSortie", cascade={"remove"})
      */
     private $sortiesOrganisateur;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="participantInscription")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="participantInscription", cascade={"remove"})
      */
     private $inscriptionsParticipant;
 
