@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
+<form method="post" class="form-group">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -26,18 +26,18 @@
             <legend>Please sign in</legend>
 
             <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPseudo">Identifiant</label>
-                <div class="col-md-4">
-                    <input id="inputPseudo" name="pseudo" type="text" placeholder="pseudo" class="form-control input-md" value="{{ last_username }}" required autofocus>
+            <div>
+                <label for="inputPseudo">Identifiant</label>
+                <div>
+                    <input id="inputPseudo" name="pseudo" type="text" placeholder="pseudo"  value="{{ last_username }}" required autofocus>
                 </div>
             </div>
 
             <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPassword">Mot de passe</label>
-                <div class="col-md-4">
-                    <input id="inputPassword" name="password" type="password" placeholder="Mot de passe" class="form-control input-md" required>
+            <div>
+                <label  for="inputPassword">Mot de passe</label>
+                <div>
+                    <input id="inputPassword" name="password" type="password" placeholder="Mot de passe" required>
 
                 </div>
             </div>
@@ -49,13 +49,13 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
-        <div class="checkbox mb-3">
+        <div >
             <label>
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
 
-    <button class="btn btn-primary" type="submit">
+    <button type="submit">
         Sign in
     </button>
 </form>
