@@ -34,7 +34,7 @@ class SortieType extends AbstractType
             ->add('duree', NumberType::class, [
                 "label" => "Duree :"
             ])
-            ->add('datecloture', DateType::class, [
+            ->add('datecloture', DateTimeType::class, [
                 "label" => "Date de cloture des inscriptions :"
             ])
             ->add('nbinscriptionsmax', NumberType::class, [
@@ -53,6 +53,13 @@ class SortieType extends AbstractType
                 'label' => 'Site :',
                 'mapped' => false,
                 'choice_label' => 'nom_Site'
+            ))
+            ->add('lieuSortie', EntityType::class, array(
+
+                'class' => Lieux::class,
+                'label' => 'Lieu de la sortie :',
+                'mapped' => false,
+                'choice_label' => 'nom_lieu'
             ));
 
 //        $formModifier = function (FormInterface $form, Sites $site = null) {
