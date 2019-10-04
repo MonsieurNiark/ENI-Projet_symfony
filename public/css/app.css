@@ -149,3 +149,19 @@ span {
 .form-group label{ display:inline-block; width:23%  ; }
 
 .form-group input[type=submit] { color:#fff; background-color:green; }
+
+.btn-create-sort{
+    color: #fff;
+    background-color: #e75c4d;
+    border-color: #DC584A;
+}
+
+.btn-create-sort:hover{
+    color: #fff;
+    background-color: #D05548;
+    border-color: #C75245;
+}
+
+.btn-create-sort:focus, .btn-create-sort.focus {
+    box-shadow: 0 0 0 0.2rem rgba(208, 85, 72, 0.5);
+}

@@ -6,8 +6,7 @@
 
     <h1>Accueil Sortie.com</h1>
     {% include 'Sortie/form_filtre.html.twig' %}
-
-    <div>
+    <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -47,15 +46,14 @@
 
                         {% if inscription == true %}
                             - <a
-                                href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
-                            désincrire</a>
+                                href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Désincrire</a>
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% elseif sortie.datecloture|date('d/m/Y H:i') > "now"|date('d/m/Y H:i') %}
                             {% if sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
                                 {% if sortie.etatSortie.libelle != "EN_CREATION" %}
                                     {% if sortie.etatSortie.libelle != "FERMEE" %}
                                         - <a
-                                            href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                                            href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">Inscrire</a>
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
@@ -72,7 +70,4 @@
             </tbody>
         </table>
     </div>
-    <a href="{{ path('ajouter_sortie') }}" class="btn btn-info"><span
-                class="glyphicon glyphicon-pencil"></span> Créer une sortie</a>
-
 {% endblock %}
