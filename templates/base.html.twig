@@ -15,12 +15,12 @@
     <nav>
         <a href="{{ path('liste_sortie') }}"><img src="{{ asset('img/logo_2.png') }}" style="max-width:90%; max-height:90%;"> Accueil</a>
         {% if (is_granted("ROLE_ADMIN")) or (is_granted('ROLE_USER'))%}
-        <a href="{{ path('my_account') }}" >Mon profil</a>
-        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+            <a href="{{ path('my_account') }}" >Mon profil</a>
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
         {% endif %}
         {% if (is_granted("ROLE_ADMIN"))%}
-        <a href="{{ path('sites_list') }}">Sites</a>
-        <a href="#">Villes</a>
+            <a href="{{ path('sites_list') }}">Sites</a>
+            <a href="#">Villes</a>
         {% endif %}
 
         <div class="animation start-home"></div>
@@ -42,7 +42,7 @@
 </div>
 <footer>
     <div class="container">
-    © {{ "now"|date("Y") }} Sortir.com
+        © {{ "now"|date("Y") }} Sortir.com
     </div>
 </footer>
 </body>

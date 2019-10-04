@@ -24,6 +24,8 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+                default_target_path: liste_sortie
+                always_use_default_target_path: true
             guard:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
