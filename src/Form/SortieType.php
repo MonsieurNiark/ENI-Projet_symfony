@@ -47,19 +47,11 @@ class SortieType extends AbstractType
                 'label' => 'Ajout d\'une photo :',
                 'required' => false
             ))
-            ->add('siteSortie', EntityType::class, array(
-
-                'class' => Sites::class,
-                'label' => 'Site :',
-                'mapped' => false,
-                'choice_label' => 'nom_Site'
-            ))
             ->add('lieuSortie', EntityType::class, array(
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
-                'mapped' => false,
-                'choice_label' => 'nom_lieu'
+                'choice_label' => 'nomLieu'
             ));
 
 //        $formModifier = function (FormInterface $form, Sites $site = null) {

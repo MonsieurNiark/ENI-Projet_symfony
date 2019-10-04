@@ -114,10 +114,6 @@ class Sorties
     public function __construct()
     {
         $this->inscriptionsSortie = new ArrayCollection();
-        $this->siteSortie = new Sites();
-        $this->etatSortie = new Etats();
-        $this->lieuSortie = new Lieux();
-        $this->organisateurSortie = new Participants();
     }
 
     public function getNoSortie()

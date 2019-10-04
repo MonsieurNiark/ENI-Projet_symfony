@@ -62,7 +62,7 @@ class SortieController extends Controller
                 }
             }
 //            var_dump($sorties);
-        }else{
+        } else {
             $sorties = $sortiesTmp;
         }
         return $this->render("Sortie/afficher_liste.html.twig",
@@ -90,25 +90,24 @@ class SortieController extends Controller
 
         $siteUser = $this->getUser()->getSiteParticipant()->getNomSite();
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                if ($request->get('btn_enregistrer') == 'enregistrer') {
-                    $etat = $em->getRepository(Etats::class)->find(4);
-                    $sortie->setEtatSortie($etat);
-                } elseif ($request->get('btn_publier') == 'publier') {
-                    $etat = $em->getRepository(Etats::class)->find(1);
-                    $sortie->setEtatSortie($etat);
-                }
-
-                $em->persist($sortie);
-                $em->flush();
-
-                $this->addFlash('success', 'Sortie successfully saved!');
-                return $this->redirectToRoute('liste_sortie');
+            if ($request->get('btn_enregistrer') == 'enregistrer') {
+                $etat = $em->getRepository(Etats::class)->find(4);
+                $sortie->setEtatSortie($etat);
+            } elseif ($request->get('btn_publier') == 'publier') {
+                $etat = $em->getRepository(Etats::class)->find(1);
+                $sortie->setEtatSortie($etat);
             }
+            $sortie->setOrganisateurSortie($this->getUser());
+            $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success', 'Sortie successfully saved!');
+            return $this->redirectToRoute('liste_sortie');
         }
 
         return $this->render('Sortie/creation.html.twig', [
@@ -118,7 +117,8 @@ class SortieController extends Controller
         ]);
     }
 
-    public function remplisAction(Request $request) {
+    public function remplisAction(Request $request)
+    {
 
     }
 
