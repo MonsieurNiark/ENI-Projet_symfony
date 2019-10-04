@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+{% endblock %}
 {% block title %}{{ parent() }} | Accueil{% endblock %}
 
 {% block body %}
@@ -88,6 +96,9 @@
         </tr>
     </table>
 
+    <div id="mapid" style="height: 360px;"></div>
+
+
     <table class="table table-hover table-striped">
         <thead>
             <tr>
@@ -120,5 +131,23 @@
             });
         });
 
+        var longitude = {{ sortie.lieuSortie.longitude }};
+        var latitude = {{ sortie.lieuSortie.latitude }};
+        if (latitude == null || latitude == ''){
+
+        } else if (longitude == null ||longitude == ''){
+
+        } else {
+            var mymap = L.map('mapid').setView([latitude, longitude], 14);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1IjoibW9uc2lldXJuaWFyayIsImEiOiJjazFidTJ6cHMwZW84M25td21nYXFja3B2In0.48nSEalQQUx9Iq5BVgmt9A'
+            }).addTo(mymap);
+            var marker = L.marker([latitude, longitude]).addTo(mymap);
+        }
+
     </script>
+
 {% endblock %}
