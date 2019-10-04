@@ -30,14 +30,14 @@ class Sites
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="siteSortie")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="siteSortie", cascade={"remove"})
      */
     private $sortiesSite;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="siteParticipant")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="siteParticipant", cascade={"remove"})
      */
     private $participantsSite;
 

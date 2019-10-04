@@ -52,7 +52,7 @@ class Lieux
     /**
      * @var \App\Entity\Villes
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Villes", inversedBy="lieuxVille")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Villes", inversedBy="lieuxVille", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_ville")
      */
     private $villeLieu;
@@ -60,7 +60,7 @@ class Lieux
     /**
      * @var PersistentCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="lieuSortie")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="lieuSortie", cascade={"remove"})
      */
     private $sortiesLieu;
 

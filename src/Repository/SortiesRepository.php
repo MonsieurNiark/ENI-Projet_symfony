@@ -28,74 +28,80 @@ class SortiesRepository extends ServiceEntityRepository
      * @param int $idUtilisateur
      * @return mixed
      */
-    public function getSortieByFiltre(int $idSite, String $nomSortie, int $estOrga, int $estInscrit, int $estPasInscrit, int $sortiePassees, int $idUtilisateur){
+    public function getSortieByFiltre(int $idSite, String $nomSortie, int $estOrga, int $estInscrit, int $estPasInscrit, int $sortiePassees, int $idUtilisateur)
+    {
         $queryBuilder = $this->getSortiesVisible();
 
         /* **************** QUERY BUILDER **************** */
-        if($idSite != 0){
-            $queryBuilder->innerJoin('sortie.siteSortie','site')
-                ->addSelect('site')
-                ->andWhere('site.no_Site = :id_site');
-        }
-
-        if(!is_null($nomSortie) && !empty($nomSortie)){
-            $queryBuilder->andWhere('sortie.nom LIKE :nom_sortie');
-        }
-
-        if($estInscrit == 1 && $estPasInscrit == 0){
+        if ($estInscrit == 1 && $estPasInscrit == 0) {
             $queryBuilderInscrit = $this->getEntityManager()->getRepository(Inscriptions::class)
                 ->createQueryBuilder('insc')
                 ->select('sortie_ins.noSortie')
-                ->innerJoin('insc.sortieInscription','sortie_ins')
+                ->innerJoin('insc.sortieInscription', 'sortie_ins')
                 ->andWhere('insc.sortieInscription = sortie_ins.noSortie')
                 ->andWhere('insc.participantInscription IN (:id_inscrit)');
 
-            $queryBuilder->innerJoin('sortie.inscriptionsSortie','inscrit')
-                ->where($queryBuilder->expr()->in('sortie.noSortie',$queryBuilderInscrit->getDQL()));
+            $queryBuilder->andWhere($queryBuilder->expr()->in('sortie.noSortie', $queryBuilderInscrit->getDQL()));
         }
 
-        if($estPasInscrit == 1 && $estInscrit == 0){
+        if ($estPasInscrit == 1 && $estInscrit == 0) {
             $queryBuilderInscrit = $this->getEntityManager()->getRepository(Inscriptions::class)
                 ->createQueryBuilder('noinsc')
                 ->select('sortie_noins.noSortie')
-                ->innerJoin('noinsc.sortieInscription','sortie_noins')
+                ->innerJoin('noinsc.sortieInscription', 'sortie_noins')
                 ->andWhere('noinsc.sortieInscription = sortie_noins.noSortie')
                 ->andWhere('noinsc.participantInscription IN (:id_noinscrit)');
 
-            $queryBuilder->innerJoin('sortie.inscriptionsSortie','noinscrit')
-                ->where($queryBuilder->expr()->notIn('sortie.noSortie',$queryBuilderInscrit->getDQL()));
+            $queryBuilder->andWhere($queryBuilder->expr()->notIn('sortie.noSortie', $queryBuilderInscrit->getDQL()));
         }
 
-        if($estOrga == 1){
-            $queryBuilder->andWhere('sortie.organisateurSortie = :id_orga');
+        if ($estOrga == 1) {
+            if ($estPasInscrit == 1 || $estInscrit == 1) {
+                $queryBuilder->orWhere('sortie.organisateurSortie = :id_orga');
+            } else {
+                $queryBuilder->andWhere('sortie.organisateurSortie = :id_orga');
+            }
         }
 
-        if ($sortiePassees == 1){
-            $queryBuilder->andWhere('DATE_ADD(sortie.datedebut, sortie.duree, \'minute\') < :today');
+        if ($sortiePassees == 1) {
+            if ($estPasInscrit == 1 || $estInscrit == 1 || $estOrga == 1) {
+                $queryBuilder->orWhere('DATE_ADD(sortie.datedebut, sortie.duree, \'minute\') < :today');
+            } else {
+                $queryBuilder->andWhere('DATE_ADD(sortie.datedebut, sortie.duree, \'minute\') < :today');
+            }
+        }
+
+        if ($idSite != 0) {
+            $queryBuilder->innerJoin('sortie.siteSortie', 'site')
+                ->andWhere('site.no_Site = :id_site');
+        }
+
+        if (!is_null($nomSortie) && !empty($nomSortie)) {
+            $queryBuilder->andWhere('sortie.nom LIKE :nom_sortie');
         }
 
         /* **************** SET PARAMETER **************** */
-        if($idSite != 0){
-            $queryBuilder->setParameter('id_site',$idSite);
+        if ($idSite != 0) {
+            $queryBuilder->setParameter('id_site', $idSite);
         }
 
-        if(!is_null($nomSortie) && !empty($nomSortie)){
-            $queryBuilder->setParameter('nom_sortie','%'.$nomSortie.'%');
+        if (!is_null($nomSortie) && !empty($nomSortie)) {
+            $queryBuilder->setParameter('nom_sortie', '%' . $nomSortie . '%');
         }
 
-        if($estOrga == 1){
-            $queryBuilder->setParameter('id_orga',$idUtilisateur);
+        if ($estOrga == 1) {
+            $queryBuilder->setParameter('id_orga', $idUtilisateur);
         }
 
-        if($estInscrit == 1 && $estPasInscrit == 0){
-            $queryBuilder->setParameter('id_inscrit',$idUtilisateur);
+        if ($estInscrit == 1 && $estPasInscrit == 0) {
+            $queryBuilder->setParameter('id_inscrit', $idUtilisateur);
         }
 
-        if($estPasInscrit == 1 && $estInscrit == 0){
-            $queryBuilder->setParameter('id_noinscrit',$idUtilisateur);
+        if ($estPasInscrit == 1 && $estInscrit == 0) {
+            $queryBuilder->setParameter('id_noinscrit', $idUtilisateur);
         }
 
-        if ($sortiePassees == 1){
+        if ($sortiePassees == 1) {
             $queryBuilder->setParameter('today', new \DateTime("now"));
         }
 
@@ -103,7 +109,8 @@ class SortiesRepository extends ServiceEntityRepository
 
     }
 
-    public function getSortiesVisible(){
+    public function getSortiesVisible()
+    {
         $queryBuilder = $this->createQueryBuilder('sortie')
             ->innerJoin('sortie.etatSortie', 'etat')
             ->addSelect('etat')
