@@ -131,14 +131,11 @@
             });
         });
 
-        var longitude = {{ sortie.lieuSortie.longitude }};
-        var latitude = {{ sortie.lieuSortie.latitude }};
-        if (latitude == null || latitude == ''){
+        var latitude;
+        var longitude;
 
-        } else if (longitude == null ||longitude == ''){
-
-        } else {
-            var mymap = L.map('mapid').setView([latitude, longitude], 14);
+        function generateMap(latitude, longitude){
+            var mymap = L.map('mapid').setView([latitude,longitude], 14);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
@@ -146,6 +143,46 @@
                 accessToken: 'pk.eyJ1IjoibW9uc2lldXJuaWFyayIsImEiOiJjazFidTJ6cHMwZW84M25td21nYXFja3B2In0.48nSEalQQUx9Iq5BVgmt9A'
             }).addTo(mymap);
             var marker = L.marker([latitude, longitude]).addTo(mymap);
+
+        }
+
+        function Goto(address) {
+
+            var xmlhttp = new XMLHttpRequest();
+            var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + address;
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText!='[]') {
+                        var myArr = JSON.parse(this.responseText);
+                        console.log('latitude='+myArr[0]['lat']+' et longitude='+myArr[0]['lon']);
+                        latitude = myArr[0]['lat'];
+                        longitude = myArr[0]['lon'];
+                        var mymap = L.map('mapid').setView([latitude,longitude], 14);
+                        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            maxZoom: 18,
+                            id: 'mapbox.streets',
+                            accessToken: 'pk.eyJ1IjoibW9uc2lldXJuaWFyayIsImEiOiJjazFidTJ6cHMwZW84M25td21nYXFja3B2In0.48nSEalQQUx9Iq5BVgmt9A'
+                        }).addTo(mymap);
+                        var marker = L.marker([latitude, longitude]).addTo(mymap);
+                    }
+                    else {
+                        alert('pas trouvé');
+                    }
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+
+        }
+
+        if ("{{ sortie.lieuSortie.longitude }}" == "" || "{{ sortie.lieuSortie.latitude }}" == ""){
+            Goto("{{ sortie.lieuSortie.rue }} {{ sortie.lieuSortie.villeLieu.codePostal }} {{ sortie.lieuSortie.villeLieu.nomVille }}");
+            //generateMap(latitude,longitude);
+        } else {
+            var longitude = "{{ sortie.lieuSortie.longitude }}";
+            var latitude = "{{ sortie.lieuSortie.latitude }}";
+            generateMap(Number(latitude),Number(longitude));
         }
 
     </script>
