@@ -4,25 +4,26 @@
 namespace App\Controller;
 
 
+use App\Entity\Villes;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Sites;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SitesController extends Controller
+class VilleController extends Controller
 {
-
     /**
-     * @Route("/sites/list", name="sites_list")
+     * @Route("/villes/list", name="villes_list")
      */
     public function list(EntityManagerInterface $em){
 
-        $sites = $em->getRepository(Sites::class)->findAll();
+        $villes = $em->getRepository(Villes::class)->findAll();
 
 
-        return $this->render('Sites/list_villes.html.twig',[
-            'arraySites' => $sites
+        return $this->render('Villes/list_villes.html.twig',[
+            'arrayVilles' => $villes
         ]);
     }
+
+
 }
