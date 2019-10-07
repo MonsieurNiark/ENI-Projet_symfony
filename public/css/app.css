@@ -165,3 +165,19 @@ span {
 .btn-create-sort:focus, .btn-create-sort.focus {
     box-shadow: 0 0 0 0.2rem rgba(208, 85, 72, 0.5);
 }
+
+.btn-rech{
+    color: #fff;
+    background-color: #B9B9B7;
+    border-color: #BABAB7;
+}
+
+.btn-rech:hover{
+    color: #fff;
+    background-color: #A0A09D;
+    border-color: #9B9B99;
+}
+
+.btn-rech:focus, .btn-rech.focus {
+    box-shadow: 0 0 0 0.2rem rgba(151, 151, 149, 0.5);
+}
