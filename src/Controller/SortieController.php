@@ -130,4 +130,22 @@ class SortieController extends Controller
         }
         return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie, "inscriptions" => $inscriptions]);
     }
+
+    /**
+     * @Route("/sortie/annuler/{id}", name="annuler_sortie", requirements={"id": "\d+"})
+     */
+    public function annnulerSortie(EntityManagerInterface $em, Request $request, int $id){
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+        $etatAnnule = $em->getRepository(Etats::class)->find(7);
+
+        $motifAnnule = $request->request->get('motifAnnuleSortie');
+
+        $sortie->setDescriptioninfos($sortie->getDescriptioninfos().'\nMOTIF ANNULATION: '.$motifAnnule);
+        $sortie->setEtatSortie($etatAnnule);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute("liste_sortie");
+    }
 }
