@@ -23,6 +23,9 @@
         <tr>
             <td>Ville de rattachement : {{ user.siteparticipant.nomsite }}</td>
         </tr>
+        <tr>
+            <td> <img src=" {{app.request.basepath}}/photo/{{ user.getPhotoProfil() }}" /> </td>
+        </tr>
     </table>
 
 
