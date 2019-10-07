@@ -32,7 +32,6 @@ class ParticipantsController extends Controller
 
             $password = $passwordEncoder->encodePassword($participant, $participant->getPassword());
             $participant->setPassword($password);
-            $participant->setAdministrateur(0);
             $em->persist($participant);
             $em->flush();
 
@@ -47,13 +46,15 @@ class ParticipantsController extends Controller
     /**
      * @Route("/my_account", name="my_account")
      */
-    public function myAccount(Request $request, EntityManagerInterface $em)
+    public function myAccount(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $participant = $this->getUser();
         $form = $this->createForm(UpdateAccountType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($participant, $participant->getPassword());
+            $participant->setPassword($password);
             $em->persist($participant);
             $em->flush();
 
