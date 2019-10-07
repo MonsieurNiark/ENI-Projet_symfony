@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,6 +51,14 @@ class UpdateAccountType extends AbstractType
                 'second_options' => array('label' => 'Repetez le mot de passe : '),
                 'invalid_message' => 'Your passwords do not match!',
             ))
+            ->add('photoProfil', FileType::class, [
+                'data_class' => null,
+                'required' => false,
+                'label' => "Photo de profil",
+
+                'attr' => array(
+                    'accept' => 'image/*',
+                )]);
         ;
     }
 
