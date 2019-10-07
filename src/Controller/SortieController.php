@@ -5,9 +5,11 @@ namespace App\Controller;
 
 use App\Entity\Etats;
 use App\Entity\Inscriptions;
+use App\Entity\Lieux;
 use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Entity\Villes;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,42 +74,52 @@ class SortieController extends Controller
     public function add(Request $request, EntityManagerInterface $em)
     {
         $sortie = new Sorties();
+        $lieux = new Lieux();
         $etat = null;
 
-        $form = $this->createForm(SortieType::class, $sortie);
-
+        $form1 = $this->createForm(SortieType::class, $sortie);
+        $form2 = $this->createForm(LieuType::class, $lieux);
         $siteUser = $this->getUser()->getSiteParticipant()->getNomSite();
 
-        $form->handleRequest($request);
+        $form1->handleRequest($request);
+        $form2->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->getMethod() == 'POST') {
+            if ($form1->isSubmitted() && $form1->isValid()) {
 
-            if ($request->get('btn_enregistrer') == 'enregistrer') {
-                $etat = $em->getRepository(Etats::class)->find(4);
-                $sortie->setEtatSortie($etat);
-            } elseif ($request->get('btn_publier') == 'publier') {
-                $etat = $em->getRepository(Etats::class)->find(1);
-                $sortie->setEtatSortie($etat);
+                if ($request->get('btn_enregistrer') == 'enregistrer') {
+                    $etat = $em->getRepository(Etats::class)->find(4);
+                    $sortie->setEtatSortie($etat);
+                } elseif ($request->get('btn_publier') == 'publier') {
+                    $etat = $em->getRepository(Etats::class)->find(1);
+                    $sortie->setEtatSortie($etat);
+                }
+                $sortie->setOrganisateurSortie($this->getUser());
+                $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success', 'Sortie successfully saved!');
+                return $this->redirectToRoute('liste_sortie');
             }
-            $sortie->setOrganisateurSortie($this->getUser());
-            $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
-            $em->persist($sortie);
-            $em->flush();
-
-            $this->addFlash('success', 'Sortie successfully saved!');
-            return $this->redirectToRoute('liste_sortie');
         }
 
+        if ($request->get('btn_ajouter') == 'Ajouter') {
+            if ($form2->isSubmitted() && $form2->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($lieux);
+                $em->flush();
+                $this->addFlash('success', 'Lieux successfully saved!');
+            } else {
+                $this->addFlash('error', 'Lieux fail saved!');
+            }
+        }
         return $this->render('Sortie/creation.html.twig', [
-            "SortieForm" => $form->createView(),
+            "SortieForm" => $form1->createView(),
+            "LieuxForm" => $form2->createView(),
             "VilleOrga" => $siteUser,
             "AllVille" => $em->getRepository(Villes::class)->findAll()
         ]);
-    }
-
-    public function remplisAction(Request $request)
-    {
-
     }
 
     /**
