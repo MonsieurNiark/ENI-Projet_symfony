@@ -6,6 +6,8 @@
     {{ form_widget(UpdateForm, {attr: {class: 'form-group'} }) }}
     <button type="submit">Modifier</button>
     {{ form_end(UpdateForm) }}
+    <img src=" {{app.request.basepath}}/photo/{{ app.user.getPhotoProfil() }}" />
+
 {% endblock %}
 
 {% block javascripts %}
