@@ -7,8 +7,6 @@ use App\Entity\Inscriptions;
 use App\Entity\Sorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Integer;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use function Doctrine\ORM\QueryBuilder;
 
 class SortiesRepository extends ServiceEntityRepository
@@ -28,7 +26,7 @@ class SortiesRepository extends ServiceEntityRepository
      * @param int $idUtilisateur
      * @return mixed
      */
-    public function getSortieByFiltre(int $idSite, String $nomSortie, int $estOrga, int $estInscrit, int $estPasInscrit, int $sortiePassees, int $idUtilisateur)
+    public function getSortieByFiltre(int $idSite, String $nomSortie, int $estOrga, int $estInscrit, int $estPasInscrit, int $sortiePassees, String $dateDebutSortie, String $dateFinSortie, int $idUtilisateur)
     {
         $queryBuilder = $this->getSortiesVisible();
 
@@ -80,6 +78,14 @@ class SortiesRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('sortie.nom LIKE :nom_sortie');
         }
 
+        if (!empty($dateDebutSortie) && !empty($dateFinSortie)) {
+            $queryBuilder->andWhere('sortie.datedebut BETWEEN :dateDebut AND :dateFin');
+        } elseif (!empty($dateDebutSortie)) {
+            $queryBuilder->andWhere('sortie.datedebut >= :dateDebut');
+        } elseif (!empty($dateFinSortie)) {
+            $queryBuilder->andWhere('sortie.datedebut <= :dateFin');
+        }
+
         /* **************** SET PARAMETER **************** */
         if ($idSite != 0) {
             $queryBuilder->setParameter('id_site', $idSite);
@@ -103,6 +109,14 @@ class SortiesRepository extends ServiceEntityRepository
 
         if ($sortiePassees == 1) {
             $queryBuilder->setParameter('today', new \DateTime("now"));
+        }
+
+        if (!empty($dateDebutSortie)) {
+            $queryBuilder->setParameter('dateDebut', $dateDebutSortie);
+        }
+
+        if (!empty($dateFinSortie)) {
+            $queryBuilder->setParameter('dateFin', $dateFinSortie);
         }
 
         return $queryBuilder->getQuery()->getResult();

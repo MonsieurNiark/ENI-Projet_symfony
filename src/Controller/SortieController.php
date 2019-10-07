@@ -26,8 +26,7 @@ class SortieController extends Controller
         $repoSorties = $em->getRepository(Sorties::class);
         $repoSites = $em->getRepository(Sites::class);
 
-        $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery()->getResult();
-        $sorties = array();
+        $sorties = $repoSorties->getSortiesVisible()->getQuery()->getResult();
         $sites = $repoSites->findAll();
         $idSite = 0;
         $nomSortie = '';
@@ -35,6 +34,8 @@ class SortieController extends Controller
         $estInscrit = 0;
         $estPasInscrit = 0;
         $sortiePassees = 0;
+        $dateDebutSortie = null;
+        $dateFinSortie = null;
 
         if ($request->isMethod('POST')) {
             $idSite = $request->request->getInt('nomSite');
@@ -43,27 +44,12 @@ class SortieController extends Controller
             $estInscrit = $request->request->getInt('estInscrit');
             $estPasInscrit = $request->request->getInt('estPasInscrit');
             $sortiePassees = $request->request->getInt('sortiesPassees');
+            $dateDebutSortie = $request->request->get('debutDate');
+            $dateFinSortie = $request->request->get('finDate');
 
             $idUser = $this->getUser()->getNoParticipant();
 
-            $sortiesByFiltre = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $idUser);
-//            $idSort = array();
-//            var_dump($sortiesByFiltre);
-
-            foreach ($sortiesByFiltre as $sortieByFiltreTmp) {
-                $index = 0;
-                $sortieTrouve = false;
-                while ($index < count($sortiesTmp) && $sortieTrouve == false) {
-                    if ($sortieByFiltreTmp->getNoSortie() == $sortiesTmp[$index]->getNoSortie()) {
-                        array_push($sorties, $sortiesTmp[$index]);
-                        $sortieTrouve = true;
-                    }
-                    $index++;
-                }
-            }
-//            var_dump($sorties);
-        } else {
-            $sorties = $sortiesTmp;
+            $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie,$dateFinSortie,$idUser);
         }
         return $this->render("Sortie/afficher_liste.html.twig",
             [
@@ -74,7 +60,9 @@ class SortieController extends Controller
                 "estOrga" => $estOrga,
                 "estInscrit" => $estInscrit,
                 "estPasInscrit" => $estPasInscrit,
-                "sortiesPassees" => $sortiePassees
+                "sortiesPassees" => $sortiePassees,
+                "dateDebut" => $dateDebutSortie,
+                "dateFin" => $dateFinSortie
             ]);
     }
 

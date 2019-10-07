@@ -3,22 +3,27 @@
         <form action="{{ path('liste_sortie') }}" method="post">
             <div class="row">
                 <div class="col">
-                    <div>
-                        <label for="nomSite">Site : </label>
-                        <select id="nomSite" name="nomSite">
-                            <option value="">Tous</option>
-                            {% for site in sites %}
-                                {% set selected = '' %}
-                                {% if site.noSite == siteId %}
-                                    {% set selected = 'selected="selected"' %}
-                                {% endif %}
-                                <option value="{{ site.noSite }}" {{ selected }} >{{ site.nomSite }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="row">
+                        <label for="nomSite" class="col-md-6 control-label m-1">Site</label>
+                        <div class="col-md-5 m-1">
+                            <select id="nomSite" name="nomSite" class="form-control">
+                                <option value="">Tous</option>
+                                {% for site in sites %}
+                                    {% set selected = '' %}
+                                    {% if site.noSite == siteId %}
+                                        {% set selected = 'selected="selected"' %}
+                                    {% endif %}
+                                    <option value="{{ site.noSite }}" {{ selected }} >{{ site.nomSite }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label for="nomSortie">Nom de la sortie</label>
-                        <input type="text" id="nomSortie" name="nomSortie" value="{{ nomSortie }}"/>
+                    <div class="row">
+                        <label for="nomSortie" class="col-md-6 control-label m-1">Nom de la sortie</label>
+                        <div class="col-md-5 m-1">
+                            <input type="text" id="nomSortie" name="nomSortie" class="form-control input-md"
+                                   value="{{ nomSortie }}"/>
+                        </div>
                     </div>
                 </div>
                 <div class="col">
@@ -68,13 +73,27 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit">Rechercher</button>
+                    <button type="submit" class="btn btn-rech m-1">Rechercher</button>
+                    <a href="{{ path('liste_sortie') }}" class="btn btn-create-sort"><span
+                                class="glyphicon glyphicon-pencil"></span>Réinitialiser</a>
+                </div>
+            </div>
+            <div class="row">
+                <label for="debutDate" class="col-md-1 control-label m-1">Entre</label>
+                <div class="col-md-3  m-1">
+                    <input type="date" id="debutDate" name="debutDate" class="form-control"
+                           value="{{ dateDebut }}"/>
+                </div>
+                <label for="finDate" class="col-md-1 control-label m-1">et</label>
+                <div class="col-md-3  m-1">
+                    <input type="date" id="finDate" name="finDate" class="form-control"
+                           value="{{ dateFin }}"/>
                 </div>
             </div>
         </form>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-2">
         <a href="{{ path('ajouter_sortie') }}" class="btn btn-create-sort"><span
-                    class="glyphicon glyphicon-pencil"></span> Créer une sortie</a>
+                    class="glyphicon glyphicon-pencil"></span>Créer une sortie</a>
     </div>
 </div>
