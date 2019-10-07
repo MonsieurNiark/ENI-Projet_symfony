@@ -77,6 +77,12 @@ class Participants implements UserInterface
     private $actif;
 
     /**
+     * @var string
+     * @ORM\Column(name="photo_profil", type="string", nullable = true)
+     */
+    private $photo_profil;
+
+    /**
      * @var \App\Entity\Sites
      *
      * @ORM\ManyToOne(targetEntity="\App\Entity\Sites", inversedBy="participantsSite", cascade={"persist"})
@@ -97,6 +103,7 @@ class Participants implements UserInterface
      * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="participantInscription", cascade={"remove"})
      */
     private $inscriptionsParticipant;
+
 
     public function __construct()
     {
@@ -200,6 +207,18 @@ class Participants implements UserInterface
     public function setActif(bool $actif)
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    public function getPhotoProfil()
+    {
+        return $this->photo_profil;
+    }
+
+    public function setPhotoProfil(string $photo_profil)
+    {
+        $this->photo_profil = $photo_profil;
 
         return $this;
     }
