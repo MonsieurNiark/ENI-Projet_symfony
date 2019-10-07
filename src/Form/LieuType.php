@@ -21,12 +21,14 @@ class LieuType extends AbstractType
             ->add('rue', null, [
                 "label" => "rue :"
             ])
-            ->add('latitude', NumberType::class, [
-                "label" => "latitude :"
-            ])
-            ->add('longitude', NumberType::class, [
-                "label" => "longitude :"
-            ])
+            ->add('latitude', NumberType::class, array(
+                'label' => 'latitude :',
+                'required' => false
+            ))
+            ->add('longitude', NumberType::class, array(
+                'label' => 'longitude :',
+                'required' => false
+            ))
             ->add('villeLieu', EntityType::class, array(
                 'class' => Villes::class,
                 'label' => 'Villes : ',
