@@ -21,7 +21,7 @@ class Inscriptions
     /**
      * @var \App\Entity\Sorties
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Sorties", inversedBy="inscriptionsSortie")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Sorties", inversedBy="inscriptionsSortie", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_sortie")
      */
     private $sortieInscription;
@@ -29,7 +29,7 @@ class Inscriptions
     /**
      * @var \App\Entity\Participants
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="inscriptionsParticipant")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Participants", inversedBy="inscriptionsParticipant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false,referencedColumnName="no_participant")
      */
     private $participantInscription;

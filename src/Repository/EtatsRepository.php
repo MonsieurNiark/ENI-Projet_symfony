@@ -13,4 +13,11 @@ class EtatsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Etats::class);
     }
+
+    public function getEtatByLibelle(string $libelle){
+        $queryBuilder = $this->createQueryBuilder('etats')
+            ->andWhere('etats.libelle like :libelle')
+            ->setParameter('libelle', $libelle);
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

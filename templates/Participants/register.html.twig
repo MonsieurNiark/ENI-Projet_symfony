@@ -3,11 +3,10 @@
 {% block body %}
     <h1>Create your account!</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_start(form,{attr: {class: 'form-group'} }) }}
+    {{ form_widget(form,{attr: {class: 'form-group'} }) }}
     <button type="submit">Ajouter l'utilisateur</button>
     {{ form_end(form) }}
-
 {% endblock %}
 
 {% block javascripts %}

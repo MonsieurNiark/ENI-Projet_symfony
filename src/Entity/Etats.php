@@ -29,9 +29,16 @@ class Etats
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="etatSortie")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Sorties", mappedBy="etatSortie", cascade={"remove"})
      */
     private $sortiesEtat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="x_comment", type="text", nullable=true)
+     */
+    private $x_comment;
 
     public function __construct()
     {

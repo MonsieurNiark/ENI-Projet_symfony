@@ -36,7 +36,7 @@ class Villes
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Lieux", mappedBy="villeLieu")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Lieux", mappedBy="villeLieu", cascade={"remove"})
      */
     private $lieuxVille;
 

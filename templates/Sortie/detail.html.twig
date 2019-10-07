@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+{% endblock %}
 {% block title %}{{ parent() }} | Accueil{% endblock %}
 
 {% block body %}
 
-    <p class="h1" style="text-align: center; margin: 3% 3% 3% 3%">Afficher une sortie</p>
+    <h1>Afficher une sortie</h1>
 
     <table class="table table-bordered">
 
@@ -29,25 +37,67 @@
             <td>Latitude : {{ sortie.lieuSortie.latitude }}</td>
         </tr>
         <tr>
-            <td>Description et infos : {{ sortie.descriptioninfos }}</td>
+            <td>Description et infos : {{ sortie.etatSortie.libelle }} - {{ sortie.descriptioninfos }}</td>
             <td>Longitude : {{ sortie.lieuSortie.longitude }}</td>
         </tr>
         <tr>
             <td>
+                {% if sortie.etatSortie.libelle == "OUVERT" %}
+
                 {% set break = false %}
                 {% for inscriptions in inscriptions if not break %}
                     {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
-                <a href="{{ path('desinscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">Se
+                        <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
                     désincrire</a>
-                    {% set break = true %}
-                    {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                        {% set break = true %}
+                    {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant  %}
                     {% else %}
-                        <a href="{{ path('inscription', {'id_participant': app.user.noParticipant, 'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                        {% if sortie.inscriptionsSortie.count >= sortie.nbinscriptionsmax %}
+                        <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
+                {% if break == false and sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
+                <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+
+                {% endif %}
+                {% endif %}
+
+                {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                    {% if sortie.etatSortie.libelle == "EN_CREATION"  %}
+                        <a href="">Modifier</a>
+                        <a href="">Supprimer</a>
+                        {% endif %}
+                    {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
+                        <a href="">Annuler</a>
+                    {% endif %}
+                {% endif %}
+
+                {% for flash_message in app.session.flashBag.get('inscrire') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                {% for flash_message in app.session.flashBag.get('desinscrire') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                {% for flash_message in app.session.flashBag.get('already_inscrit') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
             </td>
         </tr>
     </table>
+
+    <div id="mapid" style="height: 360px;"></div>
+
 
     <table class="table table-hover table-striped">
         <thead>
@@ -81,5 +131,23 @@
             });
         });
 
+        var longitude = {{ sortie.lieuSortie.longitude }};
+        var latitude = {{ sortie.lieuSortie.latitude }};
+        if (latitude == null || latitude == ''){
+
+        } else if (longitude == null ||longitude == ''){
+
+        } else {
+            var mymap = L.map('mapid').setView([latitude, longitude], 14);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1IjoibW9uc2lldXJuaWFyayIsImEiOiJjazFidTJ6cHMwZW84M25td21nYXFja3B2In0.48nSEalQQUx9Iq5BVgmt9A'
+            }).addTo(mymap);
+            var marker = L.marker([latitude, longitude]).addTo(mymap);
+        }
+
     </script>
+
 {% endblock %}
