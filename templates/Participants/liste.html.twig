@@ -41,7 +41,7 @@
                     {% endif %}
                     {% set idName = 'estAdmin'~user.noParticipant %}
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input estAdmin" id="{{idName}}" name="{{idName}}" {{ checked }}>
+                        <input type="checkbox" class="custom-control-input estAdmin" id="{{idName}}" name="{{idName}}" {{ checked }} value="1">
                         <label class="custom-control-label" for="{{idName}}">Administrateur</label>
                     </div>
                 </td>
@@ -52,12 +52,18 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
         $( ".estAdmin" ).change(function() {
-            alert( "Handler for .change() called." );
+            var inputChange = this;
+            var idInput = inputChange.getAttribute('id');
+            alert( "Input called : " + idInput );
+            // Routing.generate('route_name');
         });
         $( ".estActif" ).change(function() {
             alert( "Handler for .change() called." );
+            // Routing.generate('route_name');
         });
     </script>
 {% endblock %}

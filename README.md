@@ -11,4 +11,10 @@ test new pushb2git
 
 http://www.sqlines.com/online  : conversion sql
 
-https://symfony.com/doc/master/bundles/FOSJsRoutingBundle/installation.html
+Installation nouveau bundle:
+- Créer une nouvelle variable d'environnement (user et admin)
+        nom: https_proxy
+        valeur: http://10.0.0.248:8080
+- Lancer PowerShell (le relancer si ouvert auparavant pour qu'il prenne la nouvelle variable)
+- Aller à la racine du projet
+- Lancer la commande: composer require friendsofsymfony/jsrouting-bundle
