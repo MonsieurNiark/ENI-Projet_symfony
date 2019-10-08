@@ -115,4 +115,40 @@ class ParticipantsController extends Controller
             "listeUsers" => $otherParticipants
         ]);
     }
+
+    /**
+     * @Route("/gestion/users/admin/{idUser}", name="devenir_admin", requirements={"idUser": "\d+"}, options = { "expose" = true })
+     */
+    public function devenirAdmin(EntityManagerInterface $em,int $idUser){
+        $user = $em->getRepository(Participants::class)->find($idUser);
+        $estAdmin = 1;
+
+        if($user->getAdministrateur() == 1){
+            $estAdmin = 0;
+        }
+        $user->setAdministrateur($estAdmin);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('gestion_users');
+    }
+
+    /**
+     * @Route("/gestion/users/actif/{idUser}", name="devenir_actif", requirements={"idUser": "\d+"}, options = { "expose" = true })
+     */
+    public function devenirActif(EntityManagerInterface $em,int $idUser){
+        $user = $em->getRepository(Participants::class)->find($idUser);
+        $estActif = 1;
+
+        if($user->getActif() == 1){
+            $estActif = 0;
+        }
+        $user->setActif($estActif);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('gestion_users');
+    }
 }

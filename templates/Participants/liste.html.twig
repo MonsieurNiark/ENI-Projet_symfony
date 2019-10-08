@@ -30,8 +30,9 @@
                             {% set checked = 'checked="checked"' %}
                         {% endif %}
                         {% set idName = 'estActif'~user.noParticipant %}
-                        <input type="checkbox" class="custom-control-input estActif" id="{{idName}}" name="{{idName}}" {{ checked }}>
-                        <label class="custom-control-label" for="{{idName}}">Actif</label>
+                        <input type="checkbox" class="custom-control-input estActif" id="{{ idName }}"
+                               value="{{ user.noParticipant }}" {{ checked }}>
+                        <label class="custom-control-label" for="{{ idName }}">Actif</label>
                     </div>
                 </td>
                 <td>
@@ -41,8 +42,9 @@
                     {% endif %}
                     {% set idName = 'estAdmin'~user.noParticipant %}
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input estAdmin" id="{{idName}}" name="{{idName}}" {{ checked }} value="1">
-                        <label class="custom-control-label" for="{{idName}}">Administrateur</label>
+                        <input type="checkbox" class="custom-control-input estAdmin" id="{{ idName }}"
+                               value="{{ user.noParticipant }}" {{ checked }}>
+                        <label class="custom-control-label" for="{{ idName }}">Administrateur</label>
                     </div>
                 </td>
             </tr>
@@ -55,15 +57,18 @@
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
-        $( ".estAdmin" ).change(function() {
+        $(".estAdmin").change(function () {
             var inputChange = this;
-            var idInput = inputChange.getAttribute('id');
-            alert( "Input called : " + idInput );
-            // Routing.generate('route_name');
+            var idInput = inputChange.getAttribute('value');
+            // alert( "Input called : " + idInput + " - " + valueInput);
+            window.location.href = Routing.generate('devenir_admin',{idUser: idInput});
         });
-        $( ".estActif" ).change(function() {
-            alert( "Handler for .change() called." );
-            // Routing.generate('route_name');
+
+        $(".estActif").change(function () {
+            var inputChange = this;
+            var idInput = inputChange.getAttribute('value');
+            // alert( "Input called : " + idInput + " - " + valueInput);
+            window.location.href = Routing.generate('devenir_actif', {idUser: idInput});
         });
     </script>
 {% endblock %}

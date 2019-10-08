@@ -7,3 +7,6 @@
 _errors:
   resource: "@TwigBundle/Resources/config/routing/errors.xml"
   prefix:   /_error
+
+fos_js_routing:
+  resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
