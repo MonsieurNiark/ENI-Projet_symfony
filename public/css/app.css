@@ -36,7 +36,7 @@ nav {
     margin: 27px auto 0;
 
     position: relative;
-    width: 610px;
+    width: 620px;
     height: 60px;
     background-color: rgba(167, 167, 164, 0.84);
     border-radius: 8px;
@@ -86,7 +86,7 @@ a:nth-child(3) {
     width: 150px;
 }
 a:nth-child(4) {
-    width: 100px;
+    width: 110px;
 }
 a:nth-child(5) {
     width: 100px;
@@ -107,13 +107,13 @@ nav .start-blog, a:nth-child(3):hover~.animation {
     background-color: #e75c4d;
 }
 nav .start-portefolio, a:nth-child(4):hover~.animation {
-    width: 100px;
-    left: 410px;
+    width: 120px;
+    left: 405px;
     background-color: #e75c4d;
 }
 nav .start-contact, a:nth-child(5):hover~.animation {
-    width: 100px;
-    left: 510px;
+    width: 90px;
+    left: 530px;
     background-color: #e75c4d;
 }
 

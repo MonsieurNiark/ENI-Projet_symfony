@@ -19,8 +19,8 @@
             <a href="{{ path('app_logout') }}">Se déconnecter</a>
         {% endif %}
         {% if (is_granted("ROLE_ADMIN"))%}
-            <a href="{{ path('sites_list') }}">Sites</a>
-            <a href="#">Villes</a>
+            <a href="{{ path('gestion_users') }}">Utilisateurs</a>
+            <a href="{{ path('villes_list') }}">Villes</a>
         {% endif %}
 
         <div class="animation start-home"></div>
