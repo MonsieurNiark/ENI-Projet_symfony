@@ -78,6 +78,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="pathajax" value="{{ path('ajax_sortie') }}"/>
         <div class="row">
             {#            <div class="col-6">#}
             {#                <div class="row">#}
@@ -97,7 +98,7 @@
                         <label>Villes :</label>
                     </div>
                     <div class="col-6">
-                        <select id="sortie_siteSortie">
+                        <select id="sortie_siteSortie" class="villeclass">
                             {% for ville in AllVille %}
                                 <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
                             {% endfor %}
@@ -128,7 +129,8 @@
                         {{ form_errors(SortieForm.lieuSortie) }}
                     </div>
                     <div class="col-1" style="padding-left: 0px;">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#LieuModal">+
+                        </button>
                     </div>
                 </div>
             </div>
@@ -168,11 +170,12 @@
         </div>
         {{ form_end(SortieForm) }}
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="LieuModal" tabindex="-1" role="dialog" aria-labelledby="LieuModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nouveau Lieu</h5>
+                    <h5 class="modal-title" id="LieuModalLabel">Nouveau Lieu</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -192,35 +195,37 @@
 {% endblock %}
 
 {% block javascripts %}
-        <script>
-            $('#exampleModal').on('shown.bs.modal', function () {
-                $('#myInput').trigger('focus')
-            })
-            // $(document).ready(function () {
-            //     console.log("ready!");
-            //     var $site = $('#sortie_siteSortie');
-            //     // When sport gets selected ...
-            //     $site.change(function () {
-            //         // ... retrieve the corresponding form.
-            //         var $form = $(this).closest('form');
-            //         // Simulate form data, but only include the selected sport value.
-            //         var data = {};
-            //         data[$site.attr('name')] = $site.val();
-            //         // Submit data via AJAX to the form's action path.
-            //         $.ajax({
-            //             url: $form.attr('action'),
-            //             type: $form.attr('method'),
-            //             data: data,
-            //             success: function (html) {
-            //                 // Replace current position field ...
-            //                 $('#sortie_lieuSortie').replaceWith(
-            //                     // ... with the returned one from the AJAX response.
-            //                     $(html).find('#sortie_lieuSortie')
-            //                 );
-            //                 // Position field now displays the appropriate positions.
-            //             }
-            //         });
-            //     });
-            // });
-        </script>
+    <script>
+        $('#LieuModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        });
+
+        $(document).ready(function () {
+            console.log("jQuery est prêt !");
+
+            $(".villeclass").change(function () {
+                mafonctionchange('lieux', 'ville');
+            }).trigger('change');
+
+            function mafonctionchange(selecteur, selecteurparent) {
+                $.ajax({
+                    url: $("#pathajax").val(),
+                    type: 'POST',
+                    data:
+                        {
+                            id: $("select." + selecteurparent + "class option:selected").val(),
+                            select: selecteur
+                        },
+                    dataType: 'json',
+                    success: function (reponse) {
+                        console.log(reponse);
+                        $('.lieuxclass').empty();
+                        $.each(reponse, function (index, element) {
+                            $('.lieuxclass').append('<option value="' + element.noLieu + '" selected="selected"> ' + element.nomLieu + ' </option>');
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}

@@ -15,4 +15,26 @@ class LieuxRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieux::class);
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getLieuxByVille(int $id)
+    {
+        $queryBuilder = $this->createQueryBuilder('lieux')
+            ->andWhere('lieux.villeLieu = :idVille')
+            ->setParameter('idVille', $id);
+
+        return $queryBuilder->getQuery()->execute();
+    }
+
+    public function lieux($id)
+    {
+        $qb = $this->createQueryBuilder('lieux')
+            ->where('lieux.villeLieu = :idville')
+            ->setParameter('idville', $id);
+
+        return $qb->getQuery()
+            ->getArrayResult();
+    }
 }
