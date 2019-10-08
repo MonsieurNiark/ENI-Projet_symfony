@@ -15,4 +15,17 @@ class VillesRepository extends ServiceEntityRepository
         parent::__construct($registry, Villes::class);
     }
 
+    public function getVilleByNameAndCP(String $name, String $cp){
+        $queryBuilder = $this->getEntityManager()->getRepository(Villes::class)
+            ->createQueryBuilder('villes')
+            ->andWhere('villes.nomVille like :nomVille')
+            ->andWhere('villes.codePostal like :codePostal')
+            ->setParameter('codePostal', $cp)
+            ->setParameter('nomVille', $name)
+            ->getQuery()
+            ->getResult();
+        return $queryBuilder[0];
+    }
+
+
 }

@@ -50,10 +50,19 @@
     <script>
     function closestFunction(actualelement){
         var e = actualelement.closest("tr");
-        var f = actualelement.closest("td");
         var ville = $(e).find("td:eq(0)").text();
         var codepostal = $(e).find("td:eq(1)").text();
-        alert(ville + codepostal);
+        $(e).replaceWith(
+            "<tr>" +
+              "<td colspan=\"3\"><form method='POST' action='{{ path('villes_update') }}'>" +
+               "<input type='text' value='"+ville+"' name='libelle_ville'/> " +
+              "<input type='text' value='"+codepostal+"' name='code_postal_ville'/> "+
+              "<button type='submit'>Valider</button>" +
+               "<input type='text' name='old_name' value='"+ville+"' style=\"display:none\"/>" +
+                "<input type='text' name='old_cp' value='"+codepostal+"' style=\"display:none\"/>" +
+                 "</form></td>"+
+              "</tr>"
+            );
     }
         </script>
 {% endblock %}

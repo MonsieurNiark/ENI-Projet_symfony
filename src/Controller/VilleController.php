@@ -9,11 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class VilleController extends Controller
 {
     /**
      * @Route("/villes/list", name="villes_list")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function list(EntityManagerInterface $em){
 
@@ -46,6 +48,19 @@ class VilleController extends Controller
         $repo = $em->getRepository(Villes::class);
         $ville = $repo->find($id);
         $em->remove($ville);
+        $em->flush();
+        return $this->redirectToRoute('villes_list');
+    }
+
+    /**
+     * @Route("/villes/update", name="villes_update")
+     */
+    public function update(EntityManagerInterface $em, Request $request){
+        $repo = $em->getRepository(Villes::class);
+        $ville = $repo->getVilleByNameAndCP($request->request->get('old_name'),$request->request->get('old_cp') );
+        $ville->setNomVille($request->request->get('libelle_ville'));
+        $ville->setCodePostal($request->request->get('code_postal_ville'));
+        $em->persist($ville);
         $em->flush();
         return $this->redirectToRoute('villes_list');
     }
