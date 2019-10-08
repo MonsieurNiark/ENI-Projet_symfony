@@ -25,47 +25,51 @@ class SortieController extends Controller
      */
     public function afficherListe(Request $request, EntityManagerInterface $em)
     {
-        $repoSorties = $em->getRepository(Sorties::class);
-        $repoSites = $em->getRepository(Sites::class);
+        if ($this->getUser() == null) {
+            return $this->redirectToRoute('login');
+        }else {
+            $repoSorties = $em->getRepository(Sorties::class);
+            $repoSites = $em->getRepository(Sites::class);
 
-        $sorties = $repoSorties->getSortiesVisible()->getQuery()->getResult();
-        $sites = $repoSites->findAll();
-        $idSite = 0;
-        $nomSortie = '';
-        $estOrga = 0;
-        $estInscrit = 0;
-        $estPasInscrit = 0;
-        $sortiePassees = 0;
-        $dateDebutSortie = null;
-        $dateFinSortie = null;
+            $sorties = $repoSorties->getSortiesVisible()->getQuery()->getResult();
+            $sites = $repoSites->findAll();
+            $idSite = 0;
+            $nomSortie = '';
+            $estOrga = 0;
+            $estInscrit = 0;
+            $estPasInscrit = 0;
+            $sortiePassees = 0;
+            $dateDebutSortie = null;
+            $dateFinSortie = null;
 
-        if ($request->isMethod('POST')) {
-            $idSite = $request->request->getInt('nomSite');
-            $nomSortie = $request->request->get('nomSortie');
-            $estOrga = $request->request->getInt('estOrganisateur');
-            $estInscrit = $request->request->getInt('estInscrit');
-            $estPasInscrit = $request->request->getInt('estPasInscrit');
-            $sortiePassees = $request->request->getInt('sortiesPassees');
-            $dateDebutSortie = $request->request->get('debutDate');
-            $dateFinSortie = $request->request->get('finDate');
+            if ($request->isMethod('POST')) {
+                $idSite = $request->request->getInt('nomSite');
+                $nomSortie = $request->request->get('nomSortie');
+                $estOrga = $request->request->getInt('estOrganisateur');
+                $estInscrit = $request->request->getInt('estInscrit');
+                $estPasInscrit = $request->request->getInt('estPasInscrit');
+                $sortiePassees = $request->request->getInt('sortiesPassees');
+                $dateDebutSortie = $request->request->get('debutDate');
+                $dateFinSortie = $request->request->get('finDate');
 
-            $idUser = $this->getUser()->getNoParticipant();
+                $idUser = $this->getUser()->getNoParticipant();
 
-            $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie,$dateFinSortie,$idUser);
+                $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie, $dateFinSortie, $idUser);
+            }
+            return $this->render("Sortie/afficher_liste.html.twig",
+                [
+                    "sorties" => $sorties,
+                    "sites" => $sites,
+                    "siteId" => $idSite,
+                    "nomSortie" => $nomSortie,
+                    "estOrga" => $estOrga,
+                    "estInscrit" => $estInscrit,
+                    "estPasInscrit" => $estPasInscrit,
+                    "sortiesPassees" => $sortiePassees,
+                    "dateDebut" => $dateDebutSortie,
+                    "dateFin" => $dateFinSortie
+                ]);
         }
-        return $this->render("Sortie/afficher_liste.html.twig",
-            [
-                "sorties" => $sorties,
-                "sites" => $sites,
-                "siteId" => $idSite,
-                "nomSortie" => $nomSortie,
-                "estOrga" => $estOrga,
-                "estInscrit" => $estInscrit,
-                "estPasInscrit" => $estPasInscrit,
-                "sortiesPassees" => $sortiePassees,
-                "dateDebut" => $dateDebutSortie,
-                "dateFin" => $dateFinSortie
-            ]);
     }
 
     /**
