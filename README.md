@@ -10,3 +10,5 @@ git config --global http.proxy http://proxy-sh.ad.campus-eni.fr:8080
 test new pushb2git 
 
 http://www.sqlines.com/online  : conversion sql
+
+https://symfony.com/doc/master/bundles/FOSJsRoutingBundle/installation.html
