@@ -15,4 +15,11 @@ class ParticipantsRepository extends ServiceEntityRepository
         parent::__construct($registry, Participants::class);
     }
 
+    public function getOtherUsers(int $idUser){
+        $queryBuilder = $this->createQueryBuilder('participant')
+            ->andWhere('participant.noParticipant != :idUser')
+            ->setParameter('idUser', $idUser);
+
+        return $queryBuilder->getQuery()->execute();
+    }
 }

@@ -103,4 +103,16 @@ class ParticipantsController extends Controller
         }
         return $this->render("Participants/user_detail.html.twig", ["user" => $participant[0]]);
     }
+
+    /**
+     * @Route("/gestion/users", name="gestion_users")
+     */
+    public function afficherListeParticipant(EntityManagerInterface $em){
+        $repoParticipant = $em->getRepository(Participants::class);
+        $idUser = $this->getUser()->getNoParticipant();
+        $otherParticipants = $repoParticipant->getOtherUsers($idUser);
+        return $this->render('Participants/liste.html.twig', [
+            "listeUsers" => $otherParticipants
+        ]);
+    }
 }
