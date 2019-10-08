@@ -51,7 +51,8 @@ class SortieType extends AbstractType
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
-                'choice_label' => 'nomLieu'
+                'choice_label' => 'nomLieu',
+                'attr' => array('class' => 'lieuxclass')
             ));
 
 //        $formModifier = function (FormInterface $form, Sites $site = null) {

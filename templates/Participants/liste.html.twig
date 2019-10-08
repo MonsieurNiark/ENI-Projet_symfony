@@ -11,8 +11,8 @@
             <th scope="col">Prénom</th>
             <th scope="col">E-Mail</th>
             <th scope="col">Téléphone</th>
-            <th scope="col">Compte actif</th>
-            <th scope="col">Compte administrateur</th>
+            <th scope="col">Actions</th>
+            {#            <th scope="col">Compte administrateur</th>#}
         </tr>
         </thead>
         <tbody>
@@ -24,33 +24,66 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.telephone }}</td>
                 <td>
-                    <div class="custom-control custom-switch">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="custom-control custom-switch">
+                                {% set checked = '' %}
+                                {% if user.actif == 1 %}
+                                    {% set checked = 'checked="checked"' %}
+                                {% endif %}
+                                {% set idName = 'estActif'~user.noParticipant %}
+                                <input type="checkbox" class="custom-control-input estActif" id="{{ idName }}"
+                                       value="{{ user.noParticipant }}" {{ checked }}>
+                                <label class="custom-control-label" for="{{ idName }}">Actif</label>
+                            </div>
+                        </div>
                         {% set checked = '' %}
-                        {% if user.actif == 1 %}
+                        {% if user.administrateur == 1 %}
                             {% set checked = 'checked="checked"' %}
                         {% endif %}
-                        {% set idName = 'estActif'~user.noParticipant %}
-                        <input type="checkbox" class="custom-control-input estActif" id="{{ idName }}"
-                               value="{{ user.noParticipant }}" {{ checked }}>
-                        <label class="custom-control-label" for="{{ idName }}">Actif</label>
-                    </div>
-                </td>
-                <td>
-                    {% set checked = '' %}
-                    {% if user.administrateur == 1 %}
-                        {% set checked = 'checked="checked"' %}
-                    {% endif %}
-                    {% set idName = 'estAdmin'~user.noParticipant %}
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input estAdmin" id="{{ idName }}"
-                               value="{{ user.noParticipant }}" {{ checked }}>
-                        <label class="custom-control-label" for="{{ idName }}">Administrateur</label>
+                        {% set idName = 'estAdmin'~user.noParticipant %}
+                        <div class="col-md-5">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input estAdmin" id="{{ idName }}"
+                                       value="{{ user.noParticipant }}" {{ checked }}>
+                                <label class="custom-control-label" for="{{ idName }}">Administrateur</label>
+                            </div>
+                        </div>
+                        {% set idModal = 'modal'~user.noParticipant%}
+                        <div class="col-md-3">
+                            <a data-toggle="modal" data-target="#{{idModal}}">
+                                <img src="{{asset('img/garbage_24.png')}}">
+                            </a>
+                        </div>
                     </div>
                 </td>
             </tr>
+
+            {% set idModalLabel = 'modalLabel'~user.noParticipant%}
+            <div class="modal fade" id="{{idModal}}" tabindex="-1" role="dialog" aria-labelledby="{{idModalLabel}}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="{{idModalLabel}}">Suppression</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Voulez-vous vraiment supprimer l'utilisateur ?
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-rech col-md-3" data-dismiss="modal">Non</a>
+                            <a href="{{ path('supprimer_user', {'idUser': user.noParticipant}) }}" class="btn btn-create-sort col-md-3">Oui</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -61,7 +94,7 @@
             var inputChange = this;
             var idInput = inputChange.getAttribute('value');
             // alert( "Input called : " + idInput + " - " + valueInput);
-            window.location.href = Routing.generate('devenir_admin',{idUser: idInput});
+            window.location.href = Routing.generate('devenir_admin', {idUser: idInput});
         });
 
         $(".estActif").change(function () {

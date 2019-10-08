@@ -12,6 +12,7 @@ use App\Entity\Villes;
 use App\Form\LieuType;
 use App\Form\SortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,7 @@ class SortieController extends Controller
     {
         if ($this->getUser() == null) {
             return $this->redirectToRoute('login');
-        }else {
+        } else {
             $repoSorties = $em->getRepository(Sorties::class);
             $repoSites = $em->getRepository(Sites::class);
 
@@ -88,6 +89,9 @@ class SortieController extends Controller
         $form1->handleRequest($request);
         $form2->handleRequest($request);
 
+//        if ($request->isMethod('POST')) {
+//            var_dump($form1);
+//        }
         if ($request->getMethod() == 'POST') {
             if ($form1->isSubmitted() && $form1->isValid()) {
 
@@ -127,6 +131,25 @@ class SortieController extends Controller
     }
 
     /**
+     * @Route("/sortie/add/change", name="ajax_sortie")
+     */
+    public function ajaxSortie(Request $request, EntityManagerInterface $em) {
+//        if ($request->isXmlHttpRequest()) // pour vérifier la présence d'une requete Ajax
+//        {
+            $id = $request->request->get('id');
+            $selecteur = $request->request->get('select');
+
+            if ($id != null) {
+                $data = $em->getRepository(Lieux::class)->$selecteur($id);
+//                    ->findBy(array('villeLieu' => $selecteur));
+                return new JsonResponse($data);
+            }
+//        }
+        $this->addFlash('error', 'NOOOOOOOOOOOOO..........');
+        return $this->render('Sortie/creation.html.twig');
+    }
+
+    /**
      * @Route("/sortie/detail/{id}", name="detail_sortie", requirements={"id": "\d+"})
      */
     public function detailSortie(int $id, EntityManagerInterface $em)
@@ -150,13 +173,14 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/annuler/{id}", name="annuler_sortie", requirements={"id": "\d+"})
      */
-    public function annnulerSortie(EntityManagerInterface $em, Request $request, int $id){
+    public function annnulerSortie(EntityManagerInterface $em, Request $request, int $id)
+    {
         $sortie = $em->getRepository(Sorties::class)->find($id);
         $etatAnnule = $em->getRepository(Etats::class)->find(7);
 
         $motifAnnule = $request->request->get('motifAnnuleSortie');
 
-        $sortie->setDescriptioninfos($sortie->getDescriptioninfos().'\nMOTIF ANNULATION: '.$motifAnnule);
+        $sortie->setDescriptioninfos($sortie->getDescriptioninfos() . '\nMOTIF ANNULATION: ' . $motifAnnule);
         $sortie->setEtatSortie($etatAnnule);
 
         $em->persist($sortie);
