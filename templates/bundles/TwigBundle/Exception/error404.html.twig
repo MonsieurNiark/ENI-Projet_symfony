@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Page non trouvé</h1>
+
+    <p style="color: black">
+        La page recherchée n'as pas pu être trouvé. Vérifiez l'url ou <a href="{{ path('login') }}">retournez à la page principale.</a>
+    </p>
+    <div>
+        {{ status_text }}
+
+    </div>
+{% endblock %}
