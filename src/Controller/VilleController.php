@@ -26,4 +26,27 @@ class VilleController extends Controller
     }
 
 
+    /**
+     * @Route("/villes/add", name="villes_add")
+     */
+    public function add(EntityManagerInterface $em, Request $request){
+        $ville = new Villes();
+        var_dump($request->request->get('libelle_ville'));
+        $ville->setNomVille($request->request->get('libelle_ville'));
+        $ville->setCodePostal($request->request->get('code_postal_ville'));
+        $em->persist($ville);
+        $em->flush();
+        return $this->redirectToRoute('villes_list');
+    }
+
+    /**
+     * @Route("/villes/delete/{id}", name="villes_delete", requirements={"id"})
+     */
+    public function delete(EntityManagerInterface $em, String $id){
+        $repo = $em->getRepository(Villes::class);
+        $ville = $repo->find($id);
+        $em->remove($ville);
+        $em->flush();
+        return $this->redirectToRoute('villes_list');
+    }
 }

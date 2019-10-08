@@ -4,14 +4,13 @@
 
 
     <h1>Gérer les villes <a href="{{ path('villes_list') }}" class="oi add-category" data-glyph="plus" title="Add site" data-toggle="tooltip" data-placement="right"></a></h1>
-    <!--
+
     <div class="villes-list">
-
         <table class="table table-striped  table-bordered">
-
             <thead>
                 <tr>
                     <th scope="col">Ville</th>
+                    <th scope="col">Code Postal</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -19,24 +18,34 @@
                 {% for villes in arrayVilles %}
                     <tr>
                     <td>{{ villes.nomVille }}</td>
+                        <td>{{ villes.codePostal }}</td>
                     <td><a href="#">
                             <span aria-hidden="true">Modifier</span>
                         </a>
                         -
-                        <a href="#">
+                        <a href="{{ path('villes_delete', {'id': villes.noVille}) }}">
                             <span aria-hidden="true">Supprimer</span>
                         </a>
-
                     </td>
                     </tr>
                 {% endfor %}
+            <tr>
+                <form action="{{ path('villes_add') }}" method="post">
+                    <td>
+                        <input type="text" id="_libelle_ville" name="libelle_ville">
+                    </td>
+                    <td>
+                        <input type="text" id="_code_postal_ville" name="code_postal_ville">
+                    </td>
+                    <td>
+                        <button type="submit">Ajouter</button>
+                    </td>
+                </form>
+            </tr>
+
             </tbody>
         </table>
-        -->
 
 
-
-{% endblock %}
-{% block javascripts %}
 
 {% endblock %}
