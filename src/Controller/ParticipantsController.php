@@ -151,4 +151,18 @@ class ParticipantsController extends Controller
 
         return $this->redirectToRoute('gestion_users');
     }
+
+    /**
+     * @Route("/gestion/users/supprimer/{idUser}", name="supprimer_user", requirements={"idUser": "\d+"})
+     */
+    public function supprimerParticipant(EntityManagerInterface $em, int $idUser){
+        $user = $em->getRepository(Participants::class)->find($idUser);
+        $flashbag = $this->get('session')->getFlashBag();
+
+        $em->remove($user);
+        $em->flush();
+
+        $flashbag->add("suppressionUser", "Utilisateur supprimé");
+        return $this->redirectToRoute('gestion_users');
+    }
 }
