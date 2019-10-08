@@ -23,7 +23,7 @@
                             <span aria-hidden="true">Modifier</span>
                         </a>
                         -
-                        <a href="{{ path('villes_delete', {'id': villes.noVille}) }}">
+                        <a href="{{ path('villes_delete', {'id': villes.noVille}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ? Toutes les sorties associées seront supprimées.');">
                             <span aria-hidden="true">Supprimer</span>
                         </a>
                     </td>
@@ -45,7 +45,9 @@
 
             </tbody>
         </table>
+{% endblock %}
+{% block javascripts %}
+    <script>
 
-
-
+        </script>
 {% endblock %}
