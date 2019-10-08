@@ -19,7 +19,7 @@
                     <tr>
                     <td>{{ villes.nomVille }}</td>
                         <td>{{ villes.codePostal }}</td>
-                    <td><a href="#">
+                    <td><a onclick="return closestFunction(this);">
                             <span aria-hidden="true">Modifier</span>
                         </a>
                         -
@@ -48,6 +48,12 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-
+    function closestFunction(actualelement){
+        var e = actualelement.closest("tr");
+        var f = actualelement.closest("td");
+        var ville = $(e).find("td:eq(0)").text();
+        var codepostal = $(e).find("td:eq(1)").text();
+        alert(ville + codepostal);
+    }
         </script>
 {% endblock %}
