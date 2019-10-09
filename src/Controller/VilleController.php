@@ -4,12 +4,12 @@
 namespace App\Controller;
 
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Villes;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class VilleController extends Controller
 {
@@ -30,6 +30,7 @@ class VilleController extends Controller
 
     /**
      * @Route("/villes/add", name="villes_add")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function add(EntityManagerInterface $em, Request $request){
         $ville = new Villes();
@@ -43,6 +44,7 @@ class VilleController extends Controller
 
     /**
      * @Route("/villes/delete/{id}", name="villes_delete", requirements={"id"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(EntityManagerInterface $em, String $id){
         $repo = $em->getRepository(Villes::class);
@@ -54,6 +56,7 @@ class VilleController extends Controller
 
     /**
      * @Route("/villes/update", name="villes_update")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function update(EntityManagerInterface $em, Request $request){
         $repo = $em->getRepository(Villes::class);

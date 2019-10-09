@@ -10,11 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class InscriptionController extends Controller
 {
     /**
      * @Route("/sortie/inscription/{id_sortie}", name="inscription", requirements={"id_sortie": "\d+"})
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function inscrireSortie(Request $request,EntityManagerInterface $em, int $id_sortie)
     {
@@ -54,6 +56,7 @@ class InscriptionController extends Controller
     /**
      * @Route("/sortie/desinscription/{id_sortie}", name="desinscription", requirements={"id_sortie": "\d+"})
      * @throws \Doctrine\ORM\NonUniqueResultException
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function desinscrireSortie(EntityManagerInterface $em, int $id_sortie, Request $request)
     {
