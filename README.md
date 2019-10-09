@@ -1,12 +1,12 @@
-# ENI-Projet_symfony
+ ENI-Projet_symfony
 
-#https://www.jetbrains.com/help/phpstorm/github.html add compte github
-#https://www.jetbrains.com/help/phpstorm/manage-projects-hosted-on-github.html add le projet
-#https://www.jetbrains.com/help/phpstorm/commit-and-push-changes.html commit push et tutti quanti 
+https://www.jetbrains.com/help/phpstorm/github.html add compte github
+https://www.jetbrains.com/help/phpstorm/manage-projects-hosted-on-github.html add le projet
+https://www.jetbrains.com/help/phpstorm/commit-and-push-changes.html commit push et tutti quanti 
 
-#git config --global http.proxy http://proxy-sh.ad.campus-eni.fr:8080
+git config --global http.proxy http://proxy-sh.ad.campus-eni.fr:8080
 
-#http://www.sqlines.com/online  : conversion sql
+http://www.sqlines.com/online  : conversion sql
 
 Installation nouveau bundle:
 - Créer une nouvelle variable d'environnement (user et admin)
