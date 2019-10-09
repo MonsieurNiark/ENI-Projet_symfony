@@ -234,8 +234,6 @@ class SortieController extends Controller
                 $em->persist($sortie);
                 $em->flush();
 
-                $id = $sortie->getNoSortie();
-
                 $this->addFlash('success', 'Sortie successfully saved!');
                 return $this->redirectToRoute('detail_sortie', ['id' => $id]);
             }

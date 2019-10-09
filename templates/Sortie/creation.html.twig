@@ -30,7 +30,7 @@
                 <button type="submit" name="btn_publier" value="publier" class="btn btn-publie-sort">Publier la sortie</button>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <button type="reset" class="btn btn-create-sort">Annuler</button>
+                <button class="btn btn-create-sort"><a href="{{ path('liste_sortie') }}" class="no-style-a">Annuler</a></button>
             </div>
         </div>
         {{ form_end(SortieForm) }}
