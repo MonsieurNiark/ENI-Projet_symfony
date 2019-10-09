@@ -145,11 +145,14 @@ class ParticipantsController extends Controller
      * @Route("/gestion/users/list_import", name="users_list_import")
      */
     public function listImport(Request $request, EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder){
+
         $filename = $_GET["filename"];
+        setcookie('filename', $filename);
         $fullpath= $this->getParameter('csv_directory');
         $fullpath=($fullpath.'\\'.$filename);
         $the_big_array = [];
         $siteRepo = $em->getRepository(Sites::class);
+        $participantRepo = $em->getRepository(Participants::class);
         if (($h = fopen("{$fullpath}", "r")) !== FALSE)
         {
             // Each line in the file is converted into an individual array that we call $data
@@ -163,9 +166,16 @@ class ParticipantsController extends Controller
             // Close the file
             fclose($h);
         }
+
         $newUsers = array();
         for ($c = 1; $c < count($the_big_array); $c++){
-            $participant = new Participants();
+            $participant = $participantRepo->findOneBy(array('pseudo' => $the_big_array[$c][1]));
+            if($participant == null){
+                $participant = new Participants();
+                $participant->setExistant(0);
+            } else {
+                $participant->setExistant(1);
+            }
             $participant->setSiteParticipant($siteRepo->find($the_big_array[$c][0]));
             $participant->setUsername($the_big_array[$c][1]);
             $participant->setNom($the_big_array[$c][2]);
@@ -189,12 +199,13 @@ class ParticipantsController extends Controller
      */
     public function validImport(Request $request, EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder){
 
-        $filename = $request->get("filename");
+        $filename = $_COOKIE['filename'];
         var_dump($filename);
         $fullpath= $this->getParameter('csv_directory');
         $fullpath=($fullpath.'\\'.$filename);
         $the_big_array = [];
         $siteRepo = $em->getRepository(Sites::class);
+        $participantRepo = $em->getRepository(Participants::class);
         if (($h = fopen("{$fullpath}", "r")) !== FALSE)
         {
             // Each line in the file is converted into an individual array that we call $data
@@ -209,8 +220,12 @@ class ParticipantsController extends Controller
             fclose($h);
         }
         for ($c = 1; $c < count($the_big_array); $c++){
-            var_dump($the_big_array[$c]);
-            $participant = new Participants();
+            //var_dump($the_big_array[$c]);
+            $participant = $participantRepo->findOneBy(array('pseudo' => $the_big_array[$c][1]));
+            if($participant == null){
+                $participant = new Participants();
+            }
+
             $participant->setSiteParticipant($siteRepo->find($the_big_array[$c][0]));
             $participant->setUsername($the_big_array[$c][1]);
             $participant->setNom($the_big_array[$c][2]);
@@ -224,6 +239,10 @@ class ParticipantsController extends Controller
             $em->persist($participant);
         }
         $em->flush();
+        $flashbag = $this->get('session')->getFlashBag();
+
+        $flashbag->add("import", "Les utilisateurs ont été importés.");
+        return $this->redirectToRoute('gestion_users');
     }
 
     /**
