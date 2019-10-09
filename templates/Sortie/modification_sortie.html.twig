@@ -132,7 +132,7 @@
                 <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>
             </div>
             <div class="col-3">
-                <button name="btn_supprimer" value="supprimer" class="btnsupp"><a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}" >Supprimer la sortie</a></button>
+                <button name="btn_supprimer" value="supprimer"><a href="{{ path('supprimer_sortie', {'id': sortie.noSortie}) }}" class="btnsupp">Supprimer la sortie</a></button>
             </div>
             <div class="col-3">
                 <button type="reset">Annuler</button>

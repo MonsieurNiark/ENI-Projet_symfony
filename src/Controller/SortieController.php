@@ -28,7 +28,7 @@ class SortieController extends Controller
      * @Route("/sortie/liste", name="liste_sortie")
      * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
-    public function afficherListe(Request $request, EntityManagerInterface $em,PaginatorInterface $paginator)
+    public function afficherListe(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
     {
         if ($this->getUser() == null) {
             return $this->redirectToRoute('login');
@@ -65,7 +65,7 @@ class SortieController extends Controller
 
             $sorties = $paginator->paginate(
                 $sortiesTmp,
-                $request->query->getInt('page',1),
+                $request->query->getInt('page', 1),
                 5
             );
 
@@ -102,23 +102,23 @@ class SortieController extends Controller
         $form1->handleRequest($request);
         $form2->handleRequest($request);
 
-            if ($form1->isSubmitted() && $form1->isValid()) {
+        if ($form1->isSubmitted() && $form1->isValid()) {
 
-                if ($request->get('btn_enregistrer') == 'enregistrer') {
-                    $etat = $em->getRepository(Etats::class)->find(4);
-                    $sortie->setEtatSortie($etat);
-                } elseif ($request->get('btn_publier') == 'publier') {
-                    $etat = $em->getRepository(Etats::class)->find(1);
-                    $sortie->setEtatSortie($etat);
-                }
-                $sortie->setOrganisateurSortie($this->getUser());
-                $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
-                $em->persist($sortie);
-                $em->flush();
-
-                $this->addFlash('success', 'Sortie successfully saved!');
-                return $this->redirectToRoute('liste_sortie');
+            if ($request->get('btn_enregistrer') == 'enregistrer') {
+                $etat = $em->getRepository(Etats::class)->find(4);
+                $sortie->setEtatSortie($etat);
+            } elseif ($request->get('btn_publier') == 'publier') {
+                $etat = $em->getRepository(Etats::class)->find(1);
+                $sortie->setEtatSortie($etat);
             }
+            $sortie->setOrganisateurSortie($this->getUser());
+            $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success', 'Sortie successfully saved!');
+            return $this->redirectToRoute('liste_sortie');
+        }
 
         if ($request->get('btn_ajouter') == 'Ajouter') {
             if ($form2->isSubmitted() && $form2->isValid()) {
@@ -253,5 +253,18 @@ class SortieController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('detail_sortie', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/sortie/delete/{id}", name="supprimer_sortie", requirements={"id": "\d+"})
+     */
+    public function supprimerSortie(EntityManagerInterface $em, Request $request, int $id)
+    {
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+
+        $em->remove($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('liste_sortie');
     }
 }
