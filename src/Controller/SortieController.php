@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Etats;
 use App\Entity\Inscriptions;
 use App\Entity\Lieux;
@@ -25,6 +26,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/liste", name="liste_sortie")
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function afficherListe(Request $request, EntityManagerInterface $em,PaginatorInterface $paginator)
     {
@@ -85,6 +87,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/add", name="ajouter_sortie")
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function add(Request $request, EntityManagerInterface $em)
     {
@@ -137,6 +140,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/add/change", name="ajax_sortie")
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function ajaxSortie(Request $request, EntityManagerInterface $em)
     {
@@ -156,6 +160,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/update/{id}", name="modifier_sortie", requirements={"id": "\d+"})
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      *
      */
     public function update(Request $request, EntityManagerInterface $em, int $id)
@@ -210,6 +215,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/detail/{id}", name="detail_sortie", requirements={"id": "\d+"})
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function detailSortie(int $id, EntityManagerInterface $em)
     {
@@ -231,6 +237,7 @@ class SortieController extends Controller
 
     /**
      * @Route("/sortie/annuler/{id}", name="annuler_sortie", requirements={"id": "\d+"})
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function annnulerSortie(EntityManagerInterface $em, Request $request, int $id)
     {

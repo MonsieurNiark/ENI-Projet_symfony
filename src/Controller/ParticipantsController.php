@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Participants;
 use App\Entity\Sites;
 use App\Form\ImportUserType;
@@ -22,6 +23,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/register", name="register")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function register(Request $request,
                              UserPasswordEncoderInterface $passwordEncoder,
@@ -48,6 +50,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/my_account", name="my_account")
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function myAccount(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -92,6 +95,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/user/{pseudo}",name="user_profile", requirements={"pseudo"})
+     * @IsGranted({"ROLE_ADMIN","ROLE_USER"})
      */
     public function detailParticipant(String $pseudo, EntityManagerInterface $em){
         $repo = $em->getRepository(Participants::class);
@@ -109,6 +113,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users", name="gestion_users")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function afficherListeParticipant(EntityManagerInterface $em, Request $request){
         $repoParticipant = $em->getRepository(Participants::class);
@@ -143,6 +148,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users/list_import", name="users_list_import")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listImport(Request $request, EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder){
 
@@ -196,6 +202,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users/valid_import", name="users_valid_import")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function validImport(Request $request, EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder){
 
@@ -247,6 +254,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users/admin/{idUser}", name="devenir_admin", requirements={"idUser": "\d+"}, options = { "expose" = true })
+     * @IsGranted("ROLE_ADMIN")
      */
     public function devenirAdmin(EntityManagerInterface $em,int $idUser){
         $user = $em->getRepository(Participants::class)->find($idUser);
@@ -265,6 +273,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users/actif/{idUser}", name="devenir_actif", requirements={"idUser": "\d+"}, options = { "expose" = true })
+     * @IsGranted("ROLE_ADMIN")
      */
     public function devenirActif(EntityManagerInterface $em,int $idUser){
         $user = $em->getRepository(Participants::class)->find($idUser);
@@ -283,6 +292,7 @@ class ParticipantsController extends Controller
 
     /**
      * @Route("/gestion/users/supprimer/{idUser}", name="supprimer_user", requirements={"idUser": "\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function supprimerParticipant(EntityManagerInterface $em, int $idUser){
         $user = $em->getRepository(Participants::class)->find($idUser);

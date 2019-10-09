@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Sites;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +16,7 @@ class SitesController extends Controller
 
     /**
      * @Route("/sites/list", name="sites_list")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function list(EntityManagerInterface $em){
 

@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Participants;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -69,6 +70,8 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Pseudo could not be found.');
+        } else if ($user->getActif() == 0){
+            throw new CustomUserMessageAuthenticationException('L\'utilisateur a été désactivé.');
         }
 
         return $user;
