@@ -42,94 +42,44 @@
         </tr>
         <tr>
             <td>
-                {% if sortie.etatSortie.libelle == "OUVERT" %}
+                {% if sortie.etatSortie.libelle == "ANNULEE" %}
+                    Motif d'annulation : {{ sortie.motifannulation }}
+                {% else %}
+                    {% if sortie.etatSortie.libelle == "OUVERT" %}
 
-                {% set break = false %}
-                {% for inscriptions in inscriptions if not break %}
-                    {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
-                        <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
-                    désincrire</a>
-                        {% set break = true %}
-                    {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant  %}
-                    {% else %}
-                        {% if sortie.inscriptionsSortie.count >= sortie.nbinscriptionsmax %}
-                        <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+                        {% set break = false %}
+                        {% for inscriptions in inscriptions if not break %}
+                            {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
+                                <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Se
+                                    désincrire</a>
+                                {% set break = true %}
+                            {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                            {% else %}
+                                {% if sortie.inscriptionsSortie.count >= sortie.nbinscriptionsmax %}
+                                    <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
+
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if break == false and sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
+                            <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
 
                         {% endif %}
                     {% endif %}
-                {% endfor %}
-                {% if break == false and sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
-                <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">S'inscrire</a>
 
-                {% endif %}
-                {% endif %}
-
-                {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
-                    {% if sortie.etatSortie.libelle == "EN_CREATION" %}
-                        <a href="">Modifier</a>
-                        <a href="">Supprimer</a>
+                    {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                        {% if sortie.etatSortie.libelle == "EN_CREATION" %}
+                            <a href="">Modifier</a>
+                            <a href="">Supprimer</a>
+                        {% endif %}
+                        {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
+                            <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
+                        {% endif %}
+                    {% elseif app.user.administrateur == 1 %}
+                        {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
+                            <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
+                        {% endif %}
                     {% endif %}
-                    {% if sortie.etatSortie.libelle == ("OUVERT" or "FERMEE") %}
-                        {#                        <a href="">Annuler</a>#}
-                        <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
-
-                        <div class="modal fade" id="modalAnnule" tabindex="-1" role="dialog"
-                             aria-labelledby="modalAnnuleLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalAnnuleLabel">Annulation de la sortie</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form action="{{ path('annuler_sortie', {'id': sortie.noSortie}) }}" method="post">
-                                        <div class="modal-body">
-                                            <label for="motifAnnuleSortie">Motif d'annulation</label>
-                                            <input type="text" id="motifAnnuleSortie" name="motifAnnuleSortie"
-                                                   class="form-control" required>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="#" class="btn btn-rech col-md-4" data-dismiss="modal">Fermer</a>
-                                            <button type="submit" class="btn btn-create-sort col-md-4">Annuler la
-                                                sortie
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endif %}
-
-                {% if app.user.administrateur == 1 and sortie.etatSortie.libelle != "ANNULEE" %}
-                    <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
-
-                    <div class="modal fade" id="modalAnnule" tabindex="-1" role="dialog"
-                         aria-labelledby="modalAnnuleLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalAnnuleLabel">Annulation de la sortie</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="{{ path('annuler_sortie', {'id': sortie.noSortie}) }}" method="post">
-                                    <div class="modal-body">
-                                        <label for="motifAnnuleSortie">Motif d'annulation</label>
-                                        <input type="text" id="motifAnnuleSortie" name="motifAnnuleSortie"
-                                               class="form-control" required>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="#" class="btn btn-rech col-md-4" data-dismiss="modal">Fermer</a>
-                                        <button type="submit" class="btn btn-create-sort col-md-4">Annuler la sortie
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 {% endif %}
 
                 {% for flash_message in app.session.flashBag.get('inscrire') %}
@@ -159,32 +109,61 @@
 
     <table class="table table-hover table-striped">
         <thead>
-            <tr>
-                <th scope="col">Pseudo</th>
-                <th scope="col">Nom</th>
-            </tr>
+        <tr>
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom</th>
+        </tr>
         </thead>
         <tbody>
-            {% for inscriptions in inscriptions %}
-                <tr style="cursor: pointer" data-href="{{ path('user_profile', {pseudo: inscriptions.participantInscription.username}) }}">
-                    <td>
-                        {{ inscriptions.participantInscription.username }}
-                    </td>
-                    <td>
-                        {{ inscriptions.participantInscription.nom }} {{ inscriptions.participantInscription.prenom }}
-                    </td>
-                </tr>
-            {% endfor %}
+        {% for inscriptions in inscriptions %}
+            <tr style="cursor: pointer"
+                data-href="{{ path('user_profile', {pseudo: inscriptions.participantInscription.username}) }}">
+                <td>
+                    {{ inscriptions.participantInscription.username }}
+                </td>
+                <td>
+                    {{ inscriptions.participantInscription.nom }} {{ inscriptions.participantInscription.prenom }}
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
+    <div class="modal fade" id="modalAnnule" tabindex="-1" role="dialog"
+         aria-labelledby="modalAnnuleLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAnnuleLabel">Annulation de la sortie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ path('annuler_sortie', {'id': sortie.noSortie}) }}"
+                      method="post">
+                    <div class="modal-body">
+                        <label for="motifAnnuleSortie">Motif d'annulation</label>
+                        <input type="text" id="motifAnnuleSortie" name="motifAnnuleSortie"
+                               class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-rech col-md-4"
+                           data-dismiss="modal">Fermer</a>
+                        <button type="submit" class="btn btn-create-sort col-md-4">Annuler la
+                            sortie
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script>
 
 
-        $(document).ready(function(){
-            $('tr[data-href]').on("click", function() {
+        $(document).ready(function () {
+            $('tr[data-href]').on("click", function () {
                 document.location = $(this).data('href');
             });
         });
@@ -192,8 +171,8 @@
         var latitude;
         var longitude;
 
-        function generateMap(latitude, longitude){
-            var mymap = L.map('mapid').setView([latitude,longitude], 14);
+        function generateMap(latitude, longitude) {
+            var mymap = L.map('mapid').setView([latitude, longitude], 14);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
@@ -208,14 +187,14 @@
 
             var xmlhttp = new XMLHttpRequest();
             var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + address;
-            xmlhttp.onreadystatechange = function() {
+            xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    if (this.responseText!='[]') {
+                    if (this.responseText != '[]') {
                         var myArr = JSON.parse(this.responseText);
-                        console.log('latitude='+myArr[0]['lat']+' et longitude='+myArr[0]['lon']);
+                        console.log('latitude=' + myArr[0]['lat'] + ' et longitude=' + myArr[0]['lon']);
                         latitude = myArr[0]['lat'];
                         longitude = myArr[0]['lon'];
-                        var mymap = L.map('mapid').setView([latitude,longitude], 14);
+                        var mymap = L.map('mapid').setView([latitude, longitude], 14);
                         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                             maxZoom: 18,
@@ -223,8 +202,7 @@
                             accessToken: 'pk.eyJ1IjoibW9uc2lldXJuaWFyayIsImEiOiJjazFidTJ6cHMwZW84M25td21nYXFja3B2In0.48nSEalQQUx9Iq5BVgmt9A'
                         }).addTo(mymap);
                         var marker = L.marker([latitude, longitude]).addTo(mymap);
-                    }
-                    else {
+                    } else {
 
                     }
                 }
@@ -234,13 +212,13 @@
 
         }
 
-        if ("{{ sortie.lieuSortie.longitude }}" == "" || "{{ sortie.lieuSortie.latitude }}" == ""){
+        if ("{{ sortie.lieuSortie.longitude }}" == "" || "{{ sortie.lieuSortie.latitude }}" == "") {
             Goto("{{ sortie.lieuSortie.rue }} {{ sortie.lieuSortie.villeLieu.codePostal }} {{ sortie.lieuSortie.villeLieu.nomVille }}");
             //generateMap(latitude,longitude);
         } else {
             var longitude = "{{ sortie.lieuSortie.longitude }}";
             var latitude = "{{ sortie.lieuSortie.latitude }}";
-            generateMap(Number(latitude),Number(longitude));
+            generateMap(Number(latitude), Number(longitude));
         }
 
     </script>

@@ -181,7 +181,7 @@ class SortieController extends Controller
 
         $motifAnnule = $request->request->get('motifAnnuleSortie');
 
-        $sortie->setDescriptioninfos($sortie->getDescriptioninfos() . ' MOTIF ANNULATION: ' . $motifAnnule);
+        $sortie->setMotifannulation($motifAnnule);
         $sortie->setEtatSortie($etatAnnule);
 
         $em->persist($sortie);
