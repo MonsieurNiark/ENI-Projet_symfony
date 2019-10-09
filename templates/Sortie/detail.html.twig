@@ -45,8 +45,15 @@
                 {% if sortie.etatSortie.libelle == "ANNULEE" %}
                     Motif d'annulation : {{ sortie.motifannulation }}
                 {% else %}
-                    {% if sortie.etatSortie.libelle == "OUVERT" %}
-
+                    {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
+                        {% if sortie.etatSortie.libelle == "EN_CREATION" %}
+                            <a href="">Modifier</a>
+                            <a href="">Supprimer</a>
+                        {% endif %}
+                        {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
+                            <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
+                        {% endif %}
+                    {% elseif sortie.etatSortie.libelle == "OUVERT" %}
                         {% set break = false %}
                         {% for inscriptions in inscriptions if not break %}
                             {% if app.user.noParticipant|trans == inscriptions.participantInscription.noparticipant %}
@@ -67,19 +74,12 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
-                        {% if sortie.etatSortie.libelle == "EN_CREATION" %}
-                            <a href="">Modifier</a>
-                            <a href="">Supprimer</a>
-                        {% endif %}
-                        {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
-                            <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
-                        {% endif %}
-                    {% elseif app.user.administrateur == 1 %}
+                    {% if app.user.administrateur == 1 %}
                         {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
                             <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
                         {% endif %}
                     {% endif %}
+
                 {% endif %}
 
                 {% for flash_message in app.session.flashBag.get('inscrire') %}

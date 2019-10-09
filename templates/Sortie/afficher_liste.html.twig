@@ -46,7 +46,7 @@
                     <td>
                         <a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}">Afficher</a>
 
-                        {% if inscription == true %}
+                        {% if inscription == true and app.user.noParticipant != sortie.organisateurSortie.noParticipant %}
                             <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Désincrire</a>
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% elseif sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
