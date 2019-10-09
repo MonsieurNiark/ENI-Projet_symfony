@@ -8,13 +8,12 @@ git config --global http.proxy http://proxy-sh.ad.campus-eni.fr:8080
 
 http://www.sqlines.com/online  : conversion sql
 
-Installation nouveau bundle:
+Installation nouveau bundle friendsofsymfony/jsrouting-bundle :
 - Créer une nouvelle variable d'environnement (user et admin)
         nom: https_proxy
         valeur: http://10.0.0.248:8080
 - Lancer PowerShell (le relancer si ouvert auparavant pour qu'il prenne la nouvelle variable)
-- Aller à la racine du projet
-- Lancer la commande: composer require friendsofsymfony/jsrouting-bundle
+- Installation du bundle : php bin/console assets:install --symlink public
 
 
 Configuration MySQL:

@@ -1,0 +1,66 @@
+<div class="modal fade" id="LieuModal" tabindex="-1" role="dialog" aria-labelledby="LieuModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LieuModalLabel">Nouveau Lieu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(LieuxForm) }}
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_label(LieuxForm.nomLieu) }}
+                    </div>
+                    <div class="col-5">
+                        {{ form_widget(LieuxForm.nomLieu) }}
+                        {{ form_errors(LieuxForm.nomLieu) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_label(LieuxForm.rue) }}
+                    </div>
+                    <div class="col-5">
+                        {{ form_widget(LieuxForm.rue) }}
+                        {{ form_errors(LieuxForm.rue) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_label(LieuxForm.latitude) }}
+                    </div>
+                    <div class="col-5">
+                        {{ form_widget(LieuxForm.latitude) }}
+                        {{ form_errors(LieuxForm.latitude) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_label(LieuxForm.longitude) }}
+                    </div>
+                    <div class="col-5">
+                        {{ form_widget(LieuxForm.longitude) }}
+                        {{ form_errors(LieuxForm.longitude) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_label(LieuxForm.villeLieu) }}
+                    </div>
+                    <div class="col-5">
+                        {{ form_widget(LieuxForm.villeLieu) }}
+                        {{ form_errors(LieuxForm.villeLieu) }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Fermer">Fermer</button>
+                <button type="submit" class="btn btn-primary" value="Ajouter" name='btn_ajouter'>Ajouter</button>
+            </div>
+        </div>
+        {{ form_end(LieuxForm) }}
+    </div>
+</div>
