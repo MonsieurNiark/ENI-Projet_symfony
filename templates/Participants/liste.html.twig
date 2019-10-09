@@ -3,6 +3,10 @@
 {% block body %}
 
     <h1>Gérer les utilisateurs</h1>
+    {{ form_start(uploadForm, {attr: {class: 'form-group'} }) }}
+    {{ form_widget(uploadForm, {attr: {class: 'form-group'} }) }}
+    <button type="submit">Envoyer</button>
+    {{ form_end(uploadForm) }}
     <table class="table table-striped  table-bordered">
         <thead>
         <tr>
