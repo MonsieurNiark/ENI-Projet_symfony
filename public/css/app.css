@@ -268,3 +268,13 @@ span {
     text-decoration: none;
     color: black;
 }
+
+.no-style-a{
+    color: #fff;
+    font-weight: normal;
+}
+
+.no-style-a:hover {
+    color: #fff;
+    text-decoration: none;
+}
