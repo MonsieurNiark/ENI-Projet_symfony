@@ -9,21 +9,6 @@
 
         {% include 'Sortie/form_sortie.html.twig' %}
 
-{#        <div class="row">#}
-{#            <div class="col-3">#}
-{#                <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>#}
-{#            </div>#}
-{#            <div class="col-3">#}
-{#                <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>#}
-{#            </div>#}
-{#            <div class="col-3">#}
-{#                <button name="btn_supprimer" value="supprimer"><a href="{{ path('supprimer_sortie', {'id': sortie.noSortie}) }}" class="btnsupp">Supprimer la sortie</a></button>#}
-{#            </div>#}
-{#            <div class="col-3">#}
-{#                <button type="reset">Annuler</button>#}
-{#            </div>#}
-{#        </div>#}
-
         <div class="row p-2">
             <div class="col  d-flex justify-content-center">
                 <button type="submit" name='btn_enregistrer' value="enregistrer" class="btn btn-enrg-sort">Enregistrer</button>
@@ -37,7 +22,7 @@
                 </button>
             </div>
             <div class="col d-flex justify-content-center">
-                <button type="reset" class="btn btn-create-sort">Annuler</button>
+                <button class="btn btn-create-sort"><a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}" class="no-style-a">Annuler</a></button>
             </div>
         </div>
 

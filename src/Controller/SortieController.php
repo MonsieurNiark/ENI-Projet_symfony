@@ -14,6 +14,7 @@ use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Form\UpdateSortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +104,27 @@ class SortieController extends Controller
         $form2->handleRequest($request);
 
         if ($form1->isSubmitted() && $form1->isValid()) {
+            $img_sortie = $form1['urlphoto']->getData();
+            if ($img_sortie) {
+                $originalFilename = pathinfo($img_sortie->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$img_sortie->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $img_sortie->move(
+                        $this->getParameter('sortie_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $sortie->setUrlphoto($newFilename);
+            }
 
             if ($request->get('btn_enregistrer') == 'enregistrer') {
                 $etat = $em->getRepository(Etats::class)->find(4);
@@ -116,8 +138,10 @@ class SortieController extends Controller
             $em->persist($sortie);
             $em->flush();
 
+            $id = $sortie->getNoSortie();
+
             $this->addFlash('success', 'Sortie successfully saved!');
-            return $this->redirectToRoute('liste_sortie');
+            return $this->redirectToRoute('detail_sortie', ['id' => $id]);
         }
 
         if ($request->get('btn_ajouter') == 'Ajouter') {
@@ -175,8 +199,28 @@ class SortieController extends Controller
         $form_up->handleRequest($request);
         $form_down->handleRequest($request);
 
-        if ($request->getMethod() == 'POST') {
             if ($form_up->isSubmitted() && $form_up->isValid()) {
+                $img_sortie = $form_up['urlphoto']->getData();
+                if ($img_sortie) {
+                    $originalFilename = pathinfo($img_sortie->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$img_sortie->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $img_sortie->move(
+                            $this->getParameter('sortie_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    $sortie->setUrlphoto($newFilename);
+                }
 
                 if ($request->get('btn_enregistrer') == 'enregistrer') {
                     $etat = $em->getRepository(Etats::class)->find(4);
@@ -190,8 +234,10 @@ class SortieController extends Controller
                 $em->persist($sortie);
                 $em->flush();
 
+                $id = $sortie->getNoSortie();
+
                 $this->addFlash('success', 'Sortie successfully saved!');
-                return $this->redirectToRoute('liste_sortie');
+                return $this->redirectToRoute('detail_sortie', ['id' => $id]);
             }
             if ($request->get('btn_ajouter') == 'Ajouter') {
                 if ($form_down->isSubmitted() && $form_down->isValid()) {
@@ -203,7 +249,6 @@ class SortieController extends Controller
                     $this->addFlash('error', 'Lieux fail saved!');
                 }
             }
-        }
         return $this->render('Sortie/modification_sortie.html.twig', [
             "SortieForm" => $form_up->createView(),
             "LieuxForm" => $form_down->createView(),
