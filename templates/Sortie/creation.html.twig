@@ -6,98 +6,91 @@
     {{ form_start(SortieForm) }}
 
     <div class="container-fluid">
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.nom) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.nom) }}
                         {{ form_errors(SortieForm.nom) }}
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.datedebut) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.datedebut) }}
                         {{ form_errors(SortieForm.datedebut) }}
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.duree) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.duree) }}
                         {{ form_errors(SortieForm.duree) }}
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.datecloture) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.datecloture) }}
                         {{ form_errors(SortieForm.datecloture) }}
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.nbinscriptionsmax) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.nbinscriptionsmax) }}
                         {{ form_errors(SortieForm.nbinscriptionsmax) }}
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.descriptioninfos) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.descriptioninfos) }}
                         {{ form_errors(SortieForm.descriptioninfos) }}
                     </div>
                 </div>
             </div>
         </div>
+
         <input type="hidden" id="pathajax" value="{{ path('ajax_sortie') }}"/>
+
         <div class="row">
-            {#            <div class="col-6">#}
-            {#                <div class="row">#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_label(SortieForm.siteSortie) }}#}
-            {#                    </div>#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_widget(SortieForm.siteSortie) }}#}
-            {#                        {{ form_errors(SortieForm.siteSortie) }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
-                        {#                        {{ form_label(SortieForm.siteSortie) }}#}
+                    <div class="col-md-4">
                         <label>Villes :</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         <select id="sortie_siteSortie" class="villeclass">
                             {% for ville in AllVille %}
                                 <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
@@ -107,65 +100,59 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.urlphoto) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.urlphoto) }}
                         {{ form_errors(SortieForm.urlphoto) }}
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         {{ form_label(SortieForm.lieuSortie) }}
                     </div>
-                    <div class="col-5">
+                    <div class="col-md-4">
                         {{ form_widget(SortieForm.lieuSortie) }}
                         {{ form_errors(SortieForm.lieuSortie) }}
                     </div>
-                    <div class="col-1" style="padding-left: 0px;">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#LieuModal">+
-                        </button>
+                    <div>
+                        <a data-toggle="modal" data-target="#LieuModal">
+                            <img src="{{asset('img/location_24.png')}}">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         <label>Ville organisatrice :</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         <label>{{ VilleOrga }}</label>
                     </div>
                 </div>
             </div>
-            {#            <div class="col-6">#}
-            {#                <div class="row">#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_row(SortieForm) }}#}
-            {#                    </div>#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_row(SortieForm) }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
         </div>
+
         <div class="row">
-            <div class="col-4">
-                <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>
+            <div class="col-md-4 d-flex justify-content-center">
+                <button type="submit" name='btn_enregistrer' value="enregistrer" class="btn btn-enrg-sort">Enregistrer</button>
             </div>
-            <div class="col-4">
-                <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>
+            <div class="col-md-4 d-flex justify-content-center">
+                <button type="submit" name="btn_publier" value="publier" class="btn btn-publie-sort">Publier la sortie</button>
             </div>
-            <div class="col-4">
-                <button type="reset">Annuler</button>
+            <div class="col-md-4 d-flex justify-content-center">
+                <button type="reset" class="btn btn-create-sort">Annuler</button>
             </div>
         </div>
         {{ form_end(SortieForm) }}
@@ -185,8 +172,8 @@
                     {{ form_widget(LieuxForm) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Fermer">Fermer</button>
-                    <button type="submit" class="btn btn-primary" value="Ajouter" name='btn_ajouter'>Ajouter</button>
+                    <button type="button" class="btn btn-rech" data-dismiss="modal" value="Fermer">Fermer</button>
+                    <button type="submit" class="btn btn-create-sort" value="Ajouter" name='btn_ajouter'>Ajouter</button>
                 </div>
             </div>
             {{ form_end(LieuxForm) }}

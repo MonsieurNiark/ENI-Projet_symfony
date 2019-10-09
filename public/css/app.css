@@ -185,6 +185,38 @@ span {
     box-shadow: 0 0 0 0.2rem rgba(208, 85, 72, 0.5);
 }
 
+.btn-publie-sort {
+     color: #fff;
+     background-color: #66B45A;
+     border-color: #5B9E51;
+ }
+
+.btn-publie-sort:hover {
+    color: #fff;
+    background-color: #4C8243;
+    border-color: #43733B;
+}
+
+.btn-publie-sort:focus, .btn-create-sort.focus {
+    box-shadow: 0 0 0 0.2rem rgba(52, 89, 46, 0.5);
+}
+
+.btn-enrg-sort {
+    color: #fff;
+    background-color: #4DA496;
+    border-color: #48998C;
+}
+
+.btn-enrg-sort:hover {
+    color: #fff;
+    background-color: #408277;
+    border-color: #3A756B;
+}
+
+.btn-enrg-sort:focus, .btn-create-sort.focus {
+    box-shadow: 0 0 0 0.2rem rgba(46, 91, 83, 0.5);
+}
+
 .btn-rech {
     color: #fff;
     background-color: #B9B9B7;
