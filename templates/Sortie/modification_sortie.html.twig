@@ -6,138 +6,41 @@
     {{ form_start(SortieForm) }}
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.nom) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.nom) }}
-                        {{ form_errors(SortieForm.nom) }}
-                    </div>
-                </div>
+
+        {% include 'Sortie/form_sortie.html.twig' %}
+
+{#        <div class="row">#}
+{#            <div class="col-3">#}
+{#                <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>#}
+{#            </div>#}
+{#            <div class="col-3">#}
+{#                <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>#}
+{#            </div>#}
+{#            <div class="col-3">#}
+{#                <button name="btn_supprimer" value="supprimer"><a href="{{ path('supprimer_sortie', {'id': sortie.noSortie}) }}" class="btnsupp">Supprimer la sortie</a></button>#}
+{#            </div>#}
+{#            <div class="col-3">#}
+{#                <button type="reset">Annuler</button>#}
+{#            </div>#}
+{#        </div>#}
+
+        <div class="row p-2">
+            <div class="col  d-flex justify-content-center">
+                <button type="submit" name='btn_enregistrer' value="enregistrer" class="btn btn-enrg-sort">Enregistrer</button>
             </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.datedebut) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.datedebut) }}
-                        {{ form_errors(SortieForm.datedebut) }}
-                    </div>
-                </div>
+            <div class="col d-flex justify-content-center">
+                <button type="submit" name="btn_publier" value="publier" class="btn btn-publie-sort">Publier la sortie</button>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.duree) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.duree) }}
-                        {{ form_errors(SortieForm.duree) }}
-                    </div>
-                </div>
+            <div class="col d-flex justify-content-center">
+                <button name="btn_supprimer" value="supprimer" class="btn btn-create-sort">
+                    <a href="{{ path('supprimer_sortie', {'id': sortie.noSortie}) }}" class="no-style-a">Supprimer la sortie</a>
+                </button>
             </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.datecloture) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.datecloture) }}
-                        {{ form_errors(SortieForm.datecloture) }}
-                    </div>
-                </div>
+            <div class="col d-flex justify-content-center">
+                <button type="reset" class="btn btn-create-sort">Annuler</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.nbinscriptionsmax) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.nbinscriptionsmax) }}
-                        {{ form_errors(SortieForm.nbinscriptionsmax) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.descriptioninfos) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.descriptioninfos) }}
-                        {{ form_errors(SortieForm.descriptioninfos) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <input type="hidden" id="pathajax" value="{{ path('ajax_sortie') }}"/>
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {#                        {{ form_label(SortieForm.siteSortie) }}#}
-                        <label>Villes :</label>
-                    </div>
-                    <div class="col-5">
-                        <select id="sortie_siteSortie" class="villeclass">
-                            {% for ville in AllVille %}
-                                <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.urlphoto) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.urlphoto) }}
-                        {{ form_errors(SortieForm.urlphoto) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5">
-                        {{ form_label(SortieForm.lieuSortie) }}
-                    </div>
-                    <div class="col-5">
-                        {{ form_widget(SortieForm.lieuSortie) }}
-                        {{ form_errors(SortieForm.lieuSortie) }}
-                    </div>
-                    <div class="col-1" style="padding-left: 0px;">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#LieuModal">+
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>
-            </div>
-            <div class="col-3">
-                <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>
-            </div>
-            <div class="col-3">
-                <button name="btn_supprimer" value="supprimer"><a href="{{ path('supprimer_sortie', {'id': sortie.noSortie}) }}" class="btnsupp">Supprimer la sortie</a></button>
-            </div>
-            <div class="col-3">
-                <button type="reset">Annuler</button>
-            </div>
-        </div>
+
         {{ form_end(SortieForm) }}
     </div>
     {% include 'Sortie/modal_ajout_lieux.html.twig' %}

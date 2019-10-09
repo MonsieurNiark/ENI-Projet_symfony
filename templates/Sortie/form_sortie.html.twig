@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.nom) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.nom) }}
+                {{ form_errors(SortieForm.nom) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.datedebut) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.datedebut) }}
+                {{ form_errors(SortieForm.datedebut) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.duree) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.duree) }}
+                {{ form_errors(SortieForm.duree) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.datecloture) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.datecloture) }}
+                {{ form_errors(SortieForm.datecloture) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.nbinscriptionsmax) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.nbinscriptionsmax) }}
+                {{ form_errors(SortieForm.nbinscriptionsmax) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.descriptioninfos) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.descriptioninfos) }}
+                {{ form_errors(SortieForm.descriptioninfos) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="pathajax" value="{{ path('ajax_sortie') }}"/>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <label>Villes :</label>
+            </div>
+            <div class="col-md-4">
+                <select id="sortie_siteSortie" class="villeclass">
+                    {% for ville in AllVille %}
+                        <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.urlphoto) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.urlphoto) }}
+                {{ form_errors(SortieForm.urlphoto) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_label(SortieForm.lieuSortie) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(SortieForm.lieuSortie) }}
+                {{ form_errors(SortieForm.lieuSortie) }}
+            </div>
+            <div>
+                <a data-toggle="modal" data-target="#LieuModal">
+                    <img src="{{asset('img/location_24.png')}}">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
