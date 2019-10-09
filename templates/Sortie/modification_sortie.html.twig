@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Créer une sortie</h1>
+    <h1>Modifier une sortie</h1>
 
     {{ form_start(SortieForm) }}
 
@@ -9,10 +9,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.nom) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.nom) }}
                         {{ form_errors(SortieForm.nom) }}
                     </div>
@@ -20,10 +20,10 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.datedebut) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.datedebut) }}
                         {{ form_errors(SortieForm.datedebut) }}
                     </div>
@@ -33,10 +33,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.duree) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.duree) }}
                         {{ form_errors(SortieForm.duree) }}
                     </div>
@@ -44,10 +44,10 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.datecloture) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.datecloture) }}
                         {{ form_errors(SortieForm.datecloture) }}
                     </div>
@@ -57,10 +57,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.nbinscriptionsmax) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.nbinscriptionsmax) }}
                         {{ form_errors(SortieForm.nbinscriptionsmax) }}
                     </div>
@@ -68,10 +68,10 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.descriptioninfos) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.descriptioninfos) }}
                         {{ form_errors(SortieForm.descriptioninfos) }}
                     </div>
@@ -80,24 +80,13 @@
         </div>
         <input type="hidden" id="pathajax" value="{{ path('ajax_sortie') }}"/>
         <div class="row">
-            {#            <div class="col-6">#}
-            {#                <div class="row">#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_label(SortieForm.siteSortie) }}#}
-            {#                    </div>#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_widget(SortieForm.siteSortie) }}#}
-            {#                        {{ form_errors(SortieForm.siteSortie) }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {#                        {{ form_label(SortieForm.siteSortie) }}#}
                         <label>Villes :</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <select id="sortie_siteSortie" class="villeclass">
                             {% for ville in AllVille %}
                                 <option value="{{ ville.noVille }}">{{ ville.nomVille }}</option>
@@ -110,10 +99,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.urlphoto) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_widget(SortieForm.urlphoto) }}
                         {{ form_errors(SortieForm.urlphoto) }}
                     </div>
@@ -121,7 +110,7 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         {{ form_label(SortieForm.lieuSortie) }}
                     </div>
                     <div class="col-5">
@@ -136,35 +125,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        <label>Ville organisatrice :</label>
-                    </div>
-                    <div class="col-6">
-                        <label>{{ VilleOrga }}</label>
-                    </div>
-                </div>
-            </div>
-            {#            <div class="col-6">#}
-            {#                <div class="row">#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_row(SortieForm) }}#}
-            {#                    </div>#}
-            {#                    <div class="col-6">#}
-            {#                        {{ form_row(SortieForm) }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
-        </div>
-        <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <button type="submit" name='btn_enregistrer' value="enregistrer">Enregistrer</button>
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <button type="submit" name="btn_publier" value="publier">Publier la sortie</button>
             </div>
-            <div class="col-4">
+            <div class="col-3">
+                <button name="btn_supprimer" value="supprimer" class="btnsupp"><a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}" >Supprimer la sortie</a></button>
+            </div>
+            <div class="col-3">
                 <button type="reset">Annuler</button>
             </div>
         </div>
@@ -182,7 +152,51 @@
                 </div>
                 <div class="modal-body">
                     {{ form_start(LieuxForm) }}
-                    {{ form_widget(LieuxForm) }}
+                    <div class="row">
+                        <div class="col-5">
+                            {{ form_label(LieuxForm.nomLieu) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(LieuxForm.nomLieu) }}
+                            {{ form_errors(LieuxForm.nomLieu) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            {{ form_label(LieuxForm.rue) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(LieuxForm.rue) }}
+                            {{ form_errors(LieuxForm.rue) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            {{ form_label(LieuxForm.latitude) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(LieuxForm.latitude) }}
+                            {{ form_errors(LieuxForm.latitude) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            {{ form_label(LieuxForm.longitude) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(LieuxForm.longitude) }}
+                            {{ form_errors(LieuxForm.longitude) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            {{ form_label(LieuxForm.villeLieu) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(LieuxForm.villeLieu) }}
+                            {{ form_errors(LieuxForm.villeLieu) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Fermer">Fermer</button>
@@ -201,4 +215,5 @@
         $('#LieuModal').on('shown.bs.modal', function () {
             $('#myInput').trigger('focus')
         });
+    </script>
 {% endblock %}

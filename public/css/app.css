@@ -1,8 +1,8 @@
-footer{
+footer {
     clear: both;
-    bottom:0;
-    width:100%;
-    padding-top:50px;
+    bottom: 0;
+    width: 100%;
+    padding-top: 50px;
     text-align: center;
 }
 
@@ -10,7 +10,7 @@ footer{
     background-color: #f3f3f3;
 
     border-radius: 8px;
-    box-shadow:  1px 1px 12px  #291914;
+    box-shadow: 1px 1px 12px #291914;
 
     position: relative;
     padding-right: 15px;
@@ -31,6 +31,7 @@ a {
     color: black;
     font-weight: bold;
 }
+
 nav {
     margin: 27px auto 0;
 
@@ -41,6 +42,7 @@ nav {
     border-radius: 8px;
     font-size: 0;
 }
+
 nav a {
     line-height: 60px;
     height: 100%;
@@ -54,6 +56,7 @@ nav a {
     color: white;
     cursor: pointer;
 }
+
 nav a:hover {
     line-height: 60px;
     height: 100%;
@@ -67,6 +70,7 @@ nav a:hover {
     color: white;
     cursor: pointer;
 }
+
 nav .animation {
     position: absolute;
     height: 100%;
@@ -75,42 +79,52 @@ nav .animation {
     transition: all .5s ease 0s;
     border-radius: 8px;
 }
+
 a:nth-child(1) {
     width: 150px;
 }
+
 a:nth-child(2) {
     width: 110px;
 }
+
 a:nth-child(3) {
     width: 150px;
 }
+
 a:nth-child(4) {
     width: 110px;
 }
+
 a:nth-child(5) {
     width: 100px;
 }
-nav .start-home, a:nth-child(1):hover~.animation {
+
+nav .start-home, a:nth-child(1):hover ~ .animation {
     width: 150px;
     left: 0;
     background-color: #e75c4d;
 }
-nav .start-about, a:nth-child(2):hover~.animation {
+
+nav .start-about, a:nth-child(2):hover ~ .animation {
     width: 110px;
     left: 150px;
     background-color: #e75c4d;
 }
-nav .start-blog, a:nth-child(3):hover~.animation {
+
+nav .start-blog, a:nth-child(3):hover ~ .animation {
     width: 150px;
     left: 260px;
     background-color: #e75c4d;
 }
-nav .start-portefolio, a:nth-child(4):hover~.animation {
+
+nav .start-portefolio, a:nth-child(4):hover ~ .animation {
     width: 120px;
     left: 405px;
     background-color: #e75c4d;
 }
-nav .start-contact, a:nth-child(5):hover~.animation {
+
+nav .start-contact, a:nth-child(5):hover ~ .animation {
     width: 90px;
     left: 530px;
     background-color: #e75c4d;
@@ -132,7 +146,7 @@ p {
     width: 100%;
     text-align: center;
     color: #ecf0f1;
-    font-family: 'Cherry Swash',cursive;
+    font-family: 'Cherry Swash', cursive;
     font-size: 16px;
 }
 
@@ -141,21 +155,27 @@ span {
 }
 
 .form-group input {
-    display:inline-block;
+    display: inline-block;
     width: 30%;
 }
 
-.form-group label{ display:inline-block; width:23%  ; }
+.form-group label {
+    display: inline-block;
+    width: 23%;
+}
 
-.form-group input[type=submit] { color:#fff; background-color:green; }
+.form-group input[type=submit] {
+    color: #fff;
+    background-color: green;
+}
 
-.btn-create-sort{
+.btn-create-sort {
     color: #fff;
     background-color: #e75c4d;
     border-color: #DC584A;
 }
 
-.btn-create-sort:hover{
+.btn-create-sort:hover {
     color: #fff;
     background-color: #D05548;
     border-color: #C75245;
@@ -165,13 +185,13 @@ span {
     box-shadow: 0 0 0 0.2rem rgba(208, 85, 72, 0.5);
 }
 
-.btn-rech{
+.btn-rech {
     color: #fff;
     background-color: #B9B9B7;
     border-color: #BABAB7;
 }
 
-.btn-rech:hover{
+.btn-rech:hover {
     color: #fff;
     background-color: #A0A09D;
     border-color: #9B9B99;
@@ -205,4 +225,14 @@ span {
 
 .page-item.disabled .page-link {
     color: rgb(151, 151, 149);
+}
+
+.btnsupp {
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.btnsupp:hover {
+    text-decoration: none;
+    color: black;
 }

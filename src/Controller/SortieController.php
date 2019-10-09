@@ -11,6 +11,7 @@ use App\Entity\Sorties;
 use App\Entity\Villes;
 use App\Form\LieuType;
 use App\Form\SortieType;
+use App\Form\UpdateSortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -98,10 +99,6 @@ class SortieController extends Controller
         $form1->handleRequest($request);
         $form2->handleRequest($request);
 
-//        if ($request->isMethod('POST')) {
-//            var_dump($form1);
-//        }
-        if ($request->getMethod() == 'POST') {
             if ($form1->isSubmitted() && $form1->isValid()) {
 
                 if ($request->get('btn_enregistrer') == 'enregistrer') {
@@ -119,7 +116,6 @@ class SortieController extends Controller
                 $this->addFlash('success', 'Sortie successfully saved!');
                 return $this->redirectToRoute('liste_sortie');
             }
-        }
 
         if ($request->get('btn_ajouter') == 'Ajouter') {
             if ($form2->isSubmitted() && $form2->isValid()) {
@@ -144,19 +140,72 @@ class SortieController extends Controller
      */
     public function ajaxSortie(Request $request, EntityManagerInterface $em)
     {
-//        if ($request->isXmlHttpRequest()) // pour vérifier la présence d'une requete Ajax
-//        {
-        $id = $request->request->get('id');
-        $selecteur = $request->request->get('select');
+        if ($request->isXmlHttpRequest()) // pour vérifier la présence d'une requete Ajax
+        {
+            $id = $request->request->get('id');
+            $selecteur = $request->request->get('select');
 
-        if ($id != null) {
-            $data = $em->getRepository(Lieux::class)->$selecteur($id);
-//                    ->findBy(array('villeLieu' => $selecteur));
-            return new JsonResponse($data);
+            if ($id != null) {
+                $data = $em->getRepository(Lieux::class)->$selecteur($id);
+                return new JsonResponse($data);
+            }
         }
-//        }
         $this->addFlash('error', 'NOOOOOOOOOOOOO..........');
-        return $this->render('Sortie/creation.html.twig');
+        return $this->redirectToRoute('liste_sortie');
+    }
+
+    /**
+     * @Route("/sortie/update/{id}", name="modifier_sortie", requirements={"id": "\d+"})
+     *
+     */
+    public function update(Request $request, EntityManagerInterface $em, int $id)
+    {
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+        $lieux = new Lieux();
+        $etat = null;
+
+        $form_up = $this->createForm(UpdateSortieType::class, $sortie);
+        $form_down = $this->createForm(LieuType::class, $lieux);
+
+        $form_up->handleRequest($request);
+        $form_down->handleRequest($request);
+
+        if ($request->getMethod() == 'POST') {
+            if ($form_up->isSubmitted() && $form_up->isValid()) {
+
+                if ($request->get('btn_enregistrer') == 'enregistrer') {
+                    $etat = $em->getRepository(Etats::class)->find(4);
+                    $sortie->setEtatSortie($etat);
+                } elseif ($request->get('btn_publier') == 'publier') {
+                    $etat = $em->getRepository(Etats::class)->find(1);
+                    $sortie->setEtatSortie($etat);
+                }
+                $sortie->setOrganisateurSortie($this->getUser());
+                $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success', 'Sortie successfully saved!');
+                return $this->redirectToRoute('liste_sortie');
+            }
+            if ($request->get('btn_ajouter') == 'Ajouter') {
+                if ($form_down->isSubmitted() && $form_down->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($lieux);
+                    $em->flush();
+                    $this->addFlash('success', 'Lieux successfully saved!');
+                } else {
+                    $this->addFlash('error', 'Lieux fail saved!');
+                }
+            }
+        }
+        return $this->render('Sortie/modification_sortie.html.twig', [
+            "SortieForm" => $form_up->createView(),
+            "LieuxForm" => $form_down->createView(),
+            "AllVille" => $em->getRepository(Villes::class)->findAll(),
+            "sortie" => $sortie
+        ]);
+
     }
 
     /**
