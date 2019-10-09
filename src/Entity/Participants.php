@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -104,11 +105,21 @@ class Participants implements UserInterface
      */
     private $inscriptionsParticipant;
 
+    private $existant;
 
     public function __construct()
     {
         $this->sortiesOrganisateur = new ArrayCollection();
     }
+
+    public function isExistant(){
+        return $this->existant;
+    }
+
+    public function setExistant(int $existant){
+        $this->existant = $existant;
+    }
+
 
     public function getNoParticipant()
     {
