@@ -45,17 +45,11 @@
                         <a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}">Afficher</a>
 
                         {% if inscription == true %}
-                            - <a
-                                href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Désincrire</a>
+                            <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Désincrire</a>
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
-                        {% elseif sortie.datecloture|date('d/m/Y H:i') > "now"|date('d/m/Y H:i') %}
-                            {% if sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
-                                {% if sortie.etatSortie.libelle != "EN_CREATION" %}
-                                    {% if sortie.etatSortie.libelle != "FERMEE" %}
-                                        - <a
-                                            href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">Inscrire</a>
-                                    {% endif %}
-                                {% endif %}
+                        {% elseif sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
+                            {% if sortie.etatSortie.libelle == "OUVERT" %}
+                                <a href="{{ path('inscription', {'id_sortie' : sortie.noSortie}) }}">Inscrire</a>
                             {% endif %}
                         {% endif %}
                     </td>

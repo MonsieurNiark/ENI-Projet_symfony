@@ -67,6 +67,13 @@ class Sorties
     /**
      * @var string|null
      *
+     * @ORM\Column(name="motifannulation", type="string", length=500, nullable=true)
+     */
+    private $motifannulation;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
      */
     private $urlphoto;
@@ -271,5 +278,21 @@ class Sorties
     public function setInscriptionsSortie(PersistentCollection $inscriptionsSortie)
     {
         $this->inscriptionsSortie = $inscriptionsSortie;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMotifannulation(): string
+    {
+        return $this->motifannulation;
+    }
+
+    /**
+     * @param string|null $motifannulation
+     */
+    public function setMotifannulation(string $motifannulation)
+    {
+        $this->motifannulation = $motifannulation;
     }
 }

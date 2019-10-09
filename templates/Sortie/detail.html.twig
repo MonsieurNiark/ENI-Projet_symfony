@@ -65,13 +65,71 @@
                 {% endif %}
 
                 {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
-                    {% if sortie.etatSortie.libelle == "EN_CREATION"  %}
+                    {% if sortie.etatSortie.libelle == "EN_CREATION" %}
                         <a href="">Modifier</a>
                         <a href="">Supprimer</a>
-                        {% endif %}
-                    {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
-                        <a href="">Annuler</a>
                     {% endif %}
+                    {% if sortie.etatSortie.libelle == ("OUVERT" or "FERMEE") %}
+                        {#                        <a href="">Annuler</a>#}
+                        <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
+
+                        <div class="modal fade" id="modalAnnule" tabindex="-1" role="dialog"
+                             aria-labelledby="modalAnnuleLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalAnnuleLabel">Annulation de la sortie</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{ path('annuler_sortie', {'id': sortie.noSortie}) }}" method="post">
+                                        <div class="modal-body">
+                                            <label for="motifAnnuleSortie">Motif d'annulation</label>
+                                            <input type="text" id="motifAnnuleSortie" name="motifAnnuleSortie"
+                                                   class="form-control" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-rech col-md-4" data-dismiss="modal">Fermer</a>
+                                            <button type="submit" class="btn btn-create-sort col-md-4">Annuler la
+                                                sortie
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                {% if app.user.administrateur == 1 and sortie.etatSortie.libelle != "ANNULEE" %}
+                    <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
+
+                    <div class="modal fade" id="modalAnnule" tabindex="-1" role="dialog"
+                         aria-labelledby="modalAnnuleLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalAnnuleLabel">Annulation de la sortie</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ path('annuler_sortie', {'id': sortie.noSortie}) }}" method="post">
+                                    <div class="modal-body">
+                                        <label for="motifAnnuleSortie">Motif d'annulation</label>
+                                        <input type="text" id="motifAnnuleSortie" name="motifAnnuleSortie"
+                                               class="form-control" required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-rech col-md-4" data-dismiss="modal">Fermer</a>
+                                        <button type="submit" class="btn btn-create-sort col-md-4">Annuler la sortie
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
 
                 {% for flash_message in app.session.flashBag.get('inscrire') %}

@@ -133,17 +133,18 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/add/change", name="ajax_sortie")
      */
-    public function ajaxSortie(Request $request, EntityManagerInterface $em) {
+    public function ajaxSortie(Request $request, EntityManagerInterface $em)
+    {
 //        if ($request->isXmlHttpRequest()) // pour vérifier la présence d'une requete Ajax
 //        {
-            $id = $request->request->get('id');
-            $selecteur = $request->request->get('select');
+        $id = $request->request->get('id');
+        $selecteur = $request->request->get('select');
 
-            if ($id != null) {
-                $data = $em->getRepository(Lieux::class)->$selecteur($id);
+        if ($id != null) {
+            $data = $em->getRepository(Lieux::class)->$selecteur($id);
 //                    ->findBy(array('villeLieu' => $selecteur));
-                return new JsonResponse($data);
-            }
+            return new JsonResponse($data);
+        }
 //        }
         $this->addFlash('error', 'NOOOOOOOOOOOOO..........');
         return $this->render('Sortie/creation.html.twig');
@@ -180,12 +181,12 @@ class SortieController extends Controller
 
         $motifAnnule = $request->request->get('motifAnnuleSortie');
 
-        $sortie->setDescriptioninfos($sortie->getDescriptioninfos() . '\nMOTIF ANNULATION: ' . $motifAnnule);
+        $sortie->setDescriptioninfos($sortie->getDescriptioninfos() . ' MOTIF ANNULATION: ' . $motifAnnule);
         $sortie->setEtatSortie($etatAnnule);
 
         $em->persist($sortie);
         $em->flush();
 
-        return $this->redirectToRoute("liste_sortie");
+        return $this->redirectToRoute('detail_sortie', ['id' => $id]);
     }
 }
