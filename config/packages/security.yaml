@@ -32,6 +32,8 @@ security:
             logout:
                 path: app_logout
                 target : login
+            switch_user: ~
+            logout_on_user_change: true
 
 
     # Easy way to control access for large sections of your site

@@ -47,8 +47,8 @@
                 {% else %}
                     {% if  app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% if sortie.etatSortie.libelle == "EN_CREATION" %}
-                            <a href="">Modifier</a>
-                            <a href="">Supprimer</a>
+                            <a href="{{ path('modifier_sortie', {'id_sortie' : sortie.noSortie}) }}">Modifier</a>
+                            <a href="{{ path('annuler_sortie', {'id_sortie' : sortie.noSortie}) }}">Annuler</a>
                         {% endif %}
                         {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
                             <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
