@@ -39,12 +39,14 @@
                             {% endif %}
                         {% endfor %}
                     </td>
-                    <td>{{ sortie.organisateurSortie.prenom }} {{ sortie.organisateurSortie.nom|slice(0,1)|upper }}.
+                    <td><a href="{{ path('user_profile', {pseudo: sortie.organisateurSortie.username}) }}">
+                            {{ sortie.organisateurSortie.prenom }} {{ sortie.organisateurSortie.nom|slice(0,1)|upper }}.
+                        </a>
                     </td>
                     <td>
                         <a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}">Afficher</a>
 
-                        {% if inscription == true %}
+                        {% if inscription == true and app.user.noParticipant != sortie.organisateurSortie.noParticipant %}
                             <a href="{{ path('desinscription', {'id_sortie' : sortie.noSortie}) }}">Désincrire</a>
                         {% elseif app.user.noParticipant == sortie.organisateurSortie.noParticipant %}
                         {% elseif sortie.inscriptionsSortie.count < sortie.nbinscriptionsmax %}
@@ -63,5 +65,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="navigation">
+            {{ knp_pagination_render(sorties) }}
+        </div>
+
     </div>
 {% endblock %}

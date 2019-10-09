@@ -13,6 +13,13 @@ namespace PackageVersions;
 final class Versions
 {
     public const ROOT_PACKAGE_NAME = '__root__';
+    /**
+     * Array of all available composer packages.
+     * Dont read this array from your calling code, but use the \PackageVersions\Versions::getVersion() method instead.
+     *
+     * @var array<string, string>
+     * @internal
+     */
     public const VERSIONS          = array (
   'doctrine/annotations' => 'v1.8.0@904dca4eb10715b92569fbcd79e201d5c349b6bc',
   'doctrine/cache' => 'v1.8.0@d768d58baee9a4862ca783840eca1b9add7a7f57',
@@ -34,6 +41,8 @@ final class Versions
   'fig/link-util' => '1.0.0@1a07821801a148be4add11ab0603e4af55a72fac',
   'friendsofsymfony/jsrouting-bundle' => '2.4.0@e42ed450eac2b61d5fcba9cd834c294a429e9a40',
   'jdorn/sql-formatter' => 'v1.2.17@64990d96e0959dff8e059dfcdc1af130728d92bc',
+  'knplabs/knp-components' => 'v2.2.0@4e64b1e79cf28a9e296375881d5ddd9c022333a1',
+  'knplabs/knp-paginator-bundle' => 'v4.0.0@865781b323739c688daaec540f9905704cec51ef',
   'monolog/monolog' => '1.25.1@70e65a5470a42cfec1a7da00d30edb6e617e8dcf',
   'ocramius/package-versions' => '1.5.1@1d32342b8c1eb27353c8887c366147b4c2da673c',
   'ocramius/proxy-manager' => '2.2.3@4d154742e31c35137d5374c998e8f86b54db2e2f',
@@ -111,12 +120,12 @@ final class Versions
   'symfony/var-dumper' => 'v3.4.32@bd54d0cc1ae78ca7366ca9056342d1f7e0b5d7fa',
   'symfony/web-profiler-bundle' => 'v3.4.32@b4c78b585d60a0b96ed735ce40f964bd3a228f73',
   'symfony/web-server-bundle' => 'v3.4.32@32359e92b96bebdffbfb077f39de94447e87e8c9',
-  'paragonie/random_compat' => '2.*@05b3f7d31e583692c48fc6d9177535310be9bdb3',
-  'symfony/polyfill-ctype' => '*@05b3f7d31e583692c48fc6d9177535310be9bdb3',
-  'symfony/polyfill-iconv' => '*@05b3f7d31e583692c48fc6d9177535310be9bdb3',
-  'symfony/polyfill-php70' => '*@05b3f7d31e583692c48fc6d9177535310be9bdb3',
-  'symfony/polyfill-php56' => '*@05b3f7d31e583692c48fc6d9177535310be9bdb3',
-  '__root__' => 'dev-master@05b3f7d31e583692c48fc6d9177535310be9bdb3',
+  'paragonie/random_compat' => '2.*@55c998797cf75d429139c1c652ed462826fbdb08',
+  'symfony/polyfill-ctype' => '*@55c998797cf75d429139c1c652ed462826fbdb08',
+  'symfony/polyfill-iconv' => '*@55c998797cf75d429139c1c652ed462826fbdb08',
+  'symfony/polyfill-php70' => '*@55c998797cf75d429139c1c652ed462826fbdb08',
+  'symfony/polyfill-php56' => '*@55c998797cf75d429139c1c652ed462826fbdb08',
+  '__root__' => 'dev-master@55c998797cf75d429139c1c652ed462826fbdb08',
 );
 
     private function __construct()
@@ -125,6 +134,8 @@ final class Versions
 
     /**
      * @throws \OutOfBoundsException If a version cannot be located.
+     *
+     * @psalm-param key-of<self::VERSIONS> $packageName
      */
     public static function getVersion(string $packageName) : string
     {
@@ -133,7 +144,7 @@ final class Versions
         }
 
         throw new \OutOfBoundsException(
-            'Required package "' . $packageName . '" is not installed: cannot detect its version'
+            'Required package "' . $packageName . '" is not installed: check your ./vendor/composer/installed.json and/or ./composer.lock files'
         );
     }
 }
