@@ -39,7 +39,9 @@
                             {% endif %}
                         {% endfor %}
                     </td>
-                    <td>{{ sortie.organisateurSortie.prenom }} {{ sortie.organisateurSortie.nom|slice(0,1)|upper }}.
+                    <td><a href="{{ path('user_profile', {pseudo: sortie.organisateurSortie.username}) }}">
+                            {{ sortie.organisateurSortie.prenom }} {{ sortie.organisateurSortie.nom|slice(0,1)|upper }}.
+                        </a>
                     </td>
                     <td>
                         <a href="{{ path('detail_sortie', {'id': sortie.noSortie}) }}">Afficher</a>
@@ -63,5 +65,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="navigation">
+            {{ knp_pagination_render(sorties) }}
+        </div>
+
     </div>
 {% endblock %}

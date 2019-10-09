@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class SortieController extends Controller
@@ -24,7 +25,7 @@ class SortieController extends Controller
     /**
      * @Route("/sortie/liste", name="liste_sortie")
      */
-    public function afficherListe(Request $request, EntityManagerInterface $em)
+    public function afficherListe(Request $request, EntityManagerInterface $em,PaginatorInterface $paginator)
     {
         if ($this->getUser() == null) {
             return $this->redirectToRoute('login');
@@ -32,7 +33,8 @@ class SortieController extends Controller
             $repoSorties = $em->getRepository(Sorties::class);
             $repoSites = $em->getRepository(Sites::class);
 
-            $sorties = $repoSorties->getSortiesVisible()->getQuery()->getResult();
+//            $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery()->getResult();
+            $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery();
             $sites = $repoSites->findAll();
             $idSite = 0;
             $nomSortie = '';
@@ -55,8 +57,15 @@ class SortieController extends Controller
 
                 $idUser = $this->getUser()->getNoParticipant();
 
-                $sorties = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie, $dateFinSortie, $idUser);
+                $sortiesTmp = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie, $dateFinSortie, $idUser);
             }
+
+            $sorties = $paginator->paginate(
+                $sortiesTmp,
+                $request->query->getInt('page',1),
+                5
+            );
+
             return $this->render("Sortie/afficher_liste.html.twig",
                 [
                     "sorties" => $sorties,

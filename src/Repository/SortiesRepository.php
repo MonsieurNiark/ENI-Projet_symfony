@@ -119,7 +119,8 @@ class SortiesRepository extends ServiceEntityRepository
             $queryBuilder->setParameter('dateFin', $dateFinSortie);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+//        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery();
 
     }
 
