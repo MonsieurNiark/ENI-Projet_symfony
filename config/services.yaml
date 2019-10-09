@@ -7,6 +7,7 @@ parameters:
     path_dir: '%kernel.project_dir%\public\path\'
     download_dir: '%kernel.project_dir%\files\'
     photo_directory: '%kernel.project_dir%\public\photo'
+    csv_directory: '%kernel.project_dir%\var\csv'
 services:
     # default configuration for services in *this* file
     _defaults:
