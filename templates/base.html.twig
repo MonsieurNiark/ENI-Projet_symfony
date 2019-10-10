@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}Sortir.com{% endblock %}</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -37,7 +38,17 @@
     <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/js.cookie.js') }}"></script>
-
+    <script type="text/javascript">
+        if ( window.addEventListener ) {
+            var state = 0, konami = [38,38,40,40,37,39,37,39,66,65];
+            window.addEventListener("keydown", function(e) {
+                if ( e.keyCode == konami[state] ) state++;
+                else state = 0;
+                if ( state == 10 )
+                    window.location = "https://ia801602.us.archive.org/11/items/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4";  //you can write your own code here
+            }, true);
+        }
+    </script>
     {% block javascripts %}{% endblock %}
 </div>
 <footer>
