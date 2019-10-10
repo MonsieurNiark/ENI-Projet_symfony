@@ -1,23 +1,21 @@
 function savecookie() {
-    Cookies.set('nom', $('#form_nom').value());
-    Cookies.set('datedebut', $('#form_datedebut').value());
-    Cookies.set('duree', $('#form_duree').value());
-    Cookies.set('datecloture', $('#form_datecloture').value());
-    Cookies.set('nbinscri', $('#form_nbinscri').value());
-    Cookies.set('descri', $('#form_descri').value());
-    Cookies.set('url', $('#form_url').value());
-    Cookies.set('lieux', $('#form_lieux').value());
+    Cookies.set('nom', $('#sortie_nom').val());
+    Cookies.set('datedebut', $('#sortie_datedebut').val());
+    Cookies.set('duree', $('#sortie_duree').val());
+    Cookies.set('datecloture', $('#sortie_datecloture').val());
+    Cookies.set('nbinscri', $('#sortie_nbinscriptionsmax').val());
+    Cookies.set('descri', $('#sortie_descriptioninfos').val());
+    Cookies.set('url', $('#sortie_urlphoto').val());
 }
 
 function displaycookie() {
-    $('#form_nom').value(Cookies.get('nom'));
-    $('#form_datedebut').value(Cookies.get('datedebut'));
-    $('#form_duree').value(Cookies.get('duree'));
-    $('#form_datecloture').value(Cookies.get('datecloture'));
-    $('#form_nbinscri').value(Cookies.get('nbinscri'));
-    $('#form_descri').value(Cookies.get('descri'));
-    $('#form_url').value(Cookies.get('url'));
-    $('#form_lieux').value(Cookies.get('lieux'));
+    $('#sortie_nom').val(Cookies.get('nom'));
+    $('#sortie_datedebut').val(Cookies.get('datedebut'));
+    $('#sortie_duree').val(Cookies.get('duree'));
+    $('#sortie_datecloture').val(Cookies.get('datecloture'));
+    $('#sortie_nbinscriptionsmax').val(Cookies.get('nbinscri'));
+    $('#sortie_descriptioninfos').val(Cookies.get('descri'));
+    $('#sortie_urlphoto').val(Cookies.get('url'));
 }
 
 function deletecookie() {
@@ -28,5 +26,4 @@ function deletecookie() {
     Cookies.remove('nbinscri');
     Cookies.remove('descri');
     Cookies.remove('url');
-    Cookies.remove('lieux');
 }

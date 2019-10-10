@@ -33,25 +33,20 @@ class SortieType extends AbstractType
             ))
             ->add('datedebut', DateTimeType::class, array(
                 'label' => 'Date de la sortie :',
-                'widget' => 'single_text',
-                'attr' => ['id' => 'form_datedebut']
+                'widget' => 'single_text'
             ))
             ->add('duree', NumberType::class, array(
-                "label" => "Duree :",
-                'attr' => ['id' => 'form_duree']
+                "label" => "Duree :"
             ))
             ->add('datecloture', DateTimeType::class, array(
                 'label' => 'Date de cloture :',
-                'widget' => 'single_text',
-                'attr' => ['id' => 'form_datecloture']
+                'widget' => 'single_text'
             ))
             ->add('nbinscriptionsmax', NumberType::class, array(
-                'label' => 'Nombre d\'inscriptions :',
-                'attr' => ['id' => 'form_nbinscri']
+                'label' => 'Nombre d\'inscriptions :'
             ))
             ->add('descriptioninfos', TextareaType::class, array(
-                'label' => 'Description :',
-                'attr' => ['id' => 'form_descri']
+                'label' => 'Description :'
             ))
             ->add('urlphoto', FileType::class, [
                 'data_class' => null,
@@ -59,16 +54,14 @@ class SortieType extends AbstractType
                 'label' => 'Ajout d\'une photo :',
 
                 'attr' => array(
-                    'accept' => 'image/*',
-                    'id' => 'form_url'
+                    'accept' => 'image/*'
                 )])
             ->add('lieuSortie', EntityType::class, array(
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
                 'choice_label' => 'nomLieu',
-                'attr' => array('class' => 'lieuxclass',
-                    'id' => 'form_lieu')
+                'attr' => array('class' => 'lieuxclass')
             ));
     }
 
