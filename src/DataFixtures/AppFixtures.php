@@ -104,6 +104,7 @@ class AppFixtures extends Fixture
         $user1->setSiteParticipant($site1);
         $user1->setUsername('admin');
         $user1->setPassword('admin');
+        $user1->setPhotoProfil("tenor-5d9b52f91012c.gif");
         $password = $this->encoder->encodePassword($user1, $user1->getPassword());
         $user1->setPassword($password);
         $em->persist($user1);
@@ -117,6 +118,7 @@ class AppFixtures extends Fixture
             $user->setPrenom('prenomTest'.$c);
             $user->setNom('nomTest'.$c);
             $user->setSiteParticipant($site1);
+            $user->setPhotoProfil("tenor-5d9b52f91012c.gif");
             $user->setUsername('user'.$c);
             $user->setPassword('test');
             $password = $this->encoder->encodePassword($user, $user->getPassword());
