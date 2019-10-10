@@ -12,7 +12,7 @@ use App\Entity\Sorties;
 use App\Entity\Villes;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -24,8 +24,8 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function load(ObjectManager $em){
 
+    public function load(ObjectManager $em){
         //Creation des etats
         $ouvert = new Etats();
         $ouvert->setLibelle("OUVERT");
@@ -50,7 +50,6 @@ class AppFixtures extends Fixture
         $em->persist($terminee);
         $em->persist($annulee);
 
-        $em->flush();
 
         //Creation des sites
         $site1 = new Sites();
@@ -63,7 +62,6 @@ class AppFixtures extends Fixture
         $em->persist($site2);
         $em->persist($site3);
 
-        $em->flush();
 
         //Creation des villes
         $ville1 = new Villes();
@@ -93,7 +91,6 @@ class AppFixtures extends Fixture
         $em->persist($ville5);
         $em->persist($ville6);
 
-        $em->flush();
 
         //Creation utilisateurs Nantes
         //admin:admin
@@ -107,6 +104,7 @@ class AppFixtures extends Fixture
         $user1->setSiteParticipant($site1);
         $user1->setUsername('admin');
         $user1->setPassword('admin');
+        $user1->setPhotoProfil("tenor-5d9b52f91012c.gif");
         $password = $this->encoder->encodePassword($user1, $user1->getPassword());
         $user1->setPassword($password);
         $em->persist($user1);
@@ -120,14 +118,13 @@ class AppFixtures extends Fixture
             $user->setPrenom('prenomTest'.$c);
             $user->setNom('nomTest'.$c);
             $user->setSiteParticipant($site1);
+            $user->setPhotoProfil("tenor-5d9b52f91012c.gif");
             $user->setUsername('user'.$c);
             $user->setPassword('test');
             $password = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
             $em->persist($user);
         }
-
-        $em->flush();
 
 
         //Creation lieux
@@ -153,8 +150,6 @@ class AppFixtures extends Fixture
         $em->persist($lieu1);
         $em->persist($lieu2);
         $em->persist($lieu3);
-
-        $em->flush();
 
         //Sortie
         $sortie1 = new Sorties();
@@ -234,7 +229,65 @@ class AppFixtures extends Fixture
         $em->persist($inscr5);
         $em->persist($inscr6);
 
-        $em->flush();
 
+        //Events
+        $rawSql = "SET GLOBAL event_scheduler = 1;";
+        $em->getConnection()->exec($rawSql);
+
+         try{
+             $rawSql= "DROP EVENT IF EXISTS `ENCOURS_TO_TERMINEE`";
+             $em->getConnection()->exec($rawSql);
+             $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ENCOURS_TO_TERMINEE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 6 WHERE DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE) <=  NOW() AND `etat_sortie_id`=5$$";
+             $em->getConnection()->exec($rawSql);
+        } catch (Exception $e){
+
+        }
+       try{
+           $rawSql= "DROP EVENT IF EXISTS `OUVERT_TO_FERMETURE`";
+           $em->getConnection()->exec($rawSql);
+           $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_FERMETURE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:40' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 2 WHERE `datecloture` <=  NOW() AND `etat_sortie_id`=1$$";
+           $em->getConnection()->exec($rawSql);
+        } catch (Exception $e){
+
+        }
+        try{
+            $rawSql= "DROP EVENT IF EXISTS `FERMETURE_TO_ENCOURS`";
+            $em->getConnection()->exec($rawSql);
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `FERMETURE_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=2$$";
+            $em->getConnection()->exec($rawSql);
+        } catch (Exception $e){
+
+        }
+        try{
+
+            $rawSql= "DROP EVENT IF EXISTS `TERMINEE_TO_NONVISIBLE`";
+            $em->getConnection()->exec($rawSql);
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `TERMINEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE),INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=6$$";
+            $em->getConnection()->exec($rawSql);
+        } catch (Exception $e){
+
+        }
+        try{
+            $rawSql= "DROP EVENT IF EXISTS `OUVERT_TO_ENCOURS`";
+            $em->getConnection()->exec($rawSql);
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:32' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=1$$";
+            $em->getConnection()->exec($rawSql);
+        } catch (Exception $e){
+
+        }
+        try{
+            $rawSql= "DROP EVENT IF EXISTS `ANNULEE_TO_NONVISIBLE`";
+            $em->getConnection()->exec($rawSql);
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ANNULEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:25' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(`datedebut`, INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=7$$";
+            $em->getConnection()->exec($rawSql);
+
+        } catch (Exception $e){
+
+        }
+        $em->flush();
+    }
+
+    public function getEma(){
+        return $this->ema;
     }
 }

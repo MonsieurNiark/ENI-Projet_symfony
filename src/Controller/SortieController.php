@@ -37,38 +37,25 @@ class SortieController extends Controller
             $repoSorties = $em->getRepository(Sorties::class);
             $repoSites = $em->getRepository(Sites::class);
 
-            $sortiesTmp = $repoSorties->getSortiesVisible($this->getUser()->getNoParticipant())
-                ->orderBy('sortie.nom', 'ASC')
-                ->getQuery();
             $sites = $repoSites->findAll();
-            $idSite = 0;
-            $nomSortie = '';
-            $estOrga = 0;
-            $estInscrit = 0;
-            $estPasInscrit = 0;
-            $sortiePassees = 0;
-            $dateDebutSortie = null;
-            $dateFinSortie = null;
 
-            if ($request->isMethod('POST')) {
-                $idSite = $request->request->getInt('nomSite');
-                $nomSortie = $request->request->get('nomSortie');
-                $estOrga = $request->request->getInt('estOrganisateur');
-                $estInscrit = $request->request->getInt('estInscrit');
-                $estPasInscrit = $request->request->getInt('estPasInscrit');
-                $sortiePassees = $request->request->getInt('sortiesPassees');
-                $dateDebutSortie = $request->request->get('debutDate');
-                $dateFinSortie = $request->request->get('finDate');
+            $idSite = $request->query->getInt('nomSite', 0);
+            $nomSortie = $request->query->get('nomSortie', '');
+            $estOrga = $request->query->getInt('estOrganisateur', 0);
+            $estInscrit = $request->query->getInt('estInscrit', 0);
+            $estPasInscrit = $request->query->getInt('estPasInscrit', 0);
+            $sortiePassees = $request->query->getInt('sortiesPassees', 0);
+            $dateDebutSortie = $request->query->get('debutDate', '');
+            $dateFinSortie = $request->query->get('finDate', '');
 
-                $idUser = $this->getUser()->getNoParticipant();
+            $idUser = $this->getUser()->getNoParticipant();
 
-                $sortiesTmp = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie, $dateFinSortie, $idUser);
-            }
+            $sortiesTmp = $repoSorties->getSortieByFiltre($idSite, $nomSortie, $estOrga, $estInscrit, $estPasInscrit, $sortiePassees, $dateDebutSortie, $dateFinSortie, $idUser);
 
             $sorties = $paginator->paginate(
                 $sortiesTmp,
                 $request->query->getInt('page', 1),
-                10
+                5
             );
 
             return $this->render("Sortie/afficher_liste.html.twig",
