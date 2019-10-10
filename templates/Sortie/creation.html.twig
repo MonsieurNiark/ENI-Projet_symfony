@@ -32,7 +32,7 @@
                 </button>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <a href="{{ path('liste_sortie') }}" class="btn btn-create-sort no-style-a">Annuler</a>
+                <a href="{{ path('liste_sortie') }}" class="btn btn-create-sort no-style-a" onclick="deletecookie();">Annuler</a>
             </div>
         </div>
         {{ form_end(SortieForm) }}
@@ -52,4 +52,5 @@
         $('document').ready(function () {
             displaycookie();
         });
+    </script>
 {% endblock %}
