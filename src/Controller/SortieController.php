@@ -95,6 +95,7 @@ class SortieController extends Controller
         $sortie = new Sorties();
         $lieux = new Lieux();
         $etat = null;
+        $check_publi = false;
 
         $form1 = $this->createForm(SortieType::class, $sortie);
         $form2 = $this->createForm(LieuType::class, $lieux);
@@ -109,7 +110,7 @@ class SortieController extends Controller
                 $originalFilename = pathinfo($img_sortie->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$img_sortie->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $img_sortie->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -132,6 +133,7 @@ class SortieController extends Controller
             } elseif ($request->get('btn_publier') == 'publier') {
                 $etat = $em->getRepository(Etats::class)->find(1);
                 $sortie->setEtatSortie($etat);
+                $check_publi = true;
             }
             $sortie->setOrganisateurSortie($this->getUser());
             $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
@@ -140,6 +142,14 @@ class SortieController extends Controller
 
             $id = $sortie->getNoSortie();
 
+            if ($check_publi == true) {
+                $inscription = new Inscriptions();
+                $inscription->setSortieInscription($sortie);
+                $inscription->setParticipantInscription($this->getUser());
+                $inscription->setDateInscription(new \DateTime('now'));
+                $em->persist($inscription);
+                $em->flush();
+            }
             $this->addFlash('success', 'Sortie successfully saved!');
             return $this->redirectToRoute('detail_sortie', ['id' => $id]);
         }
@@ -192,6 +202,7 @@ class SortieController extends Controller
         $sortie = $em->getRepository(Sorties::class)->find($id);
         $lieux = new Lieux();
         $etat = null;
+        $check_publi = false;
 
         $form_up = $this->createForm(UpdateSortieType::class, $sortie);
         $form_down = $this->createForm(LieuType::class, $lieux);
@@ -199,54 +210,62 @@ class SortieController extends Controller
         $form_up->handleRequest($request);
         $form_down->handleRequest($request);
 
-            if ($form_up->isSubmitted() && $form_up->isValid()) {
-                $img_sortie = $form_up['urlphoto']->getData();
-                if ($img_sortie) {
-                    $originalFilename = pathinfo($img_sortie->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$img_sortie->guessExtension();
+        if ($form_up->isSubmitted() && $form_up->isValid()) {
+            $img_sortie = $form_up['urlphoto']->getData();
+            if ($img_sortie) {
+                $originalFilename = pathinfo($img_sortie->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $img_sortie->guessExtension();
 
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $img_sortie->move(
-                            $this->getParameter('sortie_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $sortie->setUrlphoto($newFilename);
+                // Move the file to the directory where brochures are stored
+                try {
+                    $img_sortie->move(
+                        $this->getParameter('sortie_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
                 }
 
-                if ($request->get('btn_enregistrer') == 'enregistrer') {
-                    $etat = $em->getRepository(Etats::class)->find(4);
-                    $sortie->setEtatSortie($etat);
-                } elseif ($request->get('btn_publier') == 'publier') {
-                    $etat = $em->getRepository(Etats::class)->find(1);
-                    $sortie->setEtatSortie($etat);
-                }
-                $sortie->setOrganisateurSortie($this->getUser());
-                $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
-                $em->persist($sortie);
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $sortie->setUrlphoto($newFilename);
+            }
+
+            if ($request->get('btn_enregistrer') == 'enregistrer') {
+                $etat = $em->getRepository(Etats::class)->find(4);
+                $sortie->setEtatSortie($etat);
+            } elseif ($request->get('btn_publier') == 'publier') {
+                $etat = $em->getRepository(Etats::class)->find(1);
+                $sortie->setEtatSortie($etat);
+                $check_publi = true;
+            }
+            $sortie->setOrganisateurSortie($this->getUser());
+            $sortie->setSiteSortie($this->getUser()->getSiteParticipant());
+            $em->persist($sortie);
+            $em->flush();
+            if ($check_publi == true) {
+                $inscription = new Inscriptions();
+                $inscription->setSortieInscription($sortie);
+                $inscription->setParticipantInscription($this->getUser());
+                $inscription->setDateInscription(new \DateTime('now'));
+                $em->persist($inscription);
                 $em->flush();
-
-                $this->addFlash('success', 'Sortie successfully saved!');
-                return $this->redirectToRoute('detail_sortie', ['id' => $id]);
             }
-            if ($request->get('btn_ajouter') == 'Ajouter') {
-                if ($form_down->isSubmitted() && $form_down->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($lieux);
-                    $em->flush();
-                    $this->addFlash('success', 'Lieux successfully saved!');
-                } else {
-                    $this->addFlash('error', 'Lieux fail saved!');
-                }
+            $this->addFlash('success', 'Sortie successfully saved!');
+            return $this->redirectToRoute('detail_sortie', ['id' => $id]);
+        }
+        if ($request->get('btn_ajouter') == 'Ajouter') {
+            if ($form_down->isSubmitted() && $form_down->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($lieux);
+                $em->flush();
+                $this->addFlash('success', 'Lieux successfully saved!');
+            } else {
+                $this->addFlash('error', 'Lieux fail saved!');
             }
+        }
         return $this->render('Sortie/modification_sortie.html.twig', [
             "SortieForm" => $form_up->createView(),
             "LieuxForm" => $form_down->createView(),
