@@ -37,8 +37,9 @@ class SortieController extends Controller
             $repoSorties = $em->getRepository(Sorties::class);
             $repoSites = $em->getRepository(Sites::class);
 
-//            $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery()->getResult();
-            $sortiesTmp = $repoSorties->getSortiesVisible()->getQuery();
+            $sortiesTmp = $repoSorties->getSortiesVisible($this->getUser()->getNoParticipant())
+                ->orderBy('sortie.nom', 'ASC')
+                ->getQuery();
             $sites = $repoSites->findAll();
             $idSite = 0;
             $nomSortie = '';
@@ -67,7 +68,7 @@ class SortieController extends Controller
             $sorties = $paginator->paginate(
                 $sortiesTmp,
                 $request->query->getInt('page', 1),
-                5
+                10
             );
 
             return $this->render("Sortie/afficher_liste.html.twig",

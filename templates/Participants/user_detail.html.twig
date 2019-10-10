@@ -4,36 +4,33 @@
 
 {% block body %}
 
-    <p class="h1" style="text-align: center; margin: 3% 3% 3% 3%">{{ user.username}}</p>
+    {#    <p class="h1" style="text-align: center; margin: 3% 3% 3% 3%">{{ user.username}}</p>#}
+    <h1>{{ user.username }}</h1>
 
-    <table class="table table-bordered">
-
-        <tr>
-            <td>Prénom  : {{ user.prenom }}</td>
-        </tr>
-        <tr>
-            <td>Nom :  {{ user.nom }}</td>
-        </tr>
-        <tr>
-            <td>Téléphone : {{ user.telephone }}</td>
-        </tr>
-        <tr>
-            <td>Email : {{ user.email }}</td>
-        </tr>
-        <tr>
-            <td>Ville de rattachement : {{ user.siteparticipant.nomsite }}</td>
-        </tr>
-        <tr>
-            <td> <img src=" {{app.request.basepath}}/photo/{{ user.getPhotoProfil() }}" /> </td>
-        </tr>
-    </table>
-
-
-
-
-
-
-
+    <div class="row">
+        <div class="col-md-4 p-2" id="photo_profil">
+            <img src=" {{ app.request.basepath }}/photo/{{ user.getPhotoProfil() }}" alt="Photo de profil"/>
+        </div>
+        <div class="col">
+            <table class="table table-borderless table-responsive">
+                <tr>
+                    <td>Prénom : {{ user.prenom }}</td>
+                </tr>
+                <tr>
+                    <td>Nom : {{ user.nom }}</td>
+                </tr>
+                <tr>
+                    <td>Téléphone : {{ user.telephone }}</td>
+                </tr>
+                <tr>
+                    <td>Email : {{ user.email }}</td>
+                </tr>
+                <tr>
+                    <td>Ville de rattachement : {{ user.siteparticipant.nomsite }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
 {% endblock %}

@@ -73,7 +73,7 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if app.user.administrateur == 1 %}
+                    {% if app.user.administrateur == 1 and app.user.noParticipant != sortie.organisateurSortie.noParticipant %}
                         {% if sortie.etatSortie.libelle == "OUVERT" or sortie.etatSortie.libelle == "FERMEE" %}
                             <a href="" data-toggle="modal" data-target="#modalAnnule">Annuler</a>
                         {% endif %}

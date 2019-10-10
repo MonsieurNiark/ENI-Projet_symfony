@@ -28,7 +28,7 @@ class SortiesRepository extends ServiceEntityRepository
      */
     public function getSortieByFiltre(int $idSite, String $nomSortie, int $estOrga, int $estInscrit, int $estPasInscrit, int $sortiePassees, String $dateDebutSortie, String $dateFinSortie, int $idUtilisateur)
     {
-        $queryBuilder = $this->getSortiesVisible();
+        $queryBuilder = $this->getSortiesVisible($idUtilisateur);
 
         /* **************** QUERY BUILDER **************** */
         if ($estInscrit == 1 && $estPasInscrit == 0) {
@@ -85,6 +85,7 @@ class SortiesRepository extends ServiceEntityRepository
         } elseif (!empty($dateFinSortie)) {
             $queryBuilder->andWhere('sortie.datedebut <= :dateFin');
         }
+        $queryBuilder->orderBy('sortie.nom','ASC');
 
         /* **************** SET PARAMETER **************** */
         if ($idSite != 0) {
@@ -124,12 +125,22 @@ class SortiesRepository extends ServiceEntityRepository
 
     }
 
-    public function getSortiesVisible()
+    public function getSortiesVisible(int $idUser)
     {
         $queryBuilder = $this->createQueryBuilder('sortie')
             ->innerJoin('sortie.etatSortie', 'etat')
-            ->addSelect('etat')
-            ->andWhere('etat.libelle NOT IN (\'NON_VISIBLE\')');
+            ->addSelect('etat');
+
+        $queryBuilderBrouillon = $this->getEntityManager()->getRepository(Sorties::class)
+            ->createQueryBuilder('sortBrouillon')
+            ->innerJoin('sortBrouillon.etatSortie', 'etatBrouillon')
+            ->select('sortBrouillon.noSortie')
+            ->andWhere('etatBrouillon.libelle IN (\'EN_CREATION\')')
+            ->andWhere('sortBrouillon.organisateurSortie != :idUser');
+
+        $queryBuilder->andWhere($queryBuilder->expr()->notIn('sortie.noSortie', $queryBuilderBrouillon->getDQL()))
+            ->andWhere('etat.libelle NOT IN (\'NON_VISIBLE\')')
+            ->setParameter('idUser', $idUser);
 
         return $queryBuilder;
     }

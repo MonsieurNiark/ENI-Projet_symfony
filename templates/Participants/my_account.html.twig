@@ -2,11 +2,18 @@
 
 {% block body %}
     <h1>Modifier mon compte</h1>
-    {{ form_start(UpdateForm, {attr: {class: 'form-group'} }) }}
-    {{ form_widget(UpdateForm, {attr: {class: 'form-group'} }) }}
-    <button type="submit">Modifier</button>
-    {{ form_end(UpdateForm) }}
-    <img src=" {{app.request.basepath}}/photo/{{ app.user.getPhotoProfil() }}" />
+    <div class="row">
+        <div class="col-md-4 p-2" id="photo_profil">
+            <img src=" {{ app.request.basepath }}/photo/{{ app.user.getPhotoProfil() }}" alt="Photo de profil"/>
+        </div>
+        <div class="col">
+            {{ form_start(UpdateForm, {attr: {class: 'form-group'} }) }}
+            {{ form_widget(UpdateForm, {attr: {class: 'form-group'} }) }}
+            <button type="submit" class="btn btn-create-sort">Modifier</button>
+            {{ form_end(UpdateForm) }}
+        </div>
+    </div>
+
 
 {% endblock %}
 

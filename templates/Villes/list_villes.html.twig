@@ -3,32 +3,34 @@
 {% block body %}
 
 
-    <h1>Gérer les villes <a href="{{ path('villes_list') }}" class="oi add-category" data-glyph="plus" title="Add site" data-toggle="tooltip" data-placement="right"></a></h1>
+    <h1>Gérer les villes <a href="{{ path('villes_list') }}" class="oi add-category" data-glyph="plus" title="Add site"
+                            data-toggle="tooltip" data-placement="right"></a></h1>
 
     <div class="villes-list">
         <table class="table table-striped  table-bordered">
             <thead>
-                <tr>
-                    <th scope="col">Ville</th>
-                    <th scope="col">Code Postal</th>
-                    <th scope="col">Action</th>
-                </tr>
+            <tr>
+                <th scope="col">Ville</th>
+                <th scope="col">Code Postal</th>
+                <th scope="col">Action</th>
+            </tr>
             </thead>
             <tbody>
-                {% for villes in arrayVilles %}
-                    <tr>
+            {% for villes in arrayVilles %}
+                <tr>
                     <td>{{ villes.nomVille }}</td>
-                        <td>{{ villes.codePostal }}</td>
+                    <td>{{ villes.codePostal }}</td>
                     <td><a onclick="return closestFunction(this);">
                             <span aria-hidden="true">Modifier</span>
                         </a>
                         -
-                        <a href="{{ path('villes_delete', {'id': villes.noVille}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ? Toutes les sorties associées seront supprimées.');">
+                        <a href="{{ path('villes_delete', {'id': villes.noVille}) }}"
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ? Toutes les sorties associées seront supprimées.');">
                             <span aria-hidden="true">Supprimer</span>
                         </a>
                     </td>
-                    </tr>
-                {% endfor %}
+                </tr>
+            {% endfor %}
             <tr>
                 <form action="{{ path('villes_add') }}" method="post">
                     <td>
@@ -45,24 +47,25 @@
 
             </tbody>
         </table>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script>
-    function closestFunction(actualelement){
-        var e = actualelement.closest("tr");
-        var ville = $(e).find("td:eq(0)").text();
-        var codepostal = $(e).find("td:eq(1)").text();
-        $(e).replaceWith(
-            "<tr>" +
-              "<td colspan=\"3\"><form method='POST' action='{{ path('villes_update') }}'>" +
-               "<input type='text' value='"+ville+"' name='libelle_ville'/> " +
-              "<input type='text' value='"+codepostal+"' name='code_postal_ville'/> "+
-              "<button type='submit'>Valider</button>" +
-               "<input type='text' name='old_name' value='"+ville+"' style=\"display:none\"/>" +
-                "<input type='text' name='old_cp' value='"+codepostal+"' style=\"display:none\"/>" +
-                 "</form></td>"+
-              "</tr>"
+        function closestFunction(actualelement) {
+            var e = actualelement.closest("tr");
+            var ville = $(e).find("td:eq(0)").text();
+            var codepostal = $(e).find("td:eq(1)").text();
+            $(e).replaceWith(
+                "<tr>" +
+                "<td colspan=\"3\"><form method='POST' action='{{ path('villes_update') }}'>" +
+                "<input type='text' value='" + ville + "' name='libelle_ville'/> " +
+                "<input type='text' value='" + codepostal + "' name='code_postal_ville'/> " +
+                "<button type='submit'>Valider</button>" +
+                "<input type='text' name='old_name' value='" + ville + "' style=\"display:none\"/>" +
+                "<input type='text' name='old_cp' value='" + codepostal + "' style=\"display:none\"/>" +
+                "</form></td>" +
+                "</tr>"
             );
-    }
-        </script>
+        }
+    </script>
 {% endblock %}
