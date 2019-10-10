@@ -295,6 +295,7 @@ class SortieController extends Controller
         if (is_null($sortie) || $sortie->getEtatSortie() == "NON_VISIBLE") {
             throw $this->createNotFoundException("Sortie non trouvée");
         }
+
         return $this->render("Sortie/detail.html.twig", ["sortie" => $sortie, "inscriptions" => $inscriptions]);
     }
 

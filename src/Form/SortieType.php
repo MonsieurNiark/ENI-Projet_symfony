@@ -27,26 +27,32 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', TextType::class, [
-                "label" => "Titre :"
-            ])
+            ->add('nom', TextType::class, array(
+                'label' => 'Titre :',
+                'attr' => ['id' => 'form_nom']
+            ))
             ->add('datedebut', DateTimeType::class, array(
                 'label' => 'Date de la sortie :',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr' => ['id' => 'form_datedebut']
             ))
-            ->add('duree', NumberType::class, [
-                "label" => "Duree :"
-            ])
+            ->add('duree', NumberType::class, array(
+                "label" => "Duree :",
+                'attr' => ['id' => 'form_duree']
+            ))
             ->add('datecloture', DateTimeType::class, array(
                 'label' => 'Date de cloture :',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr' => ['id' => 'form_datecloture']
             ))
-            ->add('nbinscriptionsmax', NumberType::class, [
-                "label" => "Nombre d'inscriptions :"
-            ])
-            ->add('descriptioninfos', TextareaType::class, [
-                "label" => "Description :"
-            ])
+            ->add('nbinscriptionsmax', NumberType::class, array(
+                'label' => 'Nombre d\'inscriptions :',
+                'attr' => ['id' => 'form_nbinscri']
+            ))
+            ->add('descriptioninfos', TextareaType::class, array(
+                'label' => 'Description :',
+                'attr' => ['id' => 'form_descri']
+            ))
             ->add('urlphoto', FileType::class, [
                 'data_class' => null,
                 'required' => false,
@@ -54,42 +60,16 @@ class SortieType extends AbstractType
 
                 'attr' => array(
                     'accept' => 'image/*',
+                    'id' => 'form_url'
                 )])
             ->add('lieuSortie', EntityType::class, array(
 
                 'class' => Lieux::class,
                 'label' => 'Lieu de la sortie :',
                 'choice_label' => 'nomLieu',
-                'attr' => array('class' => 'lieuxclass')
+                'attr' => array('class' => 'lieuxclass',
+                    'id' => 'form_lieu')
             ));
-
-//        $formModifier = function (FormInterface $form, Sites $site = null) {
-//            $lieux = null === $site ? [] : $site->getSortiesSite();
-//            var_dump($lieux);
-//            $form->add('lieuSortie', EntityType::class, array(
-//
-//                'class' => Lieux::class,
-//                'label' => 'Lieu de la sortie :',
-//                'mapped' => false,
-//                'choice_label' => 'nom_lieu'
-//            ));
-//        };
-//
-//        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) use ($formModifier) {
-//                $data = $event->getData();
-//
-//                $formModifier($event->getForm(), $data->getSiteSortie());
-//            });
-//
-//        $builder->get('siteSortie')->addEventListener(
-//            FormEvents::POST_SUBMIT,
-//            function (FormEvent $event) use ($formModifier) {
-//                $site = $event->getForm()->getData();
-//
-//                $formModifier($event->getForm()->getParent(), $site);
-//            }
-//        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

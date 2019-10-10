@@ -42,6 +42,15 @@
         </tr>
         <tr>
             <td>
+                Organisateur : {{ sortie.organisateurSortie.nom }} {{ sortie.organisateurSortie.prenom }}
+            </td>
+            <th rowspan="2">
+                <img src="{{ app.request.basepath }}/sortie/photo/{{ sortie.urlphoto }}" alt="Aucune Image disponible"
+                     class="imgSortie"/>
+            </th>
+        </tr>
+        <tr>
+            <th>
                 {% if sortie.etatSortie.libelle == "ANNULEE" %}
                     Motif d'annulation : {{ sortie.motifannulation }}
                 {% else %}
@@ -98,8 +107,7 @@
                         {{ flash_message }}
                     </div>
                 {% endfor %}
-
-            </td>
+            </th>
         </tr>
     </table>
 
