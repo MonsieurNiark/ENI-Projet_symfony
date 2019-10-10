@@ -192,7 +192,7 @@ class SortieController extends Controller
         $etat = null;
         $check_publi = false;
 
-        $form_up = $this->createForm(UpdateSortieType::class, $sortie);
+        $form_up = $this->createForm(SortieType::class, $sortie);
         $form_down = $this->createForm(LieuType::class, $lieux);
 
         $form_up->handleRequest($request);
