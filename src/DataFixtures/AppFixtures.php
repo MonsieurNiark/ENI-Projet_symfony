@@ -26,6 +26,10 @@ class AppFixtures extends Fixture
 
 
     public function load(ObjectManager $em){
+
+        $rawSql = "ALTER TABLE etats AUTO_INCREMENT = 1;";
+        $em->getConnection()->exec($rawSql);
+        $em->flush();
         //Creation des etats
         $ouvert = new Etats();
         $ouvert->setLibelle("OUVERT");

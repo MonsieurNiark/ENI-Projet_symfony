@@ -187,7 +187,10 @@ class SortieController extends Controller
      */
     public function update(Request $request, EntityManagerInterface $em, int $id)
     {
+        $actualUser = $this->getUser();
         $sortie = $em->getRepository(Sorties::class)->find($id);
+        if($actualUser == $sortie->getOrganisateurSortie() || $actualUser->getAdministrateur() == 1){
+
         $lieux = new Lieux();
         $etat = null;
         $check_publi = false;
@@ -260,6 +263,9 @@ class SortieController extends Controller
             "AllVille" => $em->getRepository(Villes::class)->findAll(),
             "sortie" => $sortie
         ]);
+        } else {
+            return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        }
 
     }
 
@@ -292,7 +298,12 @@ class SortieController extends Controller
      */
     public function annnulerSortie(EntityManagerInterface $em, Request $request, int $id)
     {
+
+        $actualUser = $this->getUser();
         $sortie = $em->getRepository(Sorties::class)->find($id);
+        if($actualUser == $sortie->getOrganisateurSortie() || $actualUser->getAdministrateur() == 1){
+
+
         $etatAnnule = $em->getRepository(Etats::class)->find(7);
 
         $motifAnnule = $request->request->get('motifAnnuleSortie');
@@ -304,6 +315,10 @@ class SortieController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('detail_sortie', ['id' => $id]);
+        } else {
+            return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        }
+
     }
 
     /**
@@ -311,11 +326,16 @@ class SortieController extends Controller
      */
     public function supprimerSortie(EntityManagerInterface $em, Request $request, int $id)
     {
+        $actualUser = $this->getUser();
         $sortie = $em->getRepository(Sorties::class)->find($id);
+        if($actualUser == $sortie->getOrganisateurSortie() || $actualUser->getAdministrateur() == 1) {
 
-        $em->remove($sortie);
-        $em->flush();
+            $em->remove($sortie);
+            $em->flush();
 
-        return $this->redirectToRoute('liste_sortie');
+            return $this->redirectToRoute('liste_sortie');
+        }else{
+            return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        }
     }
 }
