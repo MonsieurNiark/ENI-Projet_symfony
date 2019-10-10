@@ -24,13 +24,15 @@
 
         <div class="row p-2">
             <div class="col-md-4 d-flex justify-content-center">
-                <button type="submit" name='btn_enregistrer' value="enregistrer" class="btn btn-enrg-sort">Enregistrer</button>
+                <button type="submit" name='btn_enregistrer' value="enregistrer" class="btn btn-enrg-sort">Enregistrer
+                </button>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <button type="submit" name="btn_publier" value="publier" class="btn btn-publie-sort">Publier la sortie</button>
+                <button type="submit" name="btn_publier" value="publier" class="btn btn-publie-sort">Publier la sortie
+                </button>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <button class="btn btn-create-sort"><a href="{{ path('liste_sortie') }}" class="no-style-a">Annuler</a></button>
+                <a href="{{ path('liste_sortie') }}" class="btn btn-create-sort no-style-a">Annuler</a>
             </div>
         </div>
         {{ form_end(SortieForm) }}
@@ -40,9 +42,14 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/ajax_request.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/gestion_cookie.js') }}"></script>
 
     <script>
         $('#LieuModal').on('shown.bs.modal', function () {
             $('#myInput').trigger('focus')
+        });
+
+        $('document').ready(function () {
+            displaycookie();
         });
 {% endblock %}
