@@ -241,7 +241,7 @@ class AppFixtures extends Fixture
          try{
              $rawSql= "DROP EVENT IF EXISTS `ENCOURS_TO_TERMINEE`";
              $em->getConnection()->exec($rawSql);
-             $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ENCOURS_TO_TERMINEE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 6 WHERE DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE) <=  NOW() AND `etat_sortie_id`=5$$";
+             $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ENCOURS_TO_TERMINEE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 6 WHERE DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE) <=  NOW() AND `etat_sortie_id`=5";
              $em->getConnection()->exec($rawSql);
         } catch (Exception $e){
 
@@ -249,7 +249,7 @@ class AppFixtures extends Fixture
        try{
            $rawSql= "DROP EVENT IF EXISTS `OUVERT_TO_FERMETURE`";
            $em->getConnection()->exec($rawSql);
-           $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_FERMETURE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:40' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 2 WHERE `datecloture` <=  NOW() AND `etat_sortie_id`=1$$";
+           $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_FERMETURE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:40' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 2 WHERE `datecloture` <=  NOW() AND `etat_sortie_id`=1";
            $em->getConnection()->exec($rawSql);
         } catch (Exception $e){
 
@@ -257,7 +257,7 @@ class AppFixtures extends Fixture
         try{
             $rawSql= "DROP EVENT IF EXISTS `FERMETURE_TO_ENCOURS`";
             $em->getConnection()->exec($rawSql);
-            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `FERMETURE_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=2$$";
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `FERMETURE_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=2";
             $em->getConnection()->exec($rawSql);
         } catch (Exception $e){
 
@@ -266,7 +266,7 @@ class AppFixtures extends Fixture
 
             $rawSql= "DROP EVENT IF EXISTS `TERMINEE_TO_NONVISIBLE`";
             $em->getConnection()->exec($rawSql);
-            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `TERMINEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE),INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=6$$";
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `TERMINEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(DATE_ADD(`datedebut`, INTERVAL `duree` MINUTE),INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=6";
             $em->getConnection()->exec($rawSql);
         } catch (Exception $e){
 
@@ -274,7 +274,7 @@ class AppFixtures extends Fixture
         try{
             $rawSql= "DROP EVENT IF EXISTS `OUVERT_TO_ENCOURS`";
             $em->getConnection()->exec($rawSql);
-            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:32' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=1$$";
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `OUVERT_TO_ENCOURS` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:32' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 5 WHERE `datedebut` <= NOW() AND `etat_sortie_id`=1";
             $em->getConnection()->exec($rawSql);
         } catch (Exception $e){
 
@@ -282,7 +282,7 @@ class AppFixtures extends Fixture
         try{
             $rawSql= "DROP EVENT IF EXISTS `ANNULEE_TO_NONVISIBLE`";
             $em->getConnection()->exec($rawSql);
-            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ANNULEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:25' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(`datedebut`, INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=7$$";
+            $rawSql = "CREATE DEFINER=`root`@`localhost` EVENT `ANNULEE_TO_NONVISIBLE` ON SCHEDULE EVERY 5 SECOND STARTS '2019-10-07 10:18:25' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `sorties` SET etat_sortie_id = 3 WHERE DATE_ADD(`datedebut`, INTERVAL 1 MONTH) <= NOW() AND `etat_sortie_id`=7";
             $em->getConnection()->exec($rawSql);
 
         } catch (Exception $e){
